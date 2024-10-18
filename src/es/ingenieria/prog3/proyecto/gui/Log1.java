@@ -11,28 +11,48 @@ public class Log1 extends JFrame {
 	public Log1() {
 		
 		// Establecer el titulo de la ventana
-		setTitle("Calculadora Básica");
+		setTitle("LOG IN");
 		// Establecer que pasa al cerrar la ventana
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		// Establecer el tamano inicial (por defecto tamano pantalla)
 		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		// Establecer el layout principal 
 		setLayout(new BorderLayout(10, 10));
+		
         // Crear el panel para el centro del JFrame
-		JPanel centroLog = new JPanel(new GridLayout(1, 2, 100, 100));
+		JPanel centroLog = new JPanel(new GridLayout(1, 2, 10, 10));
         // Anadir el panel al centro del JFrame
         this.add(centroLog, BorderLayout.CENTER);
         
-		JPanel izquierdaCentroLog = new JPanel(new GridLayout(2, 1, 100, 100));
-		centroLog.add(izquierdaCentroLog);
+        JPanel izquierdaCentroLog = new JPanel();
+        izquierdaCentroLog.setLayout(new BoxLayout(izquierdaCentroLog, BoxLayout.Y_AXIS));
+        
+        centroLog.add(izquierdaCentroLog);
+        centroLog.add(new JButton("HOla"));
 		
         this.add(new JButton("HOLA"), BorderLayout.SOUTH);
-        centroLog.add(new JButton("HOLA"));
+        
         JLabel boton1 = new JLabel("HOLA BOTTON 1");
-        boton1.setBorder(BorderFactory.createEmptyBorder(100, 200, 100, 100));  
+        JLabel boton2 = new JLabel("HOLA BOTTON 1");
+
+
+        boton1.setAlignmentX(Component.CENTER_ALIGNMENT);
+        boton2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        izquierdaCentroLog.add(Box.createVerticalGlue());
+        
+        
         izquierdaCentroLog.add(boton1);
+        izquierdaCentroLog.add(boton2);
+
+        izquierdaCentroLog.add(Box.createVerticalGlue());
+
+        izquierdaCentroLog.add(Box.createVerticalStrut(50));
         izquierdaCentroLog.add(new JButton("HOLA"));
         
+
+
+
 	}
 	
 	
