@@ -32,8 +32,8 @@ public class Log1 extends JFrame {
         boton1.setBorder(BorderFactory.createEmptyBorder(100, 200, 100, 100));  
         izquierdaCentroLog.add(boton1);
         izquierdaCentroLog.add(new JButton("HOLA"));
-
-        //sejnwekljt
+        
+        
 	}
 	
 	
