@@ -33,8 +33,6 @@ public class Log1 extends JFrame {
         izquierdaCentroLog.add(boton1);
         izquierdaCentroLog.add(new JButton("HOLA"));
         
-        //Este es un comentario de prueba de enetz
-        //Este es un comentario de prueba de carlos
 	}
 	
 	
