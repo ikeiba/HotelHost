@@ -19,7 +19,8 @@ public class MainFrame extends JFrame {
         setTitle("Hotel Host");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setMinimumSize(new Dimension(960, 600));
-        setExtendedState(JFrame.MAXIMIZED_BOTH);
+        setSize(960, 600);
+        //setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);
 
         // Initialize CardLayout and main panel
