@@ -27,7 +27,11 @@ public class MainFrame extends JFrame {
         mainPanel = new JPanel(cardLayout);
         
         //Inicializar los paneles
-        
+        mainPanel.add(new Log1(cardLayout, mainPanel));
+        mainPanel.add(new Log2(cardLayout, mainPanel));
+        mainPanel.add(new Log3(cardLayout, mainPanel));
+
+
 
 
         // Add the main panel to the frame

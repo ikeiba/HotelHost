@@ -4,7 +4,7 @@ import java.awt.*;
 
 import javax.swing.*;
 
-public class Log1 extends JFrame {
+public class Log1 extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -16,14 +16,9 @@ public class Log1 extends JFrame {
 		this.cardLayout = cardLayout;
 		this.mainPanel = mainPanel;
 		
-		// Establecer el titulo de la ventana
-		setTitle("LOG IN");
-		// Establecer que pasa al cerrar la ventana
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		// Establecer el tamano inicial (por defecto tamano pantalla)
-		this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		// Establecer el layout principal 
-		setLayout(new BorderLayout(10, 10));
+		JPanel panelPrincipal = new JPanel();
+		
+		panelPrincipal.setLayout(new BorderLayout(10, 10));
 		
         // Crear el panel para el centro del JFrame
 		JPanel centroLog = new JPanel(new GridLayout(1, 2, 10, 10));
@@ -90,5 +85,5 @@ public class Log1 extends JFrame {
         //Hacemos lo mismo para la derecha
         
 	}
-	
+		
 }
