@@ -62,7 +62,7 @@ public class Log1 extends JPanel {
         login_usuario.setPreferredSize(new Dimension(300, 50));
         login_usuario.setMaximumSize(new Dimension(300, 50));
         login_usuario.setFont(new Font("Verdana", Font.PLAIN, 18));
-
+        
 
         JButton boton_login = new JButton("LOG IN");
         JButton boton_olvidar_contrasena = new JButton("¿Has olvidado la contraseña?");
