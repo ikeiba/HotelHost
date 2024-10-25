@@ -34,15 +34,24 @@ public class Log3 extends JFrame{
 		textoRecuperacion.setHorizontalAlignment(0);
 		panelCentral.add(textoRecuperacion, BorderLayout.NORTH);
 		
-		JPanel formularioPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+		JPanel formularioPanel = new JPanel();
+		formularioPanel.setLayout(new BoxLayout(formularioPanel, BoxLayout.Y_AXIS));
+		
+		JPanel emailPanel = new JPanel(new FlowLayout());
 		JLabel emailLabel = new JLabel("Email: ");
 		JTextField emailTextField = new JTextField();
+		emailPanel.add(emailLabel);
+		emailPanel.add(emailTextField);
+		
+		JPanel botonesPanel = new JPanel(new FlowLayout());
 		JButton aceptarButton = new JButton("Aceptar");
 		JButton cancelarButton = new JButton("Cancelar");
-		formularioPanel.add(emailLabel);
-		formularioPanel.add(emailTextField);
-		formularioPanel.add(aceptarButton);
-		formularioPanel.add(cancelarButton);
+		botonesPanel.add(aceptarButton);
+		botonesPanel.add(cancelarButton);
+		
+		formularioPanel.add(emailPanel);
+		formularioPanel.add(botonesPanel);
+		
 		panelCentral.add(formularioPanel, BorderLayout.CENTER);
 		
 		this.add(panelCentral, BorderLayout.CENTER);
