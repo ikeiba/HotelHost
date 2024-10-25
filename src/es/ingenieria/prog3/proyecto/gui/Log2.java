@@ -20,7 +20,7 @@ public class Log2 extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(null); // Use absolute positioning to control button and line placement
         buttonPanel.setBackground(Color.WHITE); // Set background color
-
+        
         // Create a button to resize
         JButton button = new JButton("Button");
         button.setBounds(20, 50, 100, 50); // Initial position and size for the button
