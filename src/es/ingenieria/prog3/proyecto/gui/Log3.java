@@ -40,6 +40,9 @@ public class Log3 extends JPanel{
 		JPanel emailPanel = new JPanel(new FlowLayout());
 		JLabel emailLabel = new JLabel("Email: ");
 		JTextField emailTextField = new JTextField();
+		emailTextField.setPreferredSize(new Dimension(300, 50)); // Ajustamos tamaño del TextField al standard
+		emailTextField.setMaximumSize(new Dimension(300, 50));
+		emailTextField.setFont(new Font("Verdana", Font.PLAIN, 18));
 		emailPanel.add(emailLabel);
 		emailPanel.add(emailTextField);
 		
