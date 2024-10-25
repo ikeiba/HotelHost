@@ -8,8 +8,10 @@ import java.awt.event.ComponentEvent;
 @SuppressWarnings("serial")
 public class Log2 extends JPanel {
 
+	@SuppressWarnings("unused")
 	private CardLayout cardLayout;
-    private JPanel mainPanel;
+    @SuppressWarnings("unused")
+	private JPanel mainPanel;
 
 	public Log2(CardLayout cardLayout, JPanel mainPanel) {
 		
