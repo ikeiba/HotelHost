@@ -12,7 +12,7 @@ public class Log2 extends JFrame {
         // Set up JFrame
         setTitle("Resizable Components");
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setMinimumSize(new Dimension(480, 300));
+        this.setMinimumSize(new Dimension(960, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout()); // Use BorderLayout to expand the panel to frame size
 
@@ -20,7 +20,7 @@ public class Log2 extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(null); // Use absolute positioning to control button and line placement
         buttonPanel.setBackground(Color.WHITE); // Set background color
-
+        
         // Create a button to resize
         JButton button = new JButton("Button");
         button.setBounds(20, 50, 100, 50); // Initial position and size for the button
