@@ -12,7 +12,7 @@ public class Log2 extends JFrame {
         // Set up JFrame
         setTitle("Resizable Components");
         this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setMinimumSize(new Dimension(480, 300));
+        this.setMinimumSize(new Dimension(960, 600));
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLayout(new BorderLayout()); // Use BorderLayout to expand the panel to frame size
 
