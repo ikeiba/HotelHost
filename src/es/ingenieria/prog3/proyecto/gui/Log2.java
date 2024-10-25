@@ -17,42 +17,38 @@ public class Log2 extends JPanel {
 		
 		this.cardLayout = cardLayout;
 		this.mainPanel = mainPanel;
-        // Create a panel that will contain the button and the vertical line
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(null); // Use absolute positioning to control button and line placement
-        buttonPanel.setBackground(Color.WHITE); // Set background color
+		this.setBackground(Color.WHITE); // Set background color
+		this.setLayout(new BorderLayout());  
         
-        // Create a button to resize
-        JButton button = new JButton("Button");
-        button.setBounds(20, 50, 100, 50); // Initial position and size for the button
-        buttonPanel.add(button);
+		//Panel principal centro
+		JPanel panelCentro = new JPanel();
+		panelCentro.setLayout(null);
+		
+		JButton button = new JButton("Button");
+		button.setSize(new Dimension(300, 50));
+		button.setMaximumSize(new Dimension(300, 50));
+        add(button, BorderLayout.CENTER);
+		
+		add(panelCentro, BorderLayout.CENTER); //Añadimos el panel panelCentro al BorderLayout.CENTER del mainPanel
+		
+        // Panel principal sur
+        add(new JLabel("Hotel Host® 2024"), BorderLayout.SOUTH);
 
         // Create a vertical line panel with the same background color
         VerticalLineExample linePanel = new VerticalLineExample();
-        linePanel.setBackground(buttonPanel.getBackground()); // Match background color
+        linePanel.setBackground(getBackground()); // Match background color
         linePanel.setOpaque(true); // Make the background color visible
         linePanel.setBounds(150, 0, 5, 200); // Initial position and height to fit inside the panel
-
-        // Add the line panel to the button panel
-        buttonPanel.add(linePanel);
-
-        // Add button panel to the main frame, set to expand with the frame size
-        add(buttonPanel, BorderLayout.CENTER);
 
         // Add ComponentListener to resize components within the button panel based on frame size
         addComponentListener(new ComponentAdapter() {
             @Override
             public void componentResized(ComponentEvent e) {
-                int width = buttonPanel.getWidth();
-                int height = buttonPanel.getHeight();
+                int width = getWidth();
+                int height = getHeight();
 
                 // Resize and position the button within the buttonPanel
-                button.setBounds(
-                        (int) (width * 0.1),   // x-position (10% of panel width)
-                        (int) (height * 0.3),  // y-position (30% of panel height)
-                        (int) (width * 0.3),   // width (30% of panel width)
-                        (int) (height * 0.2)   // height (20% of panel height)
-                );
+                button.setBounds((int) (width * 0.1), (int) (height * 0.3), button.getWidth(), button.getHeight());
 
                 // Resize and reposition the vertical line
                 linePanel.setBounds((int) (width * 0.5), (int) (height * 0.05), 10, (int) (height * 0.9)); // Fixed width, fills panel height
