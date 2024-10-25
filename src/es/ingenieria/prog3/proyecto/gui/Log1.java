@@ -7,8 +7,14 @@ import javax.swing.*;
 public class Log1 extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
+	private CardLayout cardLayout;
+    private JPanel mainPanel;
 
-	public Log1() {
+	public Log1(CardLayout cardLayout, JPanel mainPanel) {
+		
+		this.cardLayout = cardLayout;
+		this.mainPanel = mainPanel;
 		
 		// Establecer el titulo de la ventana
 		setTitle("LOG IN");
@@ -24,45 +30,65 @@ public class Log1 extends JFrame {
         // Anadir el panel al centro del JFrame
         this.add(centroLog, BorderLayout.CENTER);
         
-        JPanel izquierdaCentroLog = new JPanel();
-        izquierdaCentroLog.setLayout(new BoxLayout(izquierdaCentroLog, BoxLayout.Y_AXIS));
-        
-        centroLog.add(izquierdaCentroLog);
-        centroLog.add(new JButton("HOla"));
-		
+        // Anadir la etiqueta de copyright al south del panel
         this.add(new JButton("HOLA"), BorderLayout.SOUTH);
         
-        JLabel boton1 = new JLabel("HOLA BOTTON 1");
-        JLabel boton2 = new JLabel("HOLA BOTTON 1");
+        // Nuevo panel para la parte izquierda del log in (un BoxLayout)
+        JPanel izquierdaCentroLog = new JPanel();
+        izquierdaCentroLog.setLayout(new BoxLayout(izquierdaCentroLog, BoxLayout.Y_AXIS));
+        centroLog.add(izquierdaCentroLog);
+        
+        // Nuevo panel para la parte derecha del log in (un BoxLayout)
+        JPanel derechaCentroLog = new JPanel();
+        derechaCentroLog.setLayout(new BoxLayout(derechaCentroLog, BoxLayout.Y_AXIS));
+        centroLog.add(derechaCentroLog);
+        
+        // Creamos los JLabel para la parte izquierda        
+        JLabel logo = new JLabel();
+        ImageIcon icono = new ImageIcon("icono.png");
+        logo.setIcon(icono);
+        JLabel descripcion = new JLabel("TEXTO LARGO Y ABURRIDO");
 
-
-        boton1.setAlignmentX(Component.CENTER_ALIGNMENT);
-        boton2.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // Centramos los diferentes labels
+        logo.setAlignmentX(Component.CENTER_ALIGNMENT);
+        descripcion.setAlignmentX(Component.CENTER_ALIGNMENT);
         
         izquierdaCentroLog.add(Box.createVerticalGlue());
-        
-        
-        izquierdaCentroLog.add(boton1);
-        izquierdaCentroLog.add(boton2);
-
-        izquierdaCentroLog.add(Box.createVerticalGlue());
-
+        izquierdaCentroLog.add(logo);
         izquierdaCentroLog.add(Box.createVerticalStrut(50));
-        izquierdaCentroLog.add(new JButton("HOLA"));
+        izquierdaCentroLog.add(descripcion);
+        izquierdaCentroLog.add(Box.createVerticalGlue());
         
+        
+        // Creamos los JLabel para la parte izquierda        
+        JTextField login_usuario = new JTextField();
+        login_usuario.setSize(new Dimension(30, 30));
+        JTextField login_contraseña = new JTextField();
 
+        JButton boton_login = new JButton("LOG IN");
+        JButton boton_olvidar_contrasena = new JButton("¿Has olvidado la contraseña?");
 
+        
+        // Centramos los diferentes labels
+        login_usuario.setAlignmentX(Component.CENTER_ALIGNMENT);
+        login_contraseña.setAlignmentX(Component.CENTER_ALIGNMENT);
+        boton_login.setAlignmentX(Component.CENTER_ALIGNMENT);
+        boton_olvidar_contrasena.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+        
+        derechaCentroLog.add(Box.createVerticalGlue());
+        derechaCentroLog.add(login_usuario);
+        derechaCentroLog.add(Box.createVerticalStrut(50));
+        derechaCentroLog.add(login_contraseña);
+        derechaCentroLog.add(Box.createVerticalStrut(50));
+        derechaCentroLog.add(boton_login);
+        derechaCentroLog.add(Box.createVerticalStrut(50));
+        derechaCentroLog.add(boton_olvidar_contrasena);
+        derechaCentroLog.add(Box.createVerticalGlue());
+        
+        
+        //Hacemos lo mismo para la derecha
+        
 	}
 	
-	
-	
-	
-	
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> {
-			Log1 log1 = new Log1();
-			log1.setVisible(true);
-		});
-	}
 }
