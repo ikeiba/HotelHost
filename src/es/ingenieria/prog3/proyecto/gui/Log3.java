@@ -18,6 +18,7 @@ public class Log3 extends JPanel{
 		
 		// Establecer el layout principal 
 		setLayout(new BorderLayout(10, 10));
+		setBackground(Color.WHITE);
 		
 		//		SECCIONES DEL LAYOUT		//
 		
@@ -31,7 +32,6 @@ public class Log3 extends JPanel{
 		// SECCION CENTRO (Formulario)
 		JPanel panelCentral = new JPanel(new BorderLayout());
 		JLabel textoRecuperacion = new JLabel("Para recuperar rellena los siguientes datos:");
-		textoRecuperacion.setHorizontalAlignment(0);
 		panelCentral.add(textoRecuperacion, BorderLayout.NORTH);
 		
 		JPanel formularioPanel = new JPanel();
