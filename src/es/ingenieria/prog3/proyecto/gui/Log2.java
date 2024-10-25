@@ -6,16 +6,17 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 
 @SuppressWarnings("serial")
-public class Log2 extends JFrame {
+public class Log2 extends JPanel {
 
-    public Log2() {
-        // Set up JFrame
-        setTitle("Resizable Components");
-        this.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        this.setMinimumSize(new Dimension(960, 600));
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout()); // Use BorderLayout to expand the panel to frame size
+	@SuppressWarnings("unused")
+	private CardLayout cardLayout;
+    @SuppressWarnings("unused")
+	private JPanel mainPanel;
 
+	public Log2(CardLayout cardLayout, JPanel mainPanel) {
+		
+		this.cardLayout = cardLayout;
+		this.mainPanel = mainPanel;
         // Create a panel that will contain the button and the vertical line
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(null); // Use absolute positioning to control button and line placement
@@ -56,13 +57,6 @@ public class Log2 extends JFrame {
                 // Resize and reposition the vertical line
                 linePanel.setBounds((int) (width * 0.5), (int) (height * 0.05), 10, (int) (height * 0.9)); // Fixed width, fills panel height
             }
-        });
-    }
-
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> {
-            Log2 frame = new Log2();
-            frame.setVisible(true);
         });
     }
 
