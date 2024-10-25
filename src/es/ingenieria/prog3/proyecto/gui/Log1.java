@@ -16,9 +16,9 @@ public class Log1 extends JPanel {
 		this.cardLayout = cardLayout;
 		this.mainPanel = mainPanel;
 		
-		JPanel panelPrincipal = new JPanel();
 		
-		panelPrincipal.setLayout(new BorderLayout(10, 10));
+		
+		this.setLayout(new BorderLayout(10, 10));
 		
         // Crear el panel para el centro del JFrame
 		JPanel centroLog = new JPanel(new GridLayout(1, 2, 10, 10));
@@ -57,8 +57,12 @@ public class Log1 extends JPanel {
         
         // Creamos los JLabel para la parte izquierda        
         JTextField login_usuario = new JTextField();
-        login_usuario.setSize(new Dimension(30, 30));
         JTextField login_contraseña = new JTextField();
+        
+        login_usuario.setPreferredSize(new Dimension(300, 50));
+        login_usuario.setMaximumSize(new Dimension(300, 50));
+        login_usuario.setFont(new Font("Verdana", Font.PLAIN, 18));
+
 
         JButton boton_login = new JButton("LOG IN");
         JButton boton_olvidar_contrasena = new JButton("¿Has olvidado la contraseña?");

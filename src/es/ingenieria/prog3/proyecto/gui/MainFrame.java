@@ -32,9 +32,6 @@ public class MainFrame extends JFrame {
         mainPanel.add(new Log2(cardLayout, mainPanel));
         mainPanel.add(new Log3(cardLayout, mainPanel));
 
-
-
-
         // Add the main panel to the frame
         this.add(mainPanel);
 
@@ -42,4 +39,8 @@ public class MainFrame extends JFrame {
         setVisible(true);
         }
 }
+
+
+// Tamaño JTextFields --> 300, 50 (Preferred y Maximum)
+// Letra JTextFields --> Font("Verdana", Font.PLAIN, 18)
 
