@@ -7,8 +7,14 @@ import javax.swing.*;
 public class Log1 extends JFrame {
 
 	private static final long serialVersionUID = 1L;
+	
+	private CardLayout cardLayout;
+    private JPanel mainPanel;
 
-	public Log1() {
+	public Log1(CardLayout cardLayout, JPanel mainPanel) {
+		
+		this.cardLayout = cardLayout;
+		this.mainPanel = mainPanel;
 		
 		// Establecer el titulo de la ventana
 		setTitle("LOG IN");
@@ -85,14 +91,4 @@ public class Log1 extends JFrame {
         
 	}
 	
-	
-	
-	
-	
-	public static void main(String[] args) {
-		SwingUtilities.invokeLater(() -> {
-			Log1 log1 = new Log1();
-			log1.setVisible(true);
-		});
-	}
 }
