@@ -18,7 +18,7 @@ public class MainFrame extends JFrame {
         // Set up the main frame properties
         setTitle("Hotel Host");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(960, 600));
+        setMinimumSize(new Dimension(1000, 600));
         setSize(960, 600);
         //setExtendedState(JFrame.MAXIMIZED_BOTH);
         setLocationRelativeTo(null);

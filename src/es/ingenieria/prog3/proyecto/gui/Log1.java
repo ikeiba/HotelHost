@@ -41,7 +41,7 @@ public class Log1 extends JPanel {
         
         // Creamos los JLabel para la parte izquierda        
         JLabel logo = new JLabel();
-        ImageIcon icono = new ImageIcon("icono.png");
+        ImageIcon icono = new ImageIcon("resources/images/icono.png");
         logo.setIcon(icono);
         JLabel labelDescripcion = new JLabel("TEXTO LARGO Y ABURRIDO");
 
@@ -64,7 +64,7 @@ public class Log1 extends JPanel {
 
         
         // Creamos los JLabel para la parte izquierda
-		JLabel labelUsuario = new JLabel("       Usuario: ");
+		JLabel labelUsuario = new JLabel("Usuario: ");
 		labelUsuario.setFont(fuenteLabel);
 		
         JTextField textFieldUsuario = new JTextField();
@@ -81,15 +81,29 @@ public class Log1 extends JPanel {
 		JLabel labelContrasena = new JLabel("Contraseña: ");
 		labelContrasena.setFont(fuenteLabel);
 
-		JTextField textFieldContrasena = new JTextField();
-        textFieldContrasena.setPreferredSize(new Dimension(300, 50));
-        textFieldContrasena.setMaximumSize(new Dimension(300, 50));
-        textFieldContrasena.setFont(fuenteTextField);
+		JPasswordField passwordFieldContrasena = new JPasswordField();
+        passwordFieldContrasena.setPreferredSize(new Dimension(300, 50));
+        passwordFieldContrasena.setMaximumSize(new Dimension(300, 50));
+        passwordFieldContrasena.setFont(fuenteTextField);
+
+        JCheckBox checkBox = new JCheckBox();
+        ImageIcon  imagenNoVer = new ImageIcon("resources/images/imagenNoVer.png");
+        ImageIcon imagenVer = new ImageIcon("resources/images/imagenVer.png");
+        checkBox.setIcon(imagenNoVer);
+        checkBox.setSelectedIcon(imagenVer);
+        checkBox.addActionListener(e -> {
+        	if (checkBox.isSelected())
+        		passwordFieldContrasena.setEchoChar((char) 0);
+        	else
+        		passwordFieldContrasena.setEchoChar('\u2022');
+
+        });
         
         panelContrasena.add(labelContrasena);
-        panelContrasena.add(textFieldContrasena);
-        panelContrasena.setPreferredSize(new Dimension(500, 70));
-        panelContrasena.setMaximumSize(new Dimension(500, 70));
+        panelContrasena.add(passwordFieldContrasena);
+        panelContrasena.add(checkBox);
+        panelContrasena.setPreferredSize(new Dimension(600, 90));
+        panelContrasena.setMaximumSize(new Dimension(600, 90));
 
 		
 		
@@ -101,7 +115,7 @@ public class Log1 extends JPanel {
         
         // Centramos los diferentes labels
         textFieldUsuario.setAlignmentX(Component.CENTER_ALIGNMENT);
-        textFieldContrasena.setAlignmentX(Component.CENTER_ALIGNMENT);
+        passwordFieldContrasena.setAlignmentX(Component.CENTER_ALIGNMENT);
         botonLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
         botonOlvidarContrasena.setAlignmentX(Component.CENTER_ALIGNMENT);
 
