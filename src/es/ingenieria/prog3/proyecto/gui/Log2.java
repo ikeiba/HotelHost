@@ -17,28 +17,34 @@ public class Log2 extends JPanel {
 		
 		this.cardLayout = cardLayout;
 		this.mainPanel = mainPanel;
-		this.setBackground(Color.WHITE); // Set background color
+		this.setBackground(Color.WHITE);
 		this.setLayout(new BorderLayout());  
         
 		//Panel principal centro
 		JPanel panelCentro = new JPanel();
 		panelCentro.setLayout(null);
 		
-		JButton button = new JButton("Button");
-		button.setSize(new Dimension(300, 50));
-		button.setMaximumSize(new Dimension(300, 50));
-        add(button, BorderLayout.CENTER);
+		JLabel logo = new JLabel();
+		logo.setSize(new Dimension(200, 200));
+        ImageIcon icono = new ImageIcon("Hotel Host 200x200.png");
+        logo.setIcon(icono);
+        add(logo, BorderLayout.CENTER);
+        
+        JLabel labelDescripcion = new JLabel("TEXTO LARGO Y ABURRIDO");
+        labelDescripcion.setBounds(0, 0, 400, 50);
+        add(labelDescripcion, BorderLayout.CENTER);
 		
+        VerticalLineExample linePanel = new VerticalLineExample();
+        linePanel.setBackground(panelCentro.getBackground());
+        linePanel.setOpaque(true);
+        linePanel.setBounds(0, 0, 10, 0);
+        add(linePanel, BorderLayout.CENTER);
+        
 		add(panelCentro, BorderLayout.CENTER); //Añadimos el panel panelCentro al BorderLayout.CENTER del mainPanel
 		
         // Panel principal sur
         add(new JLabel("Hotel Host® 2024"), BorderLayout.SOUTH);
-
-        // Create a vertical line panel with the same background color
-        VerticalLineExample linePanel = new VerticalLineExample();
-        linePanel.setBackground(getBackground()); // Match background color
-        linePanel.setOpaque(true); // Make the background color visible
-        linePanel.setBounds(150, 0, 5, 200); // Initial position and height to fit inside the panel
+        
 
         // Add ComponentListener to resize components within the button panel based on frame size
         addComponentListener(new ComponentAdapter() {
@@ -46,12 +52,15 @@ public class Log2 extends JPanel {
             public void componentResized(ComponentEvent e) {
                 int width = getWidth();
                 int height = getHeight();
-
+                
                 // Resize and position the button within the buttonPanel
-                button.setBounds((int) (width * 0.1), (int) (height * 0.3), button.getWidth(), button.getHeight());
+                logo.setBounds((int) (width * 0.25) - (logo.getWidth() / 2), (int) (height * 0.35) - (logo.getHeight() / 2), logo.getWidth(), logo.getHeight());
 
                 // Resize and reposition the vertical line
-                linePanel.setBounds((int) (width * 0.5), (int) (height * 0.05), 10, (int) (height * 0.9)); // Fixed width, fills panel height
+                linePanel.setBounds((int) (width * 0.5) - (linePanel.getWidth() / 2), (int) (height * 0.05), linePanel.getWidth(), (int) (height * 0.9)); // Fixed width, fills panel height
+            
+                // Resize and reposition the vertical line
+                labelDescripcion.setBounds((int) (width * 0.25) - (labelDescripcion.getWidth() / 2), (int) logo.getX() + (logo.getHeight() / 2) + 30, labelDescripcion.getWidth(), labelDescripcion.getHeight()); // Fixed width, fills panel height 
             }
         });
     }
