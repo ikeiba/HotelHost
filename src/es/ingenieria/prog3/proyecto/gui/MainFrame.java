@@ -2,7 +2,6 @@ package es.ingenieria.prog3.proyecto.gui;
 
 
 import java.awt.CardLayout;
-import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -18,9 +17,9 @@ public class MainFrame extends JFrame {
         // Set up the main frame properties
         setTitle("Hotel Host");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setMinimumSize(new Dimension(1000, 600));
-        setSize(960, 600);
-        //setExtendedState(JFrame.MAXIMIZED_BOTH);
+        // el 60% de la pantalla
+        setSize(1152, 720); 
+        setResizable(false);
         setLocationRelativeTo(null);
 
         // Initialize CardLayout and main panel
