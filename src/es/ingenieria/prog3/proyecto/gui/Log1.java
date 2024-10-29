@@ -130,7 +130,7 @@ public class Log1 extends JPanel {
         panelContrasena.setBackground(colorPaneles);
 		
 
-       //Creamos y modificamos los botones de login y de haber olvidado la contrasena
+       //Creamos y modificamos los botones de login, de haber olvidado la contrasena y el de registrarse
         JButton botonLogin = new JButton("LOG IN");
         botonLogin.setPreferredSize(new Dimension(150, 40));  // Ajusta el tamaño preferido
         botonLogin.setMaximumSize(new Dimension(150, 40)); 
@@ -139,16 +139,28 @@ public class Log1 extends JPanel {
         botonOlvidarContrasena.setPreferredSize(new Dimension(250, 40));  // Ajusta el tamaño preferido
         botonOlvidarContrasena.setMaximumSize(new Dimension(250, 40));
         //Anadimos el listener para que si se pulsa el boton vaya a la pantalla de modificar contrasena
-        botonOlvidarContrasena.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log2"));
+        botonOlvidarContrasena.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log3"));
+        
+        JButton botonRegistrarse = new JButton("Registrarse");
+        botonRegistrarse.setPreferredSize(new Dimension(150, 40));  // Ajusta el tamaño preferido
+        botonRegistrarse.setMaximumSize(new Dimension(150, 40));
+      //Anadimos el listener para que si se pulsa el boton vaya a la pantalla de modificar contrasena
+        botonRegistrarse.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log2"));
         
         // Centramos los diferentes labels
         textFieldUsuario.setAlignmentX(Component.CENTER_ALIGNMENT);
         passwordFieldContrasena.setAlignmentX(Component.CENTER_ALIGNMENT);
         botonLogin.setAlignmentX(Component.CENTER_ALIGNMENT);
         botonOlvidarContrasena.setAlignmentX(Component.CENTER_ALIGNMENT);
+        botonRegistrarse.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        // Creamos una barra horizontal para separar los botones de login y olvidar contraseña del de registrarse
+        JSeparator barraSeparadora = new JSeparator();
+        barraSeparadora.setBackground(Color.BLACK);
+        barraSeparadora.setOrientation(SwingConstants.HORIZONTAL);
         
         //Colocamos los componenetes donde queremos en el panel
-        panelDerechaCentro.add(Box.createVerticalStrut(50));
+        panelDerechaCentro.add(Box.createVerticalStrut(90));
         panelDerechaCentro.add(panelUsuario);
         panelDerechaCentro.add(Box.createVerticalStrut(20));
         panelDerechaCentro.add(panelContrasena);
@@ -156,10 +168,14 @@ public class Log1 extends JPanel {
         panelDerechaCentro.add(botonLogin);
         panelDerechaCentro.add(Box.createVerticalStrut(30));
         panelDerechaCentro.add(botonOlvidarContrasena);
+        panelDerechaCentro.add(Box.createVerticalStrut(15));
+        panelDerechaCentro.add(barraSeparadora);
+        panelDerechaCentro.add(Box.createVerticalStrut(10));
+        panelDerechaCentro.add(botonRegistrarse);
         
         
       //Poner el borde del layout (top, left, bottom, right, color)
-        panelDerechaCentro.setBorder(BorderFactory.createMatteBorder(140, 40, 150, 40, Color.WHITE));
+        panelDerechaCentro.setBorder(BorderFactory.createMatteBorder(100, 40, 100, 40, Color.WHITE));
         panelDerechaCentro.setBackground(new Color(246, 233, 211));
         panelCentroLog.add(panelDerechaCentro);
       //--------------------------------------------------------------
