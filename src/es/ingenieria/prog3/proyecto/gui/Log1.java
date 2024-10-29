@@ -134,9 +134,12 @@ public class Log1 extends JPanel {
         JButton botonLogin = new JButton("LOG IN");
         botonLogin.setPreferredSize(new Dimension(150, 40));  // Ajusta el tamaño preferido
         botonLogin.setMaximumSize(new Dimension(150, 40)); 
-
+        
         JButton botonOlvidarContrasena = new JButton("¿Has olvidado la contraseña?");
-
+        botonOlvidarContrasena.setPreferredSize(new Dimension(250, 40));  // Ajusta el tamaño preferido
+        botonOlvidarContrasena.setMaximumSize(new Dimension(250, 40));
+        //Anadimos el listener para que si se pulsa el boton vaya a la pantalla de modificar contrasena
+        botonOlvidarContrasena.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log2"));
         
         // Centramos los diferentes labels
         textFieldUsuario.setAlignmentX(Component.CENTER_ALIGNMENT);
