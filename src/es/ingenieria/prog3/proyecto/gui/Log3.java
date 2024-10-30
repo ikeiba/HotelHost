@@ -4,6 +4,8 @@ import java.awt.*;
 
 import javax.swing.*;
 
+import es.ingenieria.prog3.proyecto.gui.util.Preferences;
+
 public class Log3 extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
@@ -18,17 +20,19 @@ public class Log3 extends JPanel{
 		
 		// Establecer el layout principal 
 		setLayout(new BorderLayout(10, 10));
-		setBackground(Color.WHITE);
+		setBackground(Preferences.COLORBACKGROUND);
+		// Color de fondo
         Color colorPaneles = new Color(246, 233, 211);
 
 		
 		//		SECCIONES DEL LAYOUT		//
-        // Comentario
 		
 		// SECCION NORTE (Logotipo)
 		JLabel labelLogotipo = new JLabel();
-		ImageIcon logotipoImage = new ImageIcon("resources/images/Hotel Host 200x200.png");
-		labelLogotipo.setIcon(logotipoImage);
+		ImageIcon originalIcon = new ImageIcon("resources/images/Hotel Host.png");
+		Image scaledImage = originalIcon.getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH);
+		ImageIcon resizedIcon = new ImageIcon(scaledImage);
+		labelLogotipo.setIcon(resizedIcon);
 		
 		this.add(labelLogotipo, BorderLayout.NORTH);
 		
@@ -40,7 +44,7 @@ public class Log3 extends JPanel{
 		labelTxtRecuperacion.setHorizontalAlignment(SwingConstants.LEFT);
 		labelTxtRecuperacion.setFont(new Font("Verdana", Font.BOLD, 16));
 		labelTxtRecuperacion.setHorizontalAlignment(0);
-		panelCentral.add(labelTxtRecuperacion, BorderLayout.NORTH);
+		panelCentral.add(labelTxtRecuperacion, BorderLayout.CENTER);
 		
 		JPanel panelFormulario = new JPanel();
 		panelFormulario.setLayout(new BoxLayout(panelFormulario, BoxLayout.Y_AXIS));
@@ -68,32 +72,37 @@ public class Log3 extends JPanel{
 		JPanel panelBotones = new JPanel(new FlowLayout());
 		JButton buttonAceptar = new JButton("Aceptar");
 		JButton buttonCancelar = new JButton("Cancelar");
-		buttonAceptar.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log3"));
 		panelBotones.add(buttonAceptar);
-		buttonCancelar.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log1"));
 		panelBotones.add(buttonCancelar);
+		
+		buttonAceptar.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log3"));
+		buttonCancelar.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log1"));
 		
 		panelFormulario.add(Box.createVerticalGlue());
 		panelFormulario.add(panelEmail);
-		panelFormulario.add(Box.createVerticalStrut(-5));
+		panelFormulario.add(Box.createVerticalStrut(2));
 		panelFormulario.add(panelTelefono);
-		panelFormulario.add(Box.createVerticalStrut(-5));
+		panelFormulario.add(Box.createVerticalStrut(2));
 		panelFormulario.add(panelBotones);
+		panelFormulario.add(Box.createVerticalStrut(20));
 		panelFormulario.add(Box.createVerticalGlue());
 		
-		panelCentral.add(panelFormulario, BorderLayout.CENTER);
+		panelCentral.add(panelFormulario, BorderLayout.SOUTH);
 		
 		this.add(panelCentral, BorderLayout.CENTER);
 		
 		// SECCION SUR (Copyright)
+		JPanel panelSur = new JPanel(new FlowLayout(FlowLayout.LEFT));
 		JLabel labelCopyright = new JLabel("Hotel Host® 2024");
-		this.add(labelCopyright, BorderLayout.SOUTH);
-		panelFormulario.setBackground(colorPaneles);
-		panelCentral.setBackground(colorPaneles);
-		panelTelefono.setBackground(colorPaneles);
-		panelEmail.setBackground(colorPaneles);
-		panelBotones.setBackground(colorPaneles);
-        panelCentral.setBorder(BorderFactory.createMatteBorder(100, 240, 100, 240, Color.WHITE));
+		labelCopyright.setBackground(Preferences.COLORBACKGROUND);
+		panelSur.add(labelCopyright);
+		this.add(panelSur, BorderLayout.SOUTH);
+		panelFormulario.setBackground(Color.WHITE);
+		panelCentral.setBackground(Color.WHITE);
+		panelTelefono.setBackground(Color.WHITE);
+		panelEmail.setBackground(Color.WHITE);
+		panelBotones.setBackground(Color.WHITE);
+        panelCentral.setBorder(BorderFactory.createMatteBorder(100, 260, 130, 260, Preferences.COLORBACKGROUND));
 
 	}
 }
