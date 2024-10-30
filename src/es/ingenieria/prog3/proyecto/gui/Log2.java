@@ -26,7 +26,7 @@ public class Log2 extends JPanel {
         
 		//Panel principal centro
 		JPanel panelCentro = new JPanel();
-		panelCentro.setBackground(new Color(240, 242, 245));
+		panelCentro.setBackground(new Color(243, 241, 228));
 		panelCentro.setLayout(null);
 		
 		//Crear las fuentes

@@ -2,6 +2,7 @@ package es.ingenieria.prog3.proyecto.gui;
 
 
 import java.awt.CardLayout;
+import java.awt.Color;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -41,6 +42,5 @@ public class MainFrame extends JFrame {
 }
 
 
-// Tamaño JTextFields --> 300, 50 (Preferred y Maximum)
 // Letra JTextFields --> Font("Verdana", Font.PLAIN, 18)
-
+// Color --> Color(243, 241, 228)
