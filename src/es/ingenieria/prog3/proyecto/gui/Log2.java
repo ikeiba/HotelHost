@@ -22,12 +22,13 @@ public class Log2 extends JPanel {
         
 		//Panel principal centro
 		JPanel panelCentro = new JPanel();
+		panelCentro.setBackground(Color.WHITE);
 		panelCentro.setLayout(null);
 		
 		JLabel logo = new JLabel();
-		logo.setSize(new Dimension(200, 200));
-		ImageIcon originalIcon = new ImageIcon("Hotel Host.png");
-		Image scaledImage = originalIcon.getImage().getScaledInstance(200, 200, Image.SCALE_SMOOTH);
+		logo.setBounds(0, 0, 400, 400);
+		ImageIcon originalIcon = new ImageIcon("resources/images/Hotel Host.png");
+		Image scaledImage = originalIcon.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
 		ImageIcon resizedIcon = new ImageIcon(scaledImage);
         logo.setIcon(resizedIcon);
         add(logo, BorderLayout.CENTER);
