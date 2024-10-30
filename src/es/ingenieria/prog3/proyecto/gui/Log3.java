@@ -19,12 +19,14 @@ public class Log3 extends JPanel{
 		// Establecer el layout principal 
 		setLayout(new BorderLayout(10, 10));
 		setBackground(Color.WHITE);
+        Color colorPaneles = new Color(246, 233, 211);
+
 		
 		//		SECCIONES DEL LAYOUT		//
 		
 		// SECCION NORTE (Logotipo)
 		JLabel labelLogotipo = new JLabel();
-		ImageIcon logotipoImage = new ImageIcon("resources/images/icono.png");
+		ImageIcon logotipoImage = new ImageIcon("resources/images/Hotel Host 200x200.png");
 		labelLogotipo.setIcon(logotipoImage);
 		
 		this.add(labelLogotipo, BorderLayout.NORTH);
@@ -32,11 +34,12 @@ public class Log3 extends JPanel{
 		// SECCION CENTRO (Formulario)
 		Font fontLabel = new Font("Verdana", Font.BOLD, 18);
 		
-		JPanel panelCentral = new JPanel(new BorderLayout());
+		JPanel panelCentral = new JPanel();
+		panelCentral.setLayout(new BoxLayout(panelCentral, BoxLayout.Y_AXIS));
 		JLabel labelTxtRecuperacion = new JLabel("Para recuperar su contraseña, rellene los siguientes datos:");
-		labelTxtRecuperacion.setHorizontalAlignment(0);
-		labelTxtRecuperacion.setFont(fontLabel);
-		panelCentral.add(labelTxtRecuperacion, BorderLayout.NORTH);
+		labelTxtRecuperacion.setHorizontalAlignment(SwingConstants.CENTER);
+		labelTxtRecuperacion.setFont(new Font("Verdana", Font.BOLD, 16));
+		panelCentral.add(labelTxtRecuperacion);
 		
 		JPanel panelFormulario = new JPanel();
 		panelFormulario.setLayout(new BoxLayout(panelFormulario, BoxLayout.Y_AXIS));
@@ -61,30 +64,34 @@ public class Log3 extends JPanel{
 		panelTelefono.add(labelTelefono);
 		panelTelefono.add(textFieldTelefono);
 		
-
-		
-		JPanel botonesPanel = new JPanel(new FlowLayout());
-		JButton aceptarButton = new JButton("Aceptar");
-		JButton cancelarButton = new JButton("Cancelar");
-		botonesPanel.add(aceptarButton);
-		cancelarButton.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log1"));
-		botonesPanel.add(cancelarButton);
+		JPanel panelBotones = new JPanel(new FlowLayout());
+		JButton buttonAceptar = new JButton("Aceptar");
+		JButton buttonCancelar = new JButton("Cancelar");
+		panelBotones.add(buttonAceptar);
+		buttonCancelar.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log1"));
+		panelBotones.add(buttonCancelar);
 		
 		panelFormulario.add(Box.createVerticalGlue());
 		panelFormulario.add(panelEmail);
 		panelFormulario.add(Box.createVerticalStrut(-5));
 		panelFormulario.add(panelTelefono);
 		panelFormulario.add(Box.createVerticalStrut(-5));
-		panelFormulario.add(botonesPanel);
+		panelFormulario.add(panelBotones);
 		panelFormulario.add(Box.createVerticalGlue());
 		
-		panelCentral.add(panelFormulario, BorderLayout.CENTER);
+		panelCentral.add(panelFormulario);
 		
 		this.add(panelCentral, BorderLayout.CENTER);
 		
 		// SECCION SUR (Copyright)
 		JLabel labelCopyright = new JLabel("Hotel Host® 2024");
 		this.add(labelCopyright, BorderLayout.SOUTH);
-		
+		panelFormulario.setBackground(colorPaneles);
+		panelCentral.setBackground(colorPaneles);
+		panelTelefono.setBackground(colorPaneles);
+		panelEmail.setBackground(colorPaneles);
+		panelBotones.setBackground(colorPaneles);
+        panelCentral.setBorder(BorderFactory.createMatteBorder(100, 240, 100, 240, Color.WHITE));
+
 	}
 }
