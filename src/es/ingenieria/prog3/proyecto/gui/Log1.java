@@ -40,8 +40,13 @@ public class Log1 extends JPanel {
         
         // Creamos los JLabel para la parte izquierda y le anadimos el icono       
         JLabel logo = new JLabel();
-        ImageIcon icono = new ImageIcon("resources/images/Hotel Host 200x200.png");
-        logo.setIcon(icono);
+        logo.setBounds(0, 0, 260, 260);
+		ImageIcon originalIcon = new ImageIcon("resources/images/Hotel Host.png");
+		Image scaledImage = originalIcon.getImage().getScaledInstance(260, 260, Image.SCALE_SMOOTH);
+		ImageIcon resizedIcon = new ImageIcon(scaledImage);
+        logo.setIcon(resizedIcon);
+        
+        
         JLabel labelDescripcion = new JLabel("TEXTO LARGO Y ABURRIDO");
 
         
@@ -137,8 +142,8 @@ public class Log1 extends JPanel {
       //Anadimos el listener para que si se pulsa el boton vaya a la pantalla de modificar contrasena
         botonLogin.addActionListener(e -> {
         	String inputUsuario = textFieldUsuario.getText();
-        	String inputContrasena = textFieldUsuario.getText();
-        	if (inputUsuario.equals("usuario") && inputContrasena.equals("contraseña")) {
+        	String inputContrasena = String.valueOf(passwordFieldContrasena.getPassword());
+        	if (inputUsuario.equals("usuario") && inputContrasena.equals("contrasena")) {
         		System.out.println("Has llegado a la ventana de la aplicacion");
         		// this.cardLayout.show(this.mainPanel, "");
         	} else {
