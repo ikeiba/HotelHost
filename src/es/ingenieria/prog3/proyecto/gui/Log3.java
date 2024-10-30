@@ -23,37 +23,37 @@ public class Log3 extends JPanel{
 		//		SECCIONES DEL LAYOUT		//
 		
 		// SECCION NORTE (Logotipo)
-		JLabel logotipoLabel = new JLabel();
+		JLabel labelLogotipo = new JLabel();
 		ImageIcon logotipoImage = new ImageIcon("resources/images/icono.png");
-		logotipoLabel.setIcon(logotipoImage);
+		labelLogotipo.setIcon(logotipoImage);
 		
-		this.add(logotipoLabel, BorderLayout.NORTH);
+		this.add(labelLogotipo, BorderLayout.NORTH);
 		
 		// SECCION CENTRO (Formulario)
-		Font fuenteLabel = new Font("Verdana", Font.BOLD, 18);
+		Font fontLabel = new Font("Verdana", Font.BOLD, 18);
 		
 		JPanel panelCentral = new JPanel(new BorderLayout());
-		JLabel textoRecuperacion = new JLabel("Para recuperar su contraseña, rellene los siguientes datos:");
-		textoRecuperacion.setHorizontalAlignment(0);
-		textoRecuperacion.setFont(fuenteLabel);
-		panelCentral.add(textoRecuperacion, BorderLayout.NORTH);
+		JLabel labelTxtRecuperacion = new JLabel("Para recuperar su contraseña, rellene los siguientes datos:");
+		labelTxtRecuperacion.setHorizontalAlignment(0);
+		labelTxtRecuperacion.setFont(fontLabel);
+		panelCentral.add(labelTxtRecuperacion, BorderLayout.NORTH);
 		
-		JPanel formularioPanel = new JPanel();
-		formularioPanel.setLayout(new BoxLayout(formularioPanel, BoxLayout.Y_AXIS));
+		JPanel panelFormulario = new JPanel();
+		panelFormulario.setLayout(new BoxLayout(panelFormulario, BoxLayout.Y_AXIS));
 		
-		JPanel emailPanel = new JPanel(new FlowLayout());
-		JLabel emailLabel = new JLabel("          Email: ");
-		emailLabel.setFont(fuenteLabel);
-		JTextField emailTextField = new JTextField();
-		emailTextField.setPreferredSize(new Dimension(300, 50)); // Ajustamos tamaño del TextField al standard
-		emailTextField.setMaximumSize(new Dimension(300, 50));
-		emailTextField.setFont(new Font("Verdana", Font.PLAIN, 18));
-		emailPanel.add(emailLabel);
-		emailPanel.add(emailTextField);
+		JPanel panelEmail = new JPanel(new FlowLayout());
+		JLabel labelEmail = new JLabel("          Email: ");
+		labelEmail.setFont(fontLabel);
+		JTextField textFieldEmail = new JTextField();
+		textFieldEmail.setPreferredSize(new Dimension(300, 50)); // Ajustamos tamaño del TextField al standard
+		textFieldEmail.setMaximumSize(new Dimension(300, 50));
+		textFieldEmail.setFont(new Font("Verdana", Font.PLAIN, 18));
+		panelEmail.add(labelEmail);
+		panelEmail.add(textFieldEmail);
 		
 		JPanel panelTelefono = new JPanel(new FlowLayout());
 		JLabel labelTelefono = new JLabel("Nº Teléfono: ");
-		labelTelefono.setFont(fuenteLabel);
+		labelTelefono.setFont(fontLabel);
 		JTextField textFieldTelefono = new JTextField();
 		textFieldTelefono.setPreferredSize(new Dimension(300, 50)); // Ajustamos tamaño del TextField al standard
 		textFieldTelefono.setMaximumSize(new Dimension(300, 50));
@@ -61,27 +61,30 @@ public class Log3 extends JPanel{
 		panelTelefono.add(labelTelefono);
 		panelTelefono.add(textFieldTelefono);
 		
+
+		
 		JPanel botonesPanel = new JPanel(new FlowLayout());
 		JButton aceptarButton = new JButton("Aceptar");
 		JButton cancelarButton = new JButton("Cancelar");
 		botonesPanel.add(aceptarButton);
+		cancelarButton.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log1"));
 		botonesPanel.add(cancelarButton);
 		
-		formularioPanel.add(Box.createVerticalGlue());
-		formularioPanel.add(emailPanel);
-		formularioPanel.add(Box.createVerticalStrut(-5));
-		formularioPanel.add(panelTelefono);
-		formularioPanel.add(Box.createVerticalStrut(-5));
-		formularioPanel.add(botonesPanel);
-		formularioPanel.add(Box.createVerticalGlue());
+		panelFormulario.add(Box.createVerticalGlue());
+		panelFormulario.add(panelEmail);
+		panelFormulario.add(Box.createVerticalStrut(-5));
+		panelFormulario.add(panelTelefono);
+		panelFormulario.add(Box.createVerticalStrut(-5));
+		panelFormulario.add(botonesPanel);
+		panelFormulario.add(Box.createVerticalGlue());
 		
-		panelCentral.add(formularioPanel, BorderLayout.CENTER);
+		panelCentral.add(panelFormulario, BorderLayout.CENTER);
 		
 		this.add(panelCentral, BorderLayout.CENTER);
 		
 		// SECCION SUR (Copyright)
-		JLabel copyrightLabel = new JLabel("Hotel Host® 2024");
-		this.add(copyrightLabel, BorderLayout.SOUTH);
+		JLabel labelCopyright = new JLabel("Hotel Host® 2024");
+		this.add(labelCopyright, BorderLayout.SOUTH);
 		
 	}
 }
