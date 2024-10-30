@@ -10,7 +10,7 @@ import javax.swing.JPanel;
 //Esta clase ha sido generada por CHATGPT
 @SuppressWarnings("serial")
 public class PanelBordesRedondos extends JPanel {
-    private int cornerRadius;
+    private int cornerRadius; //Yes
 
     public PanelBordesRedondos(int cornerRadius) {
         this.cornerRadius = cornerRadius;
