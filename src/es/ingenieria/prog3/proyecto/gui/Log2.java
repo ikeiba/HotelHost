@@ -2,6 +2,7 @@ package es.ingenieria.prog3.proyecto.gui;
 
 import javax.swing.*;
 
+import es.ingenieria.prog3.proyecto.gui.util.JTextFieldDefaultText;
 import es.ingenieria.prog3.proyecto.gui.util.PanelBordesRedondos;
 import es.ingenieria.prog3.proyecto.gui.util.Preferences;
 
@@ -56,6 +57,60 @@ public class Log2 extends JPanel {
         labelnuevacuenta.setBounds(0, 25, panelnuevousuario.getWidth(), 150);
         labelnuevacuenta.setFont(Preferences.FONT);
         panelnuevousuario.add(labelnuevacuenta);
+        
+        JLabel labelnuevacuentamensaje = new JLabel("Es rápido y fácil");
+        labelnuevacuentamensaje.setHorizontalAlignment(SwingConstants.CENTER);
+        labelnuevacuentamensaje.setVerticalAlignment(SwingConstants.TOP);
+        labelnuevacuentamensaje.setBounds(0, 60, panelnuevousuario.getWidth(), 150);
+        labelnuevacuentamensaje.setFont(new Font("Verdana", Font.PLAIN, 12));
+        panelnuevousuario.add(labelnuevacuentamensaje);
+        
+        JSeparator barraSeparadora = new JSeparator();
+        barraSeparadora.setBackground(Color.LIGHT_GRAY);
+        barraSeparadora.setBounds(0, 104, panelnuevousuario.getWidth(), 2);
+        barraSeparadora.setOrientation(SwingConstants.HORIZONTAL);
+        panelnuevousuario.add(barraSeparadora);
+        
+        JTextFieldDefaultText textFieldNombre = new JTextFieldDefaultText("Nombre");
+        textFieldNombre.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 130, (int) (panelnuevousuario.getWidth() * 0.42), 50);
+        panelnuevousuario.add(textFieldNombre);
+        
+        JTextFieldDefaultText textFieldApellidos = new JTextFieldDefaultText("Apellidos");
+        textFieldApellidos.setBounds((int) (panelnuevousuario.getWidth() * 0.52), 130, (int) (panelnuevousuario.getWidth() * 0.42), 50);
+        panelnuevousuario.add(textFieldApellidos);
+        
+        JLabel labelfechanacimiento = new JLabel("Fecha de nacimiento");
+        labelfechanacimiento.setHorizontalAlignment(SwingConstants.LEFT);
+        labelfechanacimiento.setVerticalAlignment(SwingConstants.TOP);
+        labelfechanacimiento.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 210, panelnuevousuario.getWidth(), 150);
+        labelfechanacimiento.setFont(new Font("Verdana", Font.PLAIN, 10));
+        panelnuevousuario.add(labelfechanacimiento);
+        
+        Integer[] numerosdias = new Integer[31];
+        for (int i = 1; i < (numerosdias.length + 1); i++) {
+        	numerosdias[i - 1] = i;
+        }
+        JComboBox<Integer> JComboBoxdias = new JComboBox<>(numerosdias);
+        JComboBoxdias.setBackground(Color.WHITE);
+        JComboBoxdias.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 230, (int) (panelnuevousuario.getWidth() * 0.26), 50);
+        panelnuevousuario.add(JComboBoxdias);
+        
+        String[] nombresmeses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
+        JComboBox<String> JComboBoxmeses = new JComboBox<>(nombresmeses);
+        JComboBoxmeses.setBackground(Color.WHITE);
+        JComboBoxmeses.setBounds((int) (panelnuevousuario.getWidth() * 0.37), 230, (int) (panelnuevousuario.getWidth() * 0.26), 50);
+        panelnuevousuario.add(JComboBoxmeses);
+        
+        int indicenumerosanos = 0;
+        Integer[] numerosanos = new Integer[125];
+        for (int i = 2024; i >= 1900; i--) {
+        	numerosanos[indicenumerosanos] = i;
+        	indicenumerosanos++;
+        }
+        JComboBox<Integer> JComboBoxanos = new JComboBox<>(numerosanos);
+        JComboBoxanos.setBackground(Color.WHITE);
+        JComboBoxanos.setBounds((int) (panelnuevousuario.getWidth() * 0.68), 230, (int) (panelnuevousuario.getWidth() * 0.26), 50);
+        panelnuevousuario.add(JComboBoxanos);
         
         add(panelnuevousuario, BorderLayout.CENTER);
         
