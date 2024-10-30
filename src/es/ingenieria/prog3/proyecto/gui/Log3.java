@@ -65,6 +65,7 @@ public class Log3 extends JPanel{
 		JButton aceptarButton = new JButton("Aceptar");
 		JButton cancelarButton = new JButton("Cancelar");
 		botonesPanel.add(aceptarButton);
+		cancelarButton.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log1"));
 		botonesPanel.add(cancelarButton);
 		
 		formularioPanel.add(Box.createVerticalGlue());
