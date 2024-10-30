@@ -23,6 +23,7 @@ public class Log3 extends JPanel{
 
 		
 		//		SECCIONES DEL LAYOUT		//
+        // Comentario
 		
 		// SECCION NORTE (Logotipo)
 		JLabel labelLogotipo = new JLabel();
