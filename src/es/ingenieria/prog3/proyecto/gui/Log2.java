@@ -1,9 +1,13 @@
 package es.ingenieria.prog3.proyecto.gui;
 
 import javax.swing.*;
+
+import es.ingenieria.prog3.proyecto.gui.functions.PanelBordesRedondos;
+
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.geom.RoundRectangle2D;
 
 @SuppressWarnings("serial")
 public class Log2 extends JPanel {
@@ -22,7 +26,7 @@ public class Log2 extends JPanel {
         
 		//Panel principal centro
 		JPanel panelCentro = new JPanel();
-		panelCentro.setBackground(Color.WHITE);
+		panelCentro.setBackground(new Color(240, 242, 245));
 		panelCentro.setLayout(null);
 		
 		//Crear las fuentes
@@ -43,6 +47,12 @@ public class Log2 extends JPanel {
         labelDescripcion.setBounds(logo.getX(), logo.getY() + logo.getHeight() + 25, 300, 150);
         labelDescripcion.setFont(fuenteTexto);
         add(labelDescripcion, BorderLayout.CENTER);
+        
+        PanelBordesRedondos panelnuevousuario = new PanelBordesRedondos(25);
+        panelnuevousuario.setBounds(0, 0, (int) (1152 * 0.4), (int) ((720 * 0.8)));
+        panelnuevousuario.setBounds((int) ((1152 * 0.7) - (panelnuevousuario.getWidth() / 2)), (int) ((720 * 0.5) - (panelnuevousuario.getHeight() / 2)) - 25, panelnuevousuario.getWidth(), panelnuevousuario.getHeight());
+        panelnuevousuario.setBackground(Color.WHITE);
+        add(panelnuevousuario, BorderLayout.CENTER);
         
 		add(panelCentro, BorderLayout.CENTER); //Añadimos el panel panelCentro al BorderLayout.CENTER del mainPanel
 		
