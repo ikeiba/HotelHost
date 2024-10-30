@@ -1,4 +1,4 @@
-package es.ingenieria.prog3.proyecto.gui.functions;
+package es.ingenieria.prog3.proyecto.gui.util;
 
 import java.awt.Graphics;
 import java.awt.Graphics2D;

@@ -2,7 +2,8 @@ package es.ingenieria.prog3.proyecto.gui;
 
 import javax.swing.*;
 
-import es.ingenieria.prog3.proyecto.gui.functions.PanelBordesRedondos;
+import es.ingenieria.prog3.proyecto.gui.util.PanelBordesRedondos;
+import es.ingenieria.prog3.proyecto.gui.util.Preferences;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
@@ -26,11 +27,8 @@ public class Log2 extends JPanel {
         
 		//Panel principal centro
 		JPanel panelCentro = new JPanel();
-		panelCentro.setBackground(new Color(243, 241, 228));
+		panelCentro.setBackground(Preferences.COLORBACKGROUND);
 		panelCentro.setLayout(null);
-		
-		//Crear las fuentes
-		Font fuenteTexto = new Font("Verdana", Font.BOLD, 18);
 		
 		JLabel logo = new JLabel();
 		logo.setBounds(0, 0, 300, 225);
@@ -45,7 +43,8 @@ public class Log2 extends JPanel {
         labelDescripcion.setHorizontalAlignment(SwingConstants.CENTER);
         labelDescripcion.setVerticalAlignment(SwingConstants.TOP);
         labelDescripcion.setBounds(logo.getX(), logo.getY() + logo.getHeight() + 25, 300, 150);
-        labelDescripcion.setFont(fuenteTexto);
+        labelDescripcion.setFont(Preferences.FONT);
+        labelDescripcion.setForeground(Color.WHITE);
         add(labelDescripcion, BorderLayout.CENTER);
         
         PanelBordesRedondos panelnuevousuario = new PanelBordesRedondos(25);
