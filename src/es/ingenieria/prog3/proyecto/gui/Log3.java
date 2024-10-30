@@ -61,18 +61,21 @@ public class Log3 extends JPanel{
 		panelTelefono.add(labelTelefono);
 		panelTelefono.add(textFieldTelefono);
 		
-		JPanel panelBotones = new JPanel(new FlowLayout());
-		JButton buttonAceptar = new JButton("Aceptar");
-		JButton buttonCancelar = new JButton("Cancelar");
-		panelBotones.add(buttonAceptar);
-		panelBotones.add(buttonCancelar);
+
+		
+		JPanel botonesPanel = new JPanel(new FlowLayout());
+		JButton aceptarButton = new JButton("Aceptar");
+		JButton cancelarButton = new JButton("Cancelar");
+		botonesPanel.add(aceptarButton);
+		cancelarButton.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log1"));
+		botonesPanel.add(cancelarButton);
 		
 		panelFormulario.add(Box.createVerticalGlue());
 		panelFormulario.add(panelEmail);
 		panelFormulario.add(Box.createVerticalStrut(-5));
 		panelFormulario.add(panelTelefono);
 		panelFormulario.add(Box.createVerticalStrut(-5));
-		panelFormulario.add(panelBotones);
+		panelFormulario.add(botonesPanel);
 		panelFormulario.add(Box.createVerticalGlue());
 		
 		panelCentral.add(panelFormulario, BorderLayout.CENTER);
