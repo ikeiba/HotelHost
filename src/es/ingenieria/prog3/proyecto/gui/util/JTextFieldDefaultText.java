@@ -14,7 +14,9 @@ public class JTextFieldDefaultText extends JTextField {
     public JTextFieldDefaultText(String placeholder) {
         super(placeholder);
         this.placeholder = placeholder;
-        setForeground(Color.GRAY); // Initial placeholder text color
+        setFont(Preferences.FONTPLAIN);
+        setForeground(Color.GRAY);
+       
 
         addFocusListener(new FocusListener() {
             @Override
