@@ -25,18 +25,23 @@ public class Log2 extends JPanel {
 		panelCentro.setBackground(Color.WHITE);
 		panelCentro.setLayout(null);
 		
+		//Crear las fuentes
+		Font fuenteTexto = new Font("Verdana", Font.BOLD, 18);
+		
 		JLabel logo = new JLabel();
-		logo.setBounds(0, 0, 400, 400);
+		logo.setBounds(0, 0, 300, 225);
+		logo.setBounds((int) ((1152 * 0.25) - (logo.getWidth() / 2)), (int) ((720 * 0.4) - (logo.getHeight() / 2)), logo.getWidth(), logo.getHeight());
 		ImageIcon originalIcon = new ImageIcon("resources/images/Hotel Host.png");
-		Image scaledImage = originalIcon.getImage().getScaledInstance(400, 400, Image.SCALE_SMOOTH);
+		Image scaledImage = originalIcon.getImage().getScaledInstance(300, 225, Image.SCALE_SMOOTH);
 		ImageIcon resizedIcon = new ImageIcon(scaledImage);
         logo.setIcon(resizedIcon);
         add(logo, BorderLayout.CENTER);
         
-        JLabel labelDescripcion = new JLabel("Aligned Text", JLabel.CENTER);
+        JLabel labelDescripcion = new JLabel("<html><div style='text-align: center;'>Unete a Millones de usuarios que han disfrutado de viajes con nosotros", JLabel.CENTER);
         labelDescripcion.setHorizontalAlignment(SwingConstants.CENTER);
         labelDescripcion.setVerticalAlignment(SwingConstants.TOP);
-        labelDescripcion.setBounds(0, 0, 400, 50);
+        labelDescripcion.setBounds(logo.getX(), logo.getY() + logo.getHeight() + 25, 300, 150);
+        labelDescripcion.setFont(fuenteTexto);
         add(labelDescripcion, BorderLayout.CENTER);
         
 		add(panelCentro, BorderLayout.CENTER); //Añadimos el panel panelCentro al BorderLayout.CENTER del mainPanel
