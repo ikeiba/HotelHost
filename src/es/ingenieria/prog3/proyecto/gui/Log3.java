@@ -34,12 +34,12 @@ public class Log3 extends JPanel{
 		// SECCION CENTRO (Formulario)
 		Font fontLabel = new Font("Verdana", Font.BOLD, 18);
 		
-		JPanel panelCentral = new JPanel();
-		panelCentral.setLayout(new BoxLayout(panelCentral, BoxLayout.Y_AXIS));
+		JPanel panelCentral = new JPanel(new BorderLayout());
 		JLabel labelTxtRecuperacion = new JLabel("Para recuperar su contraseña, rellene los siguientes datos:");
-		labelTxtRecuperacion.setHorizontalAlignment(SwingConstants.CENTER);
+		labelTxtRecuperacion.setHorizontalAlignment(SwingConstants.LEFT);
 		labelTxtRecuperacion.setFont(new Font("Verdana", Font.BOLD, 16));
-		panelCentral.add(labelTxtRecuperacion);
+		labelTxtRecuperacion.setHorizontalAlignment(0);
+		panelCentral.add(labelTxtRecuperacion, BorderLayout.NORTH);
 		
 		JPanel panelFormulario = new JPanel();
 		panelFormulario.setLayout(new BoxLayout(panelFormulario, BoxLayout.Y_AXIS));
@@ -67,6 +67,7 @@ public class Log3 extends JPanel{
 		JPanel panelBotones = new JPanel(new FlowLayout());
 		JButton buttonAceptar = new JButton("Aceptar");
 		JButton buttonCancelar = new JButton("Cancelar");
+		buttonAceptar.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log3"));
 		panelBotones.add(buttonAceptar);
 		buttonCancelar.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log1"));
 		panelBotones.add(buttonCancelar);
@@ -79,7 +80,7 @@ public class Log3 extends JPanel{
 		panelFormulario.add(panelBotones);
 		panelFormulario.add(Box.createVerticalGlue());
 		
-		panelCentral.add(panelFormulario);
+		panelCentral.add(panelFormulario, BorderLayout.CENTER);
 		
 		this.add(panelCentral, BorderLayout.CENTER);
 		
