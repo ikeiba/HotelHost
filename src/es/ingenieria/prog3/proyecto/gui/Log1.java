@@ -40,8 +40,13 @@ public class Log1 extends JPanel {
         
         // Creamos los JLabel para la parte izquierda y le anadimos el icono       
         JLabel logo = new JLabel();
-        ImageIcon icono = new ImageIcon("resources/images/Hotel Host 200x200.png");
-        logo.setIcon(icono);
+        logo.setBounds(0, 0, 260, 260);
+		ImageIcon originalIcon = new ImageIcon("resources/images/Hotel Host.png");
+		Image scaledImage = originalIcon.getImage().getScaledInstance(260, 260, Image.SCALE_SMOOTH);
+		ImageIcon resizedIcon = new ImageIcon(scaledImage);
+        logo.setIcon(resizedIcon);
+        
+        
         JLabel labelDescripcion = new JLabel("TEXTO LARGO Y ABURRIDO");
 
         
@@ -134,6 +139,17 @@ public class Log1 extends JPanel {
         JButton botonLogin = new JButton("LOG IN");
         botonLogin.setPreferredSize(new Dimension(150, 40));  // Ajusta el tamaño preferido
         botonLogin.setMaximumSize(new Dimension(150, 40)); 
+      //Anadimos el listener para que si se pulsa el boton vaya a la pantalla de modificar contrasena
+        botonLogin.addActionListener(e -> {
+        	String inputUsuario = textFieldUsuario.getText();
+        	String inputContrasena = String.valueOf(passwordFieldContrasena.getPassword());
+        	if (inputUsuario.equals("usuario") && inputContrasena.equals("contrasena")) {
+        		System.out.println("Has llegado a la ventana de la aplicacion");
+        		// this.cardLayout.show(this.mainPanel, "");
+        	} else {
+        		JOptionPane.showMessageDialog(null, "La contraseña es incorrecta", "CONTRASEÑA INCORRECTA", JOptionPane.WARNING_MESSAGE, null);
+        	}
+        });
         
         JButton botonOlvidarContrasena = new JButton("¿Has olvidado la contraseña?");
         botonOlvidarContrasena.setPreferredSize(new Dimension(250, 40));  // Ajusta el tamaño preferido
@@ -158,6 +174,8 @@ public class Log1 extends JPanel {
         JSeparator barraSeparadora = new JSeparator();
         barraSeparadora.setBackground(Color.BLACK);
         barraSeparadora.setOrientation(SwingConstants.HORIZONTAL);
+        barraSeparadora.setMaximumSize(new Dimension(180, 180));
+
         
         //Colocamos los componenetes donde queremos en el panel
         panelDerechaCentro.add(Box.createVerticalStrut(90));
@@ -172,6 +190,8 @@ public class Log1 extends JPanel {
         panelDerechaCentro.add(barraSeparadora);
         panelDerechaCentro.add(Box.createVerticalStrut(10));
         panelDerechaCentro.add(botonRegistrarse);
+        panelDerechaCentro.add(Box.createVerticalStrut(10));
+
         
         
       //Poner el borde del layout (top, left, bottom, right, color)
