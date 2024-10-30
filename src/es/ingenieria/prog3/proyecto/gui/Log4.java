@@ -15,7 +15,6 @@ import javax.swing.*;
 	    
 		public Log4(CardLayout cardLayout1, JPanel mainPanel) {
 			
-		
 			// Zona norte (logo)
 			JLabel logo = new JLabel();
 			ImageIcon imagen = new ImageIcon("resources/images/icono.png");
