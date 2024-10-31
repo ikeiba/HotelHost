@@ -164,12 +164,15 @@ public class Log2 extends JPanel {
         
         JCheckBox checkBoxContresena = new JCheckBox();
         checkBoxContresena.setBackground(Color.WHITE);
-        checkBoxContresena.setIcon(new ImageIcon("resources/images/imagenNoVer.png"));
-        checkBoxContresena.setSelectedIcon(new ImageIcon("resources/images/imagenVer.png"));
+        checkBoxContresena.setIcon(new ImageIcon("resources/images/imagenVer.png"));
+        checkBoxContresena.setSelectedIcon(new ImageIcon("resources/images/imagenNoVer.png"));
+        checkBoxContresena.setSelected(true);
+        checkBoxContresena.setBounds((int) (panelnuevousuario.getWidth() * 0.81), 500, (int) (panelnuevousuario.getWidth() * 0.22), 50);
+        panelnuevousuario.add(checkBoxContresena);
         
-        JPasswordFieldDefaultText textFieldContraseña = new JPasswordFieldDefaultText("Contraseña", checkboxgenerootro);
-        textFieldContraseña.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 500, (int) (panelnuevousuario.getWidth() * 0.68), 50);
-        panelnuevousuario.add(textFieldContraseña);
+        JPasswordFieldDefaultText textFieldContrasena = new JPasswordFieldDefaultText("Contraseña", checkBoxContresena);
+        textFieldContrasena.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 500, (int) (panelnuevousuario.getWidth() * 0.68), 50);
+        panelnuevousuario.add(textFieldContrasena);
         
         JButton botonVolver = new JButton("Volver");
         botonVolver.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 570, (int) (panelnuevousuario.getWidth() * 0.42), 50);
