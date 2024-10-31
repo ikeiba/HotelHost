@@ -7,6 +7,7 @@ import java.awt.event.FocusListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+//Esta clase ha sido generada por CHATGPT
 @SuppressWarnings("serial")
 public class JPasswordFieldDefaultText extends JPasswordField {
     @SuppressWarnings("unused")
