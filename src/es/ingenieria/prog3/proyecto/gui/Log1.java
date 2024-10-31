@@ -39,7 +39,6 @@ public class Log1 extends JPanel {
 		Image scaledImage = originalIcon.getImage().getScaledInstance(300, 225, Image.SCALE_SMOOTH);
 		ImageIcon resizedIcon = new ImageIcon(scaledImage);
         logo.setIcon(resizedIcon);
-        add(logo, BorderLayout.CENTER);
         
         //Creamos el JLabel que contendra una breve descripcion de la pagina
         JLabel labelDescripcion = new JLabel("<html><div style='text-align: center;'>Unete a Millones de usuarios que han disfrutado de viajes con nosotros", JLabel.CENTER);
@@ -48,7 +47,6 @@ public class Log1 extends JPanel {
         labelDescripcion.setBounds(logo.getX(), logo.getY() + logo.getHeight() + 25, 300, 150);
         labelDescripcion.setFont(Preferences.FONT);
         labelDescripcion.setForeground(Color.WHITE);
-        add(labelDescripcion, BorderLayout.CENTER);
         
         //Creamos el panel de la parte de la izquierda, el cual contendra el textfield para el email y la contraseña
         //asi como los diferentes botones
@@ -112,7 +110,7 @@ public class Log1 extends JPanel {
         		System.out.println("Has llegado a la ventana de la aplicacion");
         		// this.cardLayout.show(this.mainPanel, "");
         	} else {
-        		JOptionPane.showMessageDialog(null, "La contraseña es incorrecta", "CONTRASEÑA INCORRECTA", JOptionPane.WARNING_MESSAGE, null);
+        		JOptionPane.showMessageDialog(null, "La contraseña es incorrecta", "CONTRASEÑA INCORRECTA", JOptionPane.ERROR_MESSAGE, null);
         	}
         });
         
@@ -136,12 +134,17 @@ public class Log1 extends JPanel {
         barraSeparadora2.setBounds((int) ((panelnuevousuario.getWidth() * 0.5) - (barraSeparadora2.getWidth() / 2)), 340, barraSeparadora2.getWidth(), barraSeparadora2.getHeight());
         panelnuevousuario.add(barraSeparadora2);
         
-        //
-        add(panelnuevousuario, BorderLayout.CENTER);
-		add(panelCentro, BorderLayout.CENTER); //Añadimos el panel panelCentro al BorderLayout.CENTER del mainPanel
-		
+        //Añadimos los componentes al panelCentro y el panelCentro al centro del Panel de la clase (this)
+        panelCentro.add(logo);
+		panelCentro.add(panelnuevousuario);
+		panelCentro.add(labelDescripcion);
+		this.add(panelCentro, BorderLayout.CENTER); //Añadimos el panel panelCentro al BorderLayout.CENTER del mainPanel
+
         // Panel principal sur
-        add(new JLabel("Hotel Host® 2024"), BorderLayout.SOUTH);
+        this.add(new JLabel("Hotel Host® 2024"), BorderLayout.SOUTH);
+        
+  
+
 	}
 		
 }
