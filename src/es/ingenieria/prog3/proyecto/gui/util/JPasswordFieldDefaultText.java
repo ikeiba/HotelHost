@@ -22,7 +22,7 @@ public class JPasswordFieldDefaultText extends JPasswordField {
         
         checkBox.addActionListener(e -> {
         	if (checkBox.isSelected()) {selected = true;}
-        	else {selected = true;}
+        	else {selected = false;}
         });
 
         addFocusListener(new FocusListener() {
