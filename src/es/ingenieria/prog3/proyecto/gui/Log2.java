@@ -4,7 +4,8 @@ import javax.swing.*;
 
 import es.ingenieria.prog3.proyecto.gui.util.JCheckBoxListener;
 import es.ingenieria.prog3.proyecto.gui.util.JTextFieldDefaultText;
-import es.ingenieria.prog3.proyecto.gui.util.PanelBordesRedondos;
+import es.ingenieria.prog3.proyecto.gui.util.JPanelBordesRedondos;
+import es.ingenieria.prog3.proyecto.gui.util.JPasswordFieldDefaultText;
 import es.ingenieria.prog3.proyecto.gui.util.Preferences;
 
 import java.awt.*;
@@ -55,7 +56,7 @@ public class Log2 extends JPanel {
         labelDescripcion.setForeground(Color.WHITE);
         add(labelDescripcion, BorderLayout.CENTER);
         
-        PanelBordesRedondos panelnuevousuario = new PanelBordesRedondos(25);
+        JPanelBordesRedondos panelnuevousuario = new JPanelBordesRedondos(25);
         panelnuevousuario.setBounds(0, 0, (int) (1152 * 0.4), (int) ((720 * 0.9)));
         panelnuevousuario.setBounds((int) ((1152 * 0.7) - (panelnuevousuario.getWidth() / 2)), (int) ((720 * 0.5) - (panelnuevousuario.getHeight() / 2)) - 25, panelnuevousuario.getWidth(), panelnuevousuario.getHeight());
         panelnuevousuario.setBackground(Color.WHITE);
@@ -161,9 +162,16 @@ public class Log2 extends JPanel {
         textFieldTelefono.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 440, (int) (panelnuevousuario.getWidth() * 0.88), 50);
         panelnuevousuario.add(textFieldTelefono);
         
-        JTextFieldDefaultText textFieldContraseña = new JTextFieldDefaultText("Contraseña");
-        textFieldContraseña.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 500, (int) (panelnuevousuario.getWidth() * 0.88), 50);
-        panelnuevousuario.add(textFieldContraseña);
+        JCheckBox checkBoxContresena = new JCheckBox();
+        checkBoxContresena.setBackground(Color.WHITE);
+        checkBoxContresena.setIcon(new ImageIcon("resources/images/imagenVer.png"));
+        checkBoxContresena.setSelectedIcon(new ImageIcon("resources/images/imagenNoVer.png"));
+        checkBoxContresena.setBounds((int) (panelnuevousuario.getWidth() * 0.81), 500, (int) (panelnuevousuario.getWidth() * 0.22), 50);
+        panelnuevousuario.add(checkBoxContresena);
+        
+        JPasswordFieldDefaultText textFieldContrasena = new JPasswordFieldDefaultText("Contraseña", checkBoxContresena);
+        textFieldContrasena.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 500, (int) (panelnuevousuario.getWidth() * 0.68), 50);
+        panelnuevousuario.add(textFieldContrasena);
         
         JButton botonVolver = new JButton("Volver");
         botonVolver.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 570, (int) (panelnuevousuario.getWidth() * 0.42), 50);

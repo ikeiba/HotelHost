@@ -9,10 +9,10 @@ import javax.swing.JPanel;
 
 //Esta clase ha sido generada por CHATGPT
 @SuppressWarnings("serial")
-public class PanelBordesRedondos extends JPanel {
+public class JPanelBordesRedondos extends JPanel {
     private int cornerRadius;
 
-    public PanelBordesRedondos(int cornerRadius) {
+    public JPanelBordesRedondos(int cornerRadius) {
         this.cornerRadius = cornerRadius;
         setOpaque(false); // Make the panel transparent
     }

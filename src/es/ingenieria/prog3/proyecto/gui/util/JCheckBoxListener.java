@@ -16,6 +16,7 @@ public class JCheckBoxListener implements ActionListener {
     // Method to add action listeners to the checkboxes
     private void addListeners() {
         for (JCheckBox checkbox : checkboxes) {
+        	checkbox.setFocusable(false);
             checkbox.addActionListener(this);
         }
     }
