@@ -15,9 +15,7 @@ import java.awt.event.MouseEvent;
 @SuppressWarnings("serial")
 public class Log2 extends JPanel {
 
-	@SuppressWarnings("unused")
 	private CardLayout cardLayout;
-    @SuppressWarnings("unused")
 	private JPanel mainPanel;
 
 	public Log2(CardLayout cardLayout, JPanel mainPanel) {
@@ -34,7 +32,7 @@ public class Log2 extends JPanel {
 		
 		JLabel logo = new JLabel();
 		logo.setBounds(0, 0, 300, 225);
-		logo.setBounds((int) ((1152 * 0.25) - (logo.getWidth() / 2)), (int) ((720 * 0.4) - (logo.getHeight() / 2)), logo.getWidth(), logo.getHeight());
+		logo.setBounds((int) ((Preferences.WINDOWWIDTH * 0.25) - (logo.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.4) - (logo.getHeight() / 2)), logo.getWidth(), logo.getHeight());
 		ImageIcon originalIcon = new ImageIcon("resources/images/Hotel Host.png");
 		Image scaledImage = originalIcon.getImage().getScaledInstance(300, 225, Image.SCALE_SMOOTH);
 		ImageIcon resizedIcon = new ImageIcon(scaledImage);
@@ -57,8 +55,8 @@ public class Log2 extends JPanel {
         add(labelDescripcion, BorderLayout.CENTER);
         
         JPanelBordesRedondos panelnuevousuario = new JPanelBordesRedondos(25);
-        panelnuevousuario.setBounds(0, 0, (int) (1152 * 0.4), (int) ((720 * 0.9)));
-        panelnuevousuario.setBounds((int) ((1152 * 0.7) - (panelnuevousuario.getWidth() / 2)), (int) ((720 * 0.5) - (panelnuevousuario.getHeight() / 2)) - 25, panelnuevousuario.getWidth(), panelnuevousuario.getHeight());
+        panelnuevousuario.setBounds(0, 0, (int) (Preferences.WINDOWWIDTH * 0.4), (int) ((Preferences.WINDOWHEIGHT * 0.9)));
+        panelnuevousuario.setBounds((int) ((Preferences.WINDOWWIDTH * 0.7) - (panelnuevousuario.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.5) - (panelnuevousuario.getHeight() / 2)) - 25, panelnuevousuario.getWidth(), panelnuevousuario.getHeight());
         panelnuevousuario.setBackground(Color.WHITE);
         panelnuevousuario.setLayout(null);
         
