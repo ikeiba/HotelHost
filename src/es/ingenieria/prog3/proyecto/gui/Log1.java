@@ -82,105 +82,53 @@ public class Log1 extends JPanel {
         barraSeparadora.setOrientation(SwingConstants.HORIZONTAL);
         panelnuevousuario.add(barraSeparadora);
         
-        JTextFieldDefaultText textFieldNombre = new JTextFieldDefaultText("Nombre");
-        textFieldNombre.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 130, (int) (panelnuevousuario.getWidth() * 0.42), 50);
-        panelnuevousuario.add(textFieldNombre);
-        
-        JTextFieldDefaultText textFieldApellidos = new JTextFieldDefaultText("Apellidos");
-        textFieldApellidos.setBounds((int) (panelnuevousuario.getWidth() * 0.52), 130, (int) (panelnuevousuario.getWidth() * 0.42), 50);
-        panelnuevousuario.add(textFieldApellidos);
-        
-        JLabel labelfechanacimiento = new JLabel("Fecha de nacimiento");
-        labelfechanacimiento.setHorizontalAlignment(SwingConstants.LEFT);
-        labelfechanacimiento.setVerticalAlignment(SwingConstants.TOP);
-        labelfechanacimiento.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 200, panelnuevousuario.getWidth(), 150);
-        labelfechanacimiento.setFont(new Font("Verdana", Font.PLAIN, 10));
-        panelnuevousuario.add(labelfechanacimiento);
-        
-        Integer[] numerosdias = new Integer[31];
-        for (int i = 1; i < (numerosdias.length + 1); i++) {
-        	numerosdias[i - 1] = i;
-        }
-        JComboBox<Integer> JComboBoxdias = new JComboBox<>(numerosdias);
-        JComboBoxdias.setBackground(Color.WHITE);
-        JComboBoxdias.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 220, (int) (panelnuevousuario.getWidth() * 0.26), 50);
-        panelnuevousuario.add(JComboBoxdias);
-        
-        String[] nombresmeses = {"Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"};
-        JComboBox<String> JComboBoxmeses = new JComboBox<>(nombresmeses);
-        JComboBoxmeses.setBackground(Color.WHITE);
-        JComboBoxmeses.setBounds((int) (panelnuevousuario.getWidth() * 0.37), 220, (int) (panelnuevousuario.getWidth() * 0.26), 50);
-        panelnuevousuario.add(JComboBoxmeses);
-        
-        int indicenumerosanos = 0;
-        Integer[] numerosanos = new Integer[125];
-        for (int i = 2024; i >= 1900; i--) {
-        	numerosanos[indicenumerosanos] = i;
-        	indicenumerosanos++;
-        }
-        JComboBox<Integer> JComboBoxanos = new JComboBox<>(numerosanos);
-        JComboBoxanos.setBackground(Color.WHITE);
-        JComboBoxanos.setBounds((int) (panelnuevousuario.getWidth() * 0.68), 220, (int) (panelnuevousuario.getWidth() * 0.26), 50);
-        panelnuevousuario.add(JComboBoxanos);
-        
-        JLabel labelgenero = new JLabel("Genero");
-        labelgenero.setHorizontalAlignment(SwingConstants.LEFT);
-        labelgenero.setVerticalAlignment(SwingConstants.TOP);
-        labelgenero.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 290, panelnuevousuario.getWidth(), 150);
-        labelgenero.setFont(new Font("Verdana", Font.PLAIN, 10));
-        panelnuevousuario.add(labelgenero);
-        
-        JCheckBox checkboxgenerohombre = new JCheckBox("Hombre");
-        checkboxgenerohombre.setBackground(Color.WHITE);
-        checkboxgenerohombre.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-        checkboxgenerohombre.setBorderPainted(true);
-        checkboxgenerohombre.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 310, (int) (panelnuevousuario.getWidth() * 0.26), 50);
-        panelnuevousuario.add(checkboxgenerohombre);
-        
-        JCheckBox checkboxgeneromujer = new JCheckBox("Mujer");
-        checkboxgeneromujer.setBackground(Color.WHITE);
-        checkboxgeneromujer.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-        checkboxgeneromujer.setBorderPainted(true);
-        checkboxgeneromujer.setBounds((int) (panelnuevousuario.getWidth() * 0.37), 310, (int) (panelnuevousuario.getWidth() * 0.26), 50);
-        panelnuevousuario.add(checkboxgeneromujer);
-        
-        JCheckBox checkboxgenerootro = new JCheckBox("Otro");
-        checkboxgenerootro.setBackground(Color.WHITE);
-        checkboxgenerootro.setBorder(BorderFactory.createLineBorder(Color.GRAY, 1));
-        checkboxgenerootro.setBorderPainted(true);
-        checkboxgenerootro.setBounds((int) (panelnuevousuario.getWidth() * 0.68), 310, (int) (panelnuevousuario.getWidth() * 0.26), 50);
-        panelnuevousuario.add(checkboxgenerootro);
-        
-        JCheckBox[] checkboxgenero = {checkboxgenerohombre, checkboxgeneromujer, checkboxgenerootro};
-        new JCheckBoxListener(checkboxgenero);
-        
+
         JTextFieldDefaultText textFieldEmail = new JTextFieldDefaultText("Email");
-        textFieldEmail.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 380, (int) (panelnuevousuario.getWidth() * 0.88), 50);
+        textFieldEmail.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 130, (int) (panelnuevousuario.getWidth() * 0.88), 50);
         panelnuevousuario.add(textFieldEmail);
         
-        JTextFieldDefaultText textFieldTelefono = new JTextFieldDefaultText("Telefono");
-        textFieldTelefono.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 440, (int) (panelnuevousuario.getWidth() * 0.88), 50);
-        panelnuevousuario.add(textFieldTelefono);
+
         
         JCheckBox checkBoxContresena = new JCheckBox();
         checkBoxContresena.setBackground(Color.WHITE);
         checkBoxContresena.setIcon(new ImageIcon("resources/images/imagenVer.png"));
         checkBoxContresena.setSelectedIcon(new ImageIcon("resources/images/imagenNoVer.png"));
-        checkBoxContresena.setBounds((int) (panelnuevousuario.getWidth() * 0.81), 500, (int) (panelnuevousuario.getWidth() * 0.22), 50);
+        checkBoxContresena.setBounds((int) (panelnuevousuario.getWidth() * 0.81), 200, (int) (panelnuevousuario.getWidth() * 0.22), 50);
         panelnuevousuario.add(checkBoxContresena);
         
         JPasswordFieldDefaultText textFieldContrasena = new JPasswordFieldDefaultText("Contraseña", checkBoxContresena);
-        textFieldContrasena.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 500, (int) (panelnuevousuario.getWidth() * 0.68), 50);
+        textFieldContrasena.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 200, (int) (panelnuevousuario.getWidth() * 0.68), 50);
         panelnuevousuario.add(textFieldContrasena);
         
-        JButton botonVolver = new JButton("Volver");
-        botonVolver.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 570, (int) (panelnuevousuario.getWidth() * 0.42), 50);
-        botonVolver.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log1"));
-        panelnuevousuario.add(botonVolver);
+
+      //Creamos y modificamos los botones de login, de haber olvidado la contrasena y el de registrarse
+        JButton botonLogin = new JButton("LOG IN");
+        textFieldContrasena.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 200, (int) (panelnuevousuario.getWidth() * 0.68), 50);
+        panelnuevousuario.add(textFieldContrasena);
+      //Anadimos el listener para que si se pulsa el boton vaya a la pantalla de modificar contrasena
+        botonLogin.addActionListener(e -> {
+        	String inputUsuario = textFieldEmail.getText();
+        	String inputContrasena = String.valueOf(textFieldContrasena.getPassword());
+        	if (inputUsuario.equals("usuario") && inputContrasena.equals("contrasena")) {
+        		System.out.println("Has llegado a la ventana de la aplicacion");
+        		// this.cardLayout.show(this.mainPanel, "");
+        	} else {
+        		JOptionPane.showMessageDialog(null, "La contraseña es incorrecta", "CONTRASEÑA INCORRECTA", JOptionPane.WARNING_MESSAGE, null);
+        	}
+        });
         
-        JButton botonCrearCuenta = new JButton("Crear Cuenta");
-        botonCrearCuenta.setBounds((int) (panelnuevousuario.getWidth() * 0.52), 570, (int) (panelnuevousuario.getWidth() * 0.42), 50);
-        panelnuevousuario.add(botonCrearCuenta);
+        JButton botonOlvidarContrasena = new JButton("¿Has olvidado la contraseña?");
+        botonOlvidarContrasena.setPreferredSize(new Dimension(250, 40));  // Ajusta el tamaño preferido
+        botonOlvidarContrasena.setMaximumSize(new Dimension(250, 40));
+        //Anadimos el listener para que si se pulsa el boton vaya a la pantalla de modificar contrasena
+        botonOlvidarContrasena.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log3"));
+        
+        JButton botonRegistrarse = new JButton("Registrarse");
+        botonRegistrarse.setPreferredSize(new Dimension(150, 40));  // Ajusta el tamaño preferido
+        botonRegistrarse.setMaximumSize(new Dimension(150, 40));
+      //Anadimos el listener para que si se pulsa el boton vaya a la pantalla de modificar contrasena
+        botonRegistrarse.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log2"));
+        
         
         add(panelnuevousuario, BorderLayout.CENTER);
         
