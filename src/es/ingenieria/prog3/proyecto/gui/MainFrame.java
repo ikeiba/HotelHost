@@ -17,6 +17,7 @@ public class MainFrame extends JFrame {
     public MainFrame() {
         // Set up the main frame properties
         setTitle("Hotel Host");
+	setIconImage(new ImageIcon("resources/images/Hotel Host.png").getImage());
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         // el 60% de la pantalla
         setSize(1152, 720); 
