@@ -166,7 +166,6 @@ public class Log2 extends JPanel {
         checkBoxContresena.setBackground(Color.WHITE);
         checkBoxContresena.setIcon(new ImageIcon("resources/images/imagenVer.png"));
         checkBoxContresena.setSelectedIcon(new ImageIcon("resources/images/imagenNoVer.png"));
-        checkBoxContresena.setSelected(true);
         checkBoxContresena.setBounds((int) (panelnuevousuario.getWidth() * 0.81), 500, (int) (panelnuevousuario.getWidth() * 0.22), 50);
         panelnuevousuario.add(checkBoxContresena);
         
