@@ -2,7 +2,6 @@ package es.ingenieria.prog3.proyecto.gui;
 
 
 import java.awt.CardLayout;
-import java.awt.Color;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
