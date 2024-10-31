@@ -3,7 +3,6 @@ package es.ingenieria.prog3.proyecto.gui;
 import java.awt.*;
 import javax.swing.*;
 
-import es.ingenieria.prog3.proyecto.gui.util.JCheckBoxListener;
 import es.ingenieria.prog3.proyecto.gui.util.JPanelBordesRedondos;
 import es.ingenieria.prog3.proyecto.gui.util.JPasswordFieldDefaultText;
 import es.ingenieria.prog3.proyecto.gui.util.JTextFieldDefaultText;
@@ -35,7 +34,7 @@ public class Log1 extends JPanel {
 		//Creamos el logo , elegimos sus dimensiones y lo posicionamos en el lugar elegido
 		JLabel logo = new JLabel();
 		logo.setBounds(0, 0, 300, 225);
-		logo.setBounds((int) ((1152 * 0.25) - (logo.getWidth() / 2)), (int) ((720 * 0.4) - (logo.getHeight() / 2)), logo.getWidth(), logo.getHeight());
+		logo.setBounds((int) ((Preferences.WINDOWWIDTH * 0.25) - (logo.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.4) - (logo.getHeight() / 2)), logo.getWidth(), logo.getHeight());
 		ImageIcon originalIcon = new ImageIcon("resources/images/Hotel Host.png");
 		Image scaledImage = originalIcon.getImage().getScaledInstance(300, 225, Image.SCALE_SMOOTH);
 		ImageIcon resizedIcon = new ImageIcon(scaledImage);
@@ -54,8 +53,8 @@ public class Log1 extends JPanel {
         //Creamos el panel de la parte de la izquierda, el cual contendra el textfield para el email y la contraseña
         //asi como los diferentes botones
         JPanelBordesRedondos panelnuevousuario = new JPanelBordesRedondos(25);
-        panelnuevousuario.setBounds(0, 0, (int) (1152 * 0.4), (int) ((720 * 0.6)));
-        panelnuevousuario.setBounds((int) ((1152 * 0.7) - (panelnuevousuario.getWidth() / 2)), (int) ((720 * 0.5) - (panelnuevousuario.getHeight() / 2)) - 25, panelnuevousuario.getWidth(), panelnuevousuario.getHeight());
+        panelnuevousuario.setBounds(0, 0, (int) (Preferences.WINDOWWIDTH * 0.4), (int) ((Preferences.WINDOWHEIGHT * 0.6)));
+        panelnuevousuario.setBounds((int) ((Preferences.WINDOWWIDTH * 0.7) - (panelnuevousuario.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.5) - (panelnuevousuario.getHeight() / 2)) - 25, panelnuevousuario.getWidth(), panelnuevousuario.getHeight());
         panelnuevousuario.setBackground(Color.WHITE);
         panelnuevousuario.setLayout(null);
         
@@ -82,30 +81,30 @@ public class Log1 extends JPanel {
         barraSeparadora.setOrientation(SwingConstants.HORIZONTAL);
         panelnuevousuario.add(barraSeparadora);
         
-
+        //Creamos el textField para introducir el email (el email es lo necesario para iniciar sesion)
         JTextFieldDefaultText textFieldEmail = new JTextFieldDefaultText("Email");
         textFieldEmail.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 130, (int) (panelnuevousuario.getWidth() * 0.88), 50);
         panelnuevousuario.add(textFieldEmail);
         
-
+        //Creamos el checkbox para poder ver o dejar de ver la contraseña
+        JCheckBox checkBoxContrasena = new JCheckBox();
+        checkBoxContrasena.setBackground(Color.WHITE);
+        checkBoxContrasena.setIcon(new ImageIcon("resources/images/imagenVer.png"));
+        checkBoxContrasena.setSelectedIcon(new ImageIcon("resources/images/imagenNoVer.png"));
+        checkBoxContrasena.setBounds((int) (panelnuevousuario.getWidth() * 0.81), 200, (int) (panelnuevousuario.getWidth() * 0.22), 50);
+        panelnuevousuario.add(checkBoxContrasena);
         
-        JCheckBox checkBoxContresena = new JCheckBox();
-        checkBoxContresena.setBackground(Color.WHITE);
-        checkBoxContresena.setIcon(new ImageIcon("resources/images/imagenVer.png"));
-        checkBoxContresena.setSelectedIcon(new ImageIcon("resources/images/imagenNoVer.png"));
-        checkBoxContresena.setBounds((int) (panelnuevousuario.getWidth() * 0.81), 200, (int) (panelnuevousuario.getWidth() * 0.22), 50);
-        panelnuevousuario.add(checkBoxContresena);
-        
-        JPasswordFieldDefaultText textFieldContrasena = new JPasswordFieldDefaultText("Contraseña", checkBoxContresena);
+        //Creamos el textField para introducir la contraseña 
+        JPasswordFieldDefaultText textFieldContrasena = new JPasswordFieldDefaultText("Contraseña", checkBoxContrasena);
         textFieldContrasena.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 200, (int) (panelnuevousuario.getWidth() * 0.68), 50);
         panelnuevousuario.add(textFieldContrasena);
         
-
-      //Creamos y modificamos los botones de login, de haber olvidado la contrasena y el de registrarse
+        //Creamos y modificamos los botones de login, de cambiar contrasena y el de registrarse
         JButton botonLogin = new JButton("LOG IN");
-        textFieldContrasena.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 200, (int) (panelnuevousuario.getWidth() * 0.68), 50);
-        panelnuevousuario.add(textFieldContrasena);
-      //Anadimos el listener para que si se pulsa el boton vaya a la pantalla de modificar contrasena
+        botonLogin.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 270, (int) (panelnuevousuario.getWidth() * 0.42), 50);
+        panelnuevousuario.add(botonLogin);
+        
+        //Anadimos el listener para que si se pulsa el boton vaya a la pantalla de modificar contrasena
         botonLogin.addActionListener(e -> {
         	String inputUsuario = textFieldEmail.getText();
         	String inputContrasena = String.valueOf(textFieldContrasena.getPassword());
@@ -117,21 +116,28 @@ public class Log1 extends JPanel {
         	}
         });
         
-        JButton botonOlvidarContrasena = new JButton("¿Has olvidado la contraseña?");
-        botonOlvidarContrasena.setPreferredSize(new Dimension(250, 40));  // Ajusta el tamaño preferido
-        botonOlvidarContrasena.setMaximumSize(new Dimension(250, 40));
+        JButton botonOlvidarContrasena = new JButton("Recuperar Contraseña");
+        botonOlvidarContrasena.setBounds((int) (panelnuevousuario.getWidth() * 0.52), 270, (int) (panelnuevousuario.getWidth() * 0.42), 50);
+        panelnuevousuario.add(botonOlvidarContrasena);
+        
         //Anadimos el listener para que si se pulsa el boton vaya a la pantalla de modificar contrasena
         botonOlvidarContrasena.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log3"));
         
         JButton botonRegistrarse = new JButton("Registrarse");
-        botonRegistrarse.setPreferredSize(new Dimension(150, 40));  // Ajusta el tamaño preferido
-        botonRegistrarse.setMaximumSize(new Dimension(150, 40));
-      //Anadimos el listener para que si se pulsa el boton vaya a la pantalla de modificar contrasena
+        botonRegistrarse.setBounds(0, 0, (int) (panelnuevousuario.getWidth()*0.5), 50);
+        botonRegistrarse.setBounds((int) ((panelnuevousuario.getWidth() * 0.5) - (botonRegistrarse.getWidth() / 2)), 360, botonRegistrarse.getWidth(), botonRegistrarse.getHeight());
+        panelnuevousuario.add(botonRegistrarse);
+        //Anadimos el listener para que si se pulsa el boton vaya a la pantalla de modificar contrasena
         botonRegistrarse.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log2"));
         
+        // Creamos una barra horizontal para separar los botones de login y olvidar contraseña del de registrarse
+        JSeparator barraSeparadora2 = new JSeparator();
+        barraSeparadora2.setBounds(0, 0, (int) (panelnuevousuario.getWidth()*0.7), 90);
+        barraSeparadora2.setBounds((int) ((panelnuevousuario.getWidth() * 0.5) - (barraSeparadora2.getWidth() / 2)), 340, barraSeparadora2.getWidth(), barraSeparadora2.getHeight());
+        panelnuevousuario.add(barraSeparadora2);
         
+        //
         add(panelnuevousuario, BorderLayout.CENTER);
-        
 		add(panelCentro, BorderLayout.CENTER); //Añadimos el panel panelCentro al BorderLayout.CENTER del mainPanel
 		
         // Panel principal sur
