@@ -143,8 +143,6 @@ public class Log1 extends JPanel {
         // Panel principal sur
         this.add(new JLabel("Hotel Host® 2024"), BorderLayout.SOUTH);
         
-  
-
 	}
 		
 }
