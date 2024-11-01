@@ -6,7 +6,7 @@ public class Huesped {
 	private static int contador = 1;
 	private int id;
 	private String nombre, apellido;
-	private ArrayList<Rerserva> reservas;
+	private ArrayList<Reserva> reservas;
 	private ArrayList<Valoracion> valoraciones;
 	
 }
