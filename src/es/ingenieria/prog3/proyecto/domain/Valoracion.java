@@ -1,6 +1,5 @@
 package es.ingenieria.prog3.proyecto.domain;
 
-import java.text.DateFormat;
 
 public class Valoracion {
 	private long fecha;
@@ -8,4 +7,16 @@ public class Valoracion {
 	private int puntuacion;
 	private Huesped autor;
 	
+	public long getFecha() {
+		return fecha;
+	}
+	public String getComentario() {
+		return comentario;
+	}
+	public int getPuntuacion() {
+		return puntuacion;
+	}
+	public Huesped getAutor() {
+		return autor;
+	}
 }
