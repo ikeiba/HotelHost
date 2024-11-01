@@ -5,7 +5,6 @@ import java.awt.*;
 import javax.swing.*;
 
 import es.ingenieria.prog3.proyecto.gui.util.JPanelBordesRedondos;
-import es.ingenieria.prog3.proyecto.gui.util.JPasswordFieldDefaultText;
 import es.ingenieria.prog3.proyecto.gui.util.JTextFieldDefaultText;
 import es.ingenieria.prog3.proyecto.gui.util.Preferences;
 
