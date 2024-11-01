@@ -1,6 +1,8 @@
 package es.ingenieria.prog3.proyecto.gui;
 
 import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 import javax.swing.*;
 
@@ -39,7 +41,12 @@ public class Log3 extends JPanel{
 		Image scaledImage = originalIcon.getImage().getScaledInstance(300, 225, Image.SCALE_SMOOTH);
 		ImageIcon resizedIcon = new ImageIcon(scaledImage);
         logo.setIcon(resizedIcon);
-        
+        logo.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	cardLayout.show(mainPanel, "Log1");
+            }
+        }); 
         
         //Creamos el panel de la parte de la izquierda, el cual contendra el textfield para el email y la contraseña
         //asi como los diferentes botones

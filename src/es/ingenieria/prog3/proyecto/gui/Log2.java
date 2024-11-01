@@ -160,14 +160,14 @@ public class Log2 extends JPanel {
         textFieldTelefono.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 440, (int) (panelnuevousuario.getWidth() * 0.88), 50);
         panelnuevousuario.add(textFieldTelefono);
         
-        JCheckBox checkBoxContresena = new JCheckBox();
-        checkBoxContresena.setBackground(Color.WHITE);
-        checkBoxContresena.setIcon(new ImageIcon("resources/images/imagenVer.png"));
-        checkBoxContresena.setSelectedIcon(new ImageIcon("resources/images/imagenNoVer.png"));
-        checkBoxContresena.setBounds((int) (panelnuevousuario.getWidth() * 0.81), 500, (int) (panelnuevousuario.getWidth() * 0.22), 50);
-        panelnuevousuario.add(checkBoxContresena);
+        JCheckBox checkBoxContrasena = new JCheckBox();
+        checkBoxContrasena.setBackground(Color.WHITE);
+        checkBoxContrasena.setIcon(new ImageIcon("resources/images/imagenVer.png"));
+        checkBoxContrasena.setSelectedIcon(new ImageIcon("resources/images/imagenNoVer.png"));
+        checkBoxContrasena.setBounds((int) (panelnuevousuario.getWidth() * 0.81), 500, (int) (panelnuevousuario.getWidth() * 0.22), 50);
+        panelnuevousuario.add(checkBoxContrasena);
         
-        JPasswordFieldDefaultText textFieldContrasena = new JPasswordFieldDefaultText("Contraseña", checkBoxContresena);
+        JPasswordFieldDefaultText textFieldContrasena = new JPasswordFieldDefaultText("Contraseña", checkBoxContrasena);
         textFieldContrasena.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 500, (int) (panelnuevousuario.getWidth() * 0.68), 50);
         panelnuevousuario.add(textFieldContrasena);
         
