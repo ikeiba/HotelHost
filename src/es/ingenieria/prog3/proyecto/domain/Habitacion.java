@@ -1,5 +1,11 @@
 package es.ingenieria.prog3.proyecto.domain;
 
-public class Habitacion {
+import java.util.ArrayList;
 
+public class Habitacion {
+	private int planta;
+	private int numero;
+	private int camas;
+	private TipoHabitacion tipo;
+	private ArrayList<Huesped> huespedes;
 }
