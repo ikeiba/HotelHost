@@ -1,5 +1,6 @@
 package es.ingenieria.prog3.proyecto.domain;
 
+import java.text.DateFormat;
 import java.util.ArrayList;
 
 public class Hotel {
@@ -12,7 +13,8 @@ public class Hotel {
 	private int Estrellas;
 	//private ArrayList<Valoracion> valoraciones;
 	private String descripcion;
-	//private ArrayList<Plan> planes;
+	private ArrayList<Plan> planes;
 	//private ArrayList<Reserva> reservas;
+	 
 	
 }
