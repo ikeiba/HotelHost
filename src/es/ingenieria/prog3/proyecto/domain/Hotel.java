@@ -86,10 +86,11 @@ public class Hotel {
 	}
 
 	
-	
+
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(ciudad, descripcion, estrellas, habitaciones, id, nombre, planes, reservas, valoraciones);
+		return Objects.hash(id);
 	}
 
 
@@ -102,10 +103,7 @@ public class Hotel {
 		if (getClass() != obj.getClass())
 			return false;
 		Hotel other = (Hotel) obj;
-		return Objects.equals(ciudad, other.ciudad) && Objects.equals(descripcion, other.descripcion)
-				&& estrellas == other.estrellas && Objects.equals(habitaciones, other.habitaciones) && id == other.id
-				&& Objects.equals(nombre, other.nombre) && Objects.equals(planes, other.planes)
-				&& Objects.equals(reservas, other.reservas) && Objects.equals(valoraciones, other.valoraciones);
+		return id == other.id;
 	}
 
 

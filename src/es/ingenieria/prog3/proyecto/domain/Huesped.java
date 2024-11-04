@@ -49,9 +49,12 @@ public class Huesped {
 		this.valoraciones = valoraciones;
 	}
 
+	
+	
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(apellido, id, nombre, reservas, valoraciones);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -63,8 +66,7 @@ public class Huesped {
 		if (getClass() != obj.getClass())
 			return false;
 		Huesped other = (Huesped) obj;
-		return Objects.equals(apellido, other.apellido) && id == other.id && Objects.equals(nombre, other.nombre)
-				&& Objects.equals(reservas, other.reservas) && Objects.equals(valoraciones, other.valoraciones);
+		return id == other.id;
 	}
 
 	@Override

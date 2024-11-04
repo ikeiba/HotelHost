@@ -48,9 +48,10 @@ public class Reserva {
 		this.habitacion = habitacion;
 	}
 
+
 	@Override
 	public int hashCode() {
-		return Objects.hash(fecha, habitacion, huespedes, id);
+		return Objects.hash(id);
 	}
 
 	@Override
@@ -62,8 +63,7 @@ public class Reserva {
 		if (getClass() != obj.getClass())
 			return false;
 		Reserva other = (Reserva) obj;
-		return fecha == other.fecha && Objects.equals(habitacion, other.habitacion)
-				&& Objects.equals(huespedes, other.huespedes) && id == other.id;
+		return id == other.id;
 	}
 
 	@Override
