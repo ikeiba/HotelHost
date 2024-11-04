@@ -12,7 +12,6 @@ import es.ingenieria.prog3.proyecto.gui.util.Preferences;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.Random;
 
 @SuppressWarnings("serial")
 public class Log2 extends JPanel {

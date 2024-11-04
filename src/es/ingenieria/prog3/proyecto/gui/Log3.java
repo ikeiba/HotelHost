@@ -3,9 +3,11 @@ package es.ingenieria.prog3.proyecto.gui;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Random;
 
 import javax.swing.*;
 
+import es.ingenieria.prog3.proyecto.gui.util.EmailSender;
 import es.ingenieria.prog3.proyecto.gui.util.JPanelBordesRedondos;
 import es.ingenieria.prog3.proyecto.gui.util.JTextFieldDefaultText;
 import es.ingenieria.prog3.proyecto.gui.util.Preferences;
@@ -101,16 +103,45 @@ public class Log3 extends JPanel{
         botonAceptar.setBounds((int) (panelnuevousuario.getWidth() * 0.52), 270, (int) (panelnuevousuario.getWidth() * 0.42), 50);
         panelnuevousuario.add(botonAceptar);
         
-        //Anadimos el listener para que si se pulsa el boton vaya a la pantalla de modificar contrasena
+        // Define an array of strings to match against
+        String[] stringArray = {"@gmail.com", "@opendeusto.es", "@deusto.es"};
+
+        // Add an ActionListener to the button as a lambda
         botonAceptar.addActionListener(e -> {
-        	String inputEmail = textFieldEmail.getText();
-        	String inputTelefono = String.valueOf(textFieldTelefono.getText());
-        	if (inputEmail.equals("Email") && inputTelefono.equals("Teléfono")) {
-        		System.out.println("Has llegado a la ventana de la aplicacion");
-        		this.cardLayout.show(this.mainPanel, "Log4");
-        	} else {
-        		JOptionPane.showMessageDialog(null, "La contraseña es incorrecta", "CONTRASEÑA INCORRECTA", JOptionPane.ERROR_MESSAGE, null);
-        	}
+            String inputText = textFieldEmail.getText();
+            
+            // Check if inputText contains any part of the strings in stringArray
+            boolean matchFound = false;
+            for (String str : stringArray) {
+                if (inputText.contains(str)) {
+                    matchFound = true;
+                    break;
+                }
+            }
+
+            if (matchFound) {
+                // Show JOptionPane with "Accept" and "Cancel" options
+                int option = JOptionPane.showOptionDialog(
+                		(JFrame) SwingUtilities.getWindowAncestor(botonAceptar),
+                        "Crear Cuenta",
+                        "Estás seguro que quieres crear un cuenta?",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        new String[]{"Aceptar", "Cancelar"},
+                        null
+                );
+
+                // If "Accept" is chosen, execute functions
+                if (option == JOptionPane.YES_OPTION) {
+                    Random random = new Random();
+                    int codigo = 100000 + random.nextInt(900000);
+                    EmailSender.sendEmail(textFieldEmail.getText(), "Código de confirmación de reinicio de contraseña", "Tu codigo es: " + codigo);
+                    this.cardLayout.show(this.mainPanel, "Log5");
+                    Log5.setCodigo(codigo);
+                }
+                // "Cancel" will close the dialog automatically
+            }
         });
         
         // Creamos una barra horizontal para separar los botones de login y olvidar contraseña del de registrarse
