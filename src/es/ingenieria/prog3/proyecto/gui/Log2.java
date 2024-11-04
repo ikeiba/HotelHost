@@ -2,6 +2,7 @@ package es.ingenieria.prog3.proyecto.gui;
 
 import javax.swing.*;
 
+import es.ingenieria.prog3.proyecto.gui.util.EmailSender;
 import es.ingenieria.prog3.proyecto.gui.util.JCheckBoxListener;
 import es.ingenieria.prog3.proyecto.gui.util.JTextFieldDefaultText;
 import es.ingenieria.prog3.proyecto.gui.util.JPanelBordesRedondos;
@@ -11,6 +12,7 @@ import es.ingenieria.prog3.proyecto.gui.util.Preferences;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Random;
 
 @SuppressWarnings("serial")
 public class Log2 extends JPanel {
@@ -179,6 +181,46 @@ public class Log2 extends JPanel {
         JButton botonCrearCuenta = new JButton("Crear Cuenta");
         botonCrearCuenta.setBounds((int) (panelnuevousuario.getWidth() * 0.52), 570, (int) (panelnuevousuario.getWidth() * 0.42), 50);
         panelnuevousuario.add(botonCrearCuenta);
+        
+        // Define an array of strings to match against
+        String[] stringArray = {"@gmail.com", "@opendeusto.es", "@deusto.es"};
+
+        // Add an ActionListener to the button as a lambda
+        botonCrearCuenta.addActionListener(e -> {
+            String inputText = textFieldEmail.getText();
+            
+            // Check if inputText contains any part of the strings in stringArray
+            boolean matchFound = false;
+            for (String str : stringArray) {
+                if (inputText.contains(str)) {
+                    matchFound = true;
+                    break;
+                }
+            }
+
+            if (matchFound) {
+                // Show JOptionPane with "Accept" and "Cancel" options
+                int option = JOptionPane.showOptionDialog(
+                		(JFrame) SwingUtilities.getWindowAncestor(botonCrearCuenta),
+                        "Crear Cuenta",
+                        "Estás seguro que quieres crear un cuenta?",
+                        JOptionPane.YES_NO_OPTION,
+                        JOptionPane.QUESTION_MESSAGE,
+                        null,
+                        new String[]{"Aceptar", "Cancelar"},
+                        null
+                );
+
+                // If "Accept" is chosen, execute functions
+                if (option == JOptionPane.YES_OPTION) {
+                	Random random = new Random();
+                	int codigo = 100000 + random.nextInt(900000);
+                    EmailSender.sendEmail(textFieldEmail.getText(), "Código de confirmación", "Tu código de confirmación es: " + codigo);
+                }
+                // "Cancel" will close the dialog automatically
+            }
+        });
+
         
         add(panelnuevousuario, BorderLayout.CENTER);
         
