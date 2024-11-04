@@ -11,7 +11,7 @@ public class EmailSender {
     private static final String SMTP_SERVER = "smtp.sendgrid.net"; // SendGrid's SMTP server
     private static final String SMTP_PORT = "587"; // Use port 587 for TLS, or 465 for SSL
     private static final String USERNAME = "apikey"; // Use "apikey" as the username for SendGrid
-    private static final String PASSWORD = "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"; // Replace with your SendGrid API key
+    private static final String PASSWORD = "SG.cItFsi9cQFmmIO08hcqK8g.pvPg" + "LJ7pQKJrVIsSmnV8L7n-3AJZ9b002aXz3cxB5Ls"; // Replace with your SendGrid API key
 
     /**
      * Sends an email with the specified parameters.
