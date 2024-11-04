@@ -202,7 +202,7 @@ public class Log2 extends JPanel {
                 int option = JOptionPane.showOptionDialog(
                 		(JFrame) SwingUtilities.getWindowAncestor(botonCrearCuenta),
                         "Crear Cuenta",
-                        "Estás seguro que quieres crear un cuenta?",
+                        "Quieres confirmar crear una nueva cuenta?",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE,
                         null,
