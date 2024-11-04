@@ -123,8 +123,8 @@ public class Log3 extends JPanel{
                 // Show JOptionPane with "Accept" and "Cancel" options
                 int option = JOptionPane.showOptionDialog(
                 		(JFrame) SwingUtilities.getWindowAncestor(botonAceptar),
-                        "Crear Cuenta",
-                        "Estás seguro que quieres crear un cuenta?",
+                        "Reiniciar Contraseña",
+                        "Quieres confirmar reiniciar tu contraseña?",
                         JOptionPane.YES_NO_OPTION,
                         JOptionPane.QUESTION_MESSAGE,
                         null,
