@@ -106,9 +106,9 @@ public class Log1 extends JPanel {
         botonLogin.addActionListener(e -> {
         	String inputUsuario = textFieldEmail.getText();
         	String inputContrasena = String.valueOf(textFieldContrasena.getPassword());
-        	if (inputUsuario.equals("usuario") && inputContrasena.equals("contrasena")) {
+        	if (inputUsuario.equals("Email") && inputContrasena.equals("123")) {
         		System.out.println("Has llegado a la ventana de la aplicacion");
-        		// this.cardLayout.show(this.mainPanel, "");
+        		this.cardLayout.show(this.mainPanel, "Home");
         	} else {
         		JOptionPane.showMessageDialog(null, "La contraseña es incorrecta", "CONTRASEÑA INCORRECTA", JOptionPane.ERROR_MESSAGE, null);
         	}
