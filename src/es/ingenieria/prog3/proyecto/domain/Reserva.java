@@ -1,6 +1,7 @@
 package es.ingenieria.prog3.proyecto.domain;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 public class Reserva {
 	
@@ -11,6 +12,17 @@ public class Reserva {
 	private Habitacion habitacion;
 	
 	
+	
+	public Reserva(ArrayList<Huesped> huespedes, long fecha, Habitacion habitacion) {
+		super();
+		
+		this.id = contador;
+		Reserva.contador ++;
+		this.huespedes = huespedes;
+		this.fecha = fecha;
+		this.habitacion = habitacion;
+	}
+
 	public int getId() {
 		return id;
 	}
@@ -36,5 +48,29 @@ public class Reserva {
 		this.habitacion = habitacion;
 	}
 
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(id);
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Reserva other = (Reserva) obj;
+		return id == other.id;
+	}
+
+	@Override
+	public String toString() {
+		return String.valueOf(this.getHabitacion().getNumero());
+	}
+	
+	
 	
 }
