@@ -111,24 +111,8 @@ public class Log5 extends JPanel{
         
         //Anadimos el listener para que si se pulsa el boton vaya a la pantalla de modificar contrasena
         botonAceptar.addActionListener(e -> {
-            if (textFieldCodigo.getText().equals(codigo)) {
-                // Show JOptionPane with "Accept" and "Cancel" options
-                int option = JOptionPane.showOptionDialog(
-                		(JFrame) SwingUtilities.getWindowAncestor(botonAceptar),
-                        "Crear Cuenta",
-                        "Estás seguro que quieres crear un cuenta?",
-                        JOptionPane.YES_NO_OPTION,
-                        JOptionPane.QUESTION_MESSAGE,
-                        null,
-                        new String[]{"Aceptar", "Cancelar"},
-                        null
-                );
-
-                // If "Accept" is chosen, execute functions
-                if (option == JOptionPane.YES_OPTION) {
-                	this.cardLayout.show(this.mainPanel, "Log4");
-                }
-                // "Cancel" will close the dialog automatically
+            if (textFieldCodigo.getText().equals(Integer.toString(codigo))) {
+            	this.cardLayout.show(this.mainPanel, "Log4");
             }
         });
         
