@@ -5,22 +5,3 @@
 
 # Código compilado
 bin/
-
-# Ignorar archivos de configuración sensibles
-# Ignorar todos los archivos que terminen en .env, .config, o .properties
-*.env
-*.config
-*.properties
-
-# Ignorar cualquier archivo que contenga 'secret' o 'key' en su nombre
-*secret*
-*key*
-
-# Ignorar archivos de configuración de API
-api_config.*
-secret_api.*
-
-# Ignorar directorios comunes de configuración
-config/
-settings/
-secrets/
