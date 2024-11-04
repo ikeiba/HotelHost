@@ -213,9 +213,7 @@ public class Log2 extends JPanel {
 
                 // If "Accept" is chosen, execute functions
                 if (option == JOptionPane.YES_OPTION) {
-                	Random random = new Random();
-                	int codigo = 100000 + random.nextInt(900000);
-                    EmailSender.sendEmail(textFieldEmail.getText(), "Código de confirmación", "Tu código de confirmación es: " + codigo);
+                    EmailSender.sendEmail(textFieldEmail.getText(), "Te damos la bienvenida a HotelHost", "Si has recibido este email, eso significa que tu cuenta se ha creado correctamente");
                 }
                 // "Cancel" will close the dialog automatically
             }
