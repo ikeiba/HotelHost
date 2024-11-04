@@ -27,7 +27,8 @@ public class JPasswordFieldDefaultText extends JPasswordField {
         
         // Focus listener to handle placeholder display
         addFocusListener(new FocusListener() {
-            @Override
+            @SuppressWarnings("deprecation")
+			@Override
             public void focusGained(FocusEvent e) {
                 if (getText().equals(placeholder)) {
                     setText("");
@@ -36,7 +37,8 @@ public class JPasswordFieldDefaultText extends JPasswordField {
                 }
             }
 
-            @Override
+            @SuppressWarnings("deprecation")
+			@Override
             public void focusLost(FocusEvent e) {
                 if (getText().isEmpty()) {
                     setEchoChar((char) 0);
@@ -48,7 +50,8 @@ public class JPasswordFieldDefaultText extends JPasswordField {
 
         // Action listener for the visibility toggle checkbox
         visibilityCheckBox.addActionListener(new ActionListener() {
-            @Override
+            @SuppressWarnings("deprecation")
+			@Override
             public void actionPerformed(ActionEvent e) {
                 if (getText().equals(placeholder)) {
                     setEchoChar((char) 0); // Keep placeholder visible without hiding characters
