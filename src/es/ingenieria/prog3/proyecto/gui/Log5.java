@@ -23,7 +23,6 @@ public class Log5 extends JPanel{
 	}
 
 	//Clase basada en la clase log1
-	@SuppressWarnings("unlikely-arg-type")
 	public Log5(CardLayout cardLayout, JPanel mainPanel) {
 		
 		this.cardLayout = cardLayout;
