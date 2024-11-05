@@ -2,6 +2,7 @@ package es.ingenieria.prog3.proyecto.gui;
 
 
 import java.awt.CardLayout;
+import java.awt.KeyboardFocusManager;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -41,6 +42,10 @@ public class MainFrame extends JFrame {
 
         // Set frame visible
         setVisible(true);
+        
+        // Set initial focus to nothing
+    	this.getRootPane().requestFocusInWindow();
+    	KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
         }
 }
 
