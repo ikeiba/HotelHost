@@ -3,6 +3,8 @@ package es.ingenieria.prog3.proyecto.gui.util;
 import javax.swing.*;
 import java.awt.*;
 
+// IAG: CHATGPT (Toda la clase)
+// Modificación: Si
 @SuppressWarnings("serial")
 public class JSeparatorPunteada extends JSeparator {
 
@@ -25,6 +27,3 @@ public class JSeparatorPunteada extends JSeparator {
         }
     }
 }
-
-// IAG: CHATGPT (Toda la clase)
-// Modificación: Si

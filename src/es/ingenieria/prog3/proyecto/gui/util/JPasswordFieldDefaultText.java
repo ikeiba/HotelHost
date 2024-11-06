@@ -7,6 +7,8 @@ import java.awt.event.FocusListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// IAG: CHATGPT (Toda la clase)
+// Modificación: Si
 @SuppressWarnings("serial")
 public class JPasswordFieldDefaultText extends JPasswordField {
     @SuppressWarnings("unused")
@@ -61,6 +63,3 @@ public class JPasswordFieldDefaultText extends JPasswordField {
         });
     }
 }
-
-// IAG: CHATGPT (Toda la clase)
-// Modificación: Si

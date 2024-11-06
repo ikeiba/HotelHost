@@ -4,6 +4,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+// IAG: CHATGPT (Toda la clase)
+// Modificación: Si
 public class JCheckBoxListener implements ActionListener {
     private final JCheckBox[] checkboxes;
 
@@ -42,6 +44,3 @@ public class JCheckBoxListener implements ActionListener {
         return -1;  // Return -1 if no checkbox is selected
     }
 }
-
-// IAG: CHATGPT (Toda la clase)
-// Modificación: Si
