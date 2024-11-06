@@ -4,21 +4,21 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Habitacion {
-	private int planta, numero, camas;
+	private int planta, numero, capacidad;
 	private TipoHabitacion tipo;
 	private ArrayList<Huesped> huespedes;
 	private double precio;
 	
 	
 
-	public Habitacion(int planta, int numero, int camas, TipoHabitacion tipo, ArrayList<Huesped> huespedes, double precio) {
+	public Habitacion(int planta, int numero, int capacidad, TipoHabitacion tipo, ArrayList<Huesped> huespedes, double precio) {
 		super();
 		this.planta = planta;
 		this.numero = numero;
-		this.camas = camas;
+		this.capacidad = capacidad;
 		this.tipo = tipo;
 		this.huespedes = huespedes;
-		this.precio = precio;
+		this.precio = precio + calculoSuplemento(tipo, precio);
 	}
 
 	public int getPlanta() {
@@ -34,7 +34,7 @@ public class Habitacion {
 	}
 	
 	public int getCamas() {
-		return camas;
+		return capacidad;
 	}
 	
 	public TipoHabitacion getTipo() {
@@ -51,7 +51,7 @@ public class Habitacion {
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(camas, huespedes, numero, planta, tipo);
+		return Objects.hash(capacidad, huespedes, numero, planta, tipo);
 	}
 
 	@Override
@@ -63,13 +63,31 @@ public class Habitacion {
 		if (getClass() != obj.getClass())
 			return false;
 		Habitacion other = (Habitacion) obj;
-		return camas == other.camas && Objects.equals(huespedes, other.huespedes) && numero == other.numero
+		return capacidad == other.capacidad && Objects.equals(huespedes, other.huespedes) && numero == other.numero
 				&& planta == other.planta && tipo == other.tipo;
 	}
 
 	@Override
 	public String toString() {
 		return String.valueOf(this.getNumero());
+	}
+	
+	public double calculoSuplemento(TipoHabitacion tipo, double precio) {
+		switch (tipo) {
+			case SUITE: {
+				return (precio * 0.5);
+			}
+			case DOBLE: {
+				return (precio * 0.2);
+			}
+			case PREMIUM: {
+				return (precio * 0.7);
+			}
+			case SIMPLE: {
+				return (precio * 0.1);
+			}
+		}
+		return 0;
 	}
 	
 	
