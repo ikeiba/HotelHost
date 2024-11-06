@@ -119,7 +119,7 @@ public class Log1 extends JPanel {
         panelnuevousuario.add(botonOlvidarContrasena);
         
         //Anadimos el listener para que si se pulsa el boton vaya a la pantalla de modificar contrasena
-        botonOlvidarContrasena.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Log3"));
+        botonOlvidarContrasena.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Busqueda"));
         
         JButton botonRegistrarse = new JButton("Registrarse");
         botonRegistrarse.setBounds(0, 0, (int) (panelnuevousuario.getWidth()*0.5), 50);
