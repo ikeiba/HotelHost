@@ -111,7 +111,7 @@ public class Hotel {
 	}
 	 
 	
-	public double precioMinimo() {
+	public double getPrecioMinimo() {
 		double precioMin = Double.POSITIVE_INFINITY;
 		
 		for (Habitacion habitacion : habitaciones) {
@@ -121,6 +121,18 @@ public class Hotel {
 		}
 		
 		return precioMin;
+	}
+	
+	public double getPrecioMaximo() {
+		double precioMax = Double.NEGATIVE_INFINITY;
+		
+		for (Habitacion habitacion : habitaciones) {
+			if (habitacion.getPrecio() < precioMax) {
+				precioMax = habitacion.getPrecio();
+			}
+		}
+		
+		return precioMax;
 	}
 	
 }
