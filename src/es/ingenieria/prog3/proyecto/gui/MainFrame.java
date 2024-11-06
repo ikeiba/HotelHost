@@ -34,6 +34,8 @@ public class MainFrame extends JFrame {
         mainPanel.add(new Log4(cardLayout, mainPanel), "Log4");
         mainPanel.add(new Log5(cardLayout, mainPanel), "Log5");
         mainPanel.add(new Home(cardLayout, mainPanel), "Home");
+        mainPanel.add(new Busqueda(cardLayout, mainPanel), "Busqueda");
+
         
         // Añadir el mainPanel al JFrame
         this.add(mainPanel);
