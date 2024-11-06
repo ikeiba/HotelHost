@@ -43,5 +43,5 @@ public class JCheckBoxListener implements ActionListener {
     }
 }
 
-//IAG: CHATGPT (Toda la clase)
-//Modificación: Si
+// IAG: CHATGPT (Toda la clase)
+// Modificación: Si

@@ -46,5 +46,5 @@ public class JTextFieldDefaultText extends JTextField {
     }
 }
 
-//IAG: CHATGPT (Toda la clase)
-//Modificación: Si
+// IAG: CHATGPT (Toda la clase)
+// Modificación: Si

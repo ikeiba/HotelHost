@@ -26,5 +26,5 @@ public class JSeparatorPunteada extends JSeparator {
     }
 }
 
-//IAG: CHATGPT (Toda la clase)
-//Modificación: Si
+// IAG: CHATGPT (Toda la clase)
+// Modificación: Si

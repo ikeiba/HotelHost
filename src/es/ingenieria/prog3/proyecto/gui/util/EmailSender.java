@@ -47,5 +47,5 @@ public class EmailSender {
     }
 }
 
-//IAG: CHATGPT (Toda la clase)
-//Modificación: Si
+// IAG: CHATGPT (Toda la clase)
+// Modificación: Si

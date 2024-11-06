@@ -54,5 +54,5 @@ public class JPanelBordesRedondos extends JPanel {
     }
 }
 
-//IAG: CHATGPT (Toda la clase)
-//Modificación: Si
+// IAG: CHATGPT (Toda la clase)
+// Modificación: Si

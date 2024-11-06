@@ -62,5 +62,5 @@ public class JPasswordFieldDefaultText extends JPasswordField {
     }
 }
 
-//IAG: CHATGPT (Toda la clase)
-//Modificación: Si
+// IAG: CHATGPT (Toda la clase)
+// Modificación: Si
