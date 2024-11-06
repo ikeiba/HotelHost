@@ -7,10 +7,11 @@ public class Habitacion {
 	private int planta, numero, camas;
 	private TipoHabitacion tipo;
 	private ArrayList<Huesped> huespedes;
+	private double precio;
 	
 	
 
-	public Habitacion(int planta, int numero, int camas, TipoHabitacion tipo, ArrayList<Huesped> huespedes) {
+	public Habitacion(int planta, int numero, int camas, TipoHabitacion tipo, ArrayList<Huesped> huespedes, double precio) {
 		super();
 		this.planta = planta;
 		this.numero = numero;
@@ -25,6 +26,10 @@ public class Habitacion {
 	
 	public int getNumero() {
 		return numero;
+	}
+	
+	public double getPrecio() {
+		return precio;
 	}
 	
 	public int getCamas() {
@@ -65,5 +70,6 @@ public class Habitacion {
 	public String toString() {
 		return String.valueOf(this.getNumero());
 	}
+	
 	
 }

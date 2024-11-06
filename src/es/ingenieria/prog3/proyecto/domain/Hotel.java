@@ -85,8 +85,6 @@ public class Hotel {
 		this.reservas = reservas;
 	}
 
-	
-
 
 	@Override
 	public int hashCode() {
@@ -113,5 +111,17 @@ public class Hotel {
 	}
 	 
 	
+	public double precioMinimo() {
+		double precioMin = Double.POSITIVE_INFINITY;
+		
+		for (Habitacion habitacion : habitaciones) {
+			if (habitacion.getPrecio() < precioMin) {
+				precioMin = habitacion.getPrecio();
+			}
+		}
+		
+		return precioMin;
+	}
 	
 }
+
