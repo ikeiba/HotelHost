@@ -42,10 +42,9 @@ public class MainFrame extends JFrame {
         setVisible(true);
         
         // Cambiar el focus para no centrarse en nada
+        //IAG: CHATGPT (Próximas 2 líneas)
+        //Modificación: Si
     	this.getRootPane().requestFocusInWindow();
     	KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
         }
 }
-
-//IAG: CHATGPT (Lineas 46-47)
-//Modificación: Si
