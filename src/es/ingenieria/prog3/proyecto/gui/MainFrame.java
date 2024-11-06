@@ -1,6 +1,5 @@
 package es.ingenieria.prog3.proyecto.gui;
 
-
 import java.awt.CardLayout;
 import java.awt.KeyboardFocusManager;
 
