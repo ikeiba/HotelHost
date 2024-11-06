@@ -8,6 +8,9 @@ import java.awt.geom.RoundRectangle2D;
 
 import javax.swing.JPanel;
 
+
+// IAG: CHATGPT (Toda la clase)
+// Modificación: Si
 @SuppressWarnings("serial")
 public class JPanelBordesRedondos extends JPanel {
     private int cornerRadius;
