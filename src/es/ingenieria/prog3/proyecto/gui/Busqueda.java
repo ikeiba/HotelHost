@@ -13,6 +13,7 @@ import javax.swing.SwingConstants;
 
 import es.ingenieria.prog3.proyecto.gui.util.JPanelBordesRedondos;
 import es.ingenieria.prog3.proyecto.gui.util.Preferences;
+import es.ingenieria.prog3.proyecto.gui.util.RangeSlider;
 
 public class Busqueda extends JPanel {
 
@@ -54,33 +55,31 @@ public class Busqueda extends JPanel {
         // Queria crear un JSlider con dos "cabezas", y al no encontrar una clase así 
         // pregunte a chatGPT si existia. Me dio la opcion de utilizar una libreria externa como
         // SwingX o aplicar dos sliders. Con su ayuda, implemente la segunda opcion:
-        JSlider sliderIzquierda = new JSlider(0, 100, 25); // Minimum thumb
-        JSlider sliderDerecha = new JSlider(0, 100, 75); // Maximum thumb
+        RangeSlider sliderPrecio = new RangeSlider(1, 100);
+        sliderPrecio.setBounds(0, 0, (int) (panelFiltro.getWidth()*0.6), 20);
+        sliderPrecio.setBounds((int) (panelFiltro.getWidth()*0.5 - (sliderPrecio.getWidth() / 2)), 60, sliderPrecio.getWidth(), sliderPrecio.getHeight());
+        sliderPrecio.setBackground(Color.WHITE);
+        sliderPrecio.setFocusable(false);
 
-        // Sincronizar ambos sliders para que el minimo no pueda ser mayor al maximo
-        sliderIzquierda.addChangeListener(e -> {
-            if (sliderIzquierda.getValue() > sliderDerecha.getValue()) {
-                sliderIzquierda.setValue(sliderDerecha.getValue());
-            }
-        });
-
-        sliderDerecha.addChangeListener(e -> {
-            if (sliderDerecha.getValue() < sliderIzquierda.getValue()) {
-                sliderDerecha.setValue(sliderIzquierda.getValue());
-            }
+        // Creamos un label para mostrar en que rango de precios se encuentra 
+        JLabel labelPrecioActual = new JLabel();
+        labelPrecioActual.setHorizontalAlignment(SwingConstants.LEFT);
+        labelPrecioActual.setVerticalAlignment(SwingConstants.TOP);
+        labelPrecioActual.setBounds(0, 0, panelFiltro.getWidth(), 150);
+        labelPrecioActual.setBounds((int) (sliderPrecio.getWidth()*0.35), 80, labelPrecioActual.getWidth(), labelPrecioActual.getHeight());
+        
+        // Listener que actualiza en que rango de precios se encuentra
+        sliderPrecio.addChangeListener(e -> {
+        	labelPrecioActual.setText("Precio minimo: " + sliderPrecio.getMinRange() + ", Precio maximo: " + sliderPrecio.getMaxRange());
         });
         
-        sliderIzquierda.setBounds(15, 220, panelFiltro.getWidth() - 150, 30);
-        sliderIzquierda.setFont(Preferences.FONT);
-        sliderDerecha.setBounds(15, 220, panelFiltro.getWidth() - 150, 30);
-        sliderDerecha.setFont(Preferences.FONT);
-		
-        JLayeredPane layeredPane = new JLayeredPane();
-        layeredPane.setPreferredSize(new Dimension(300, 300));
-        layeredPane.add(sliderIzquierda, JLayeredPane.DEFAULT_LAYER);
-        layeredPane.add(sliderDerecha, JLayeredPane.PALETTE_LAYER);
+        //Anadimos el label y el slider al panel del filro
+        panelFiltro.add(labelPrecioActual);
+        panelFiltro.add(sliderPrecio);
         
-        panelCentro.add(layeredPane);
+        
+       
+        
         //Añadimos los componentes al panelCentro y el panelCentro al centro del Panel de la clase (this)
         panelCentro.add(panelFiltro);
 
