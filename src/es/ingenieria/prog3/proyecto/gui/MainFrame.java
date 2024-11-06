@@ -2,10 +2,13 @@ package es.ingenieria.prog3.proyecto.gui;
 
 import java.awt.CardLayout;
 import java.awt.KeyboardFocusManager;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
+
+import es.ingenieria.prog3.proyecto.domain.Hotel;
 
 public class MainFrame extends JFrame {
 	   
@@ -42,6 +45,16 @@ public class MainFrame extends JFrame {
         
         // Mostrar el JFrame
         setVisible(true);
+        
+        
+        //CARGAR DATOS
+        ArrayList<Hotel> hoteles = Hotel.cargarHoteles("resources/data/Hoteles.csv");
+        for (Hotel hotel : hoteles) {
+			
+			System.out.println(hotel.getNombre());
+		}
+        
+        
         
         // Cambiar el focus para no centrarse en nada
         // IAG: CHATGPT (Próximas 2 líneas)
