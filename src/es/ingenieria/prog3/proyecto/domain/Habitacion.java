@@ -8,10 +8,11 @@ public class Habitacion {
 	private TipoHabitacion tipo;
 	private ArrayList<Huesped> huespedes;
 	private double precio;
+	private Hotel hotel;
 	
 	
 
-	public Habitacion(int planta, int numero, int capacidad, TipoHabitacion tipo, ArrayList<Huesped> huespedes, double precio) {
+	public Habitacion(int planta, int numero, int capacidad, TipoHabitacion tipo, ArrayList<Huesped> huespedes, double precio, Hotel hotel) {
 		super();
 		this.planta = planta;
 		this.numero = numero;
@@ -27,6 +28,10 @@ public class Habitacion {
 	
 	public int getNumero() {
 		return numero;
+	}
+	
+	public Hotel getHotel() {
+		return hotel;
 	}
 	
 	public double getPrecio() {
