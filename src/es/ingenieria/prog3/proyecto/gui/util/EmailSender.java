@@ -5,8 +5,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-//IAG: CHATGPT (Toda la clase)
-//Modificación: Si
 public class EmailSender {
 
     private static final String SMTP_SERVER = "smtp.sendgrid.net"; // SendGrid's SMTP server
@@ -48,3 +46,6 @@ public class EmailSender {
         }
     }
 }
+
+//IAG: CHATGPT (Toda la clase)
+//Modificación: Si

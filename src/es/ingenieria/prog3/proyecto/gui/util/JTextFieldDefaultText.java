@@ -5,8 +5,6 @@ import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-//IAG: CHATGPT (Toda la clase)
-//Modificación: Si
 @SuppressWarnings("serial")
 public class JTextFieldDefaultText extends JTextField {
     @SuppressWarnings("unused")
@@ -47,3 +45,6 @@ public class JTextFieldDefaultText extends JTextField {
         setForeground(Color.GRAY);
     }
 }
+
+//IAG: CHATGPT (Toda la clase)
+//Modificación: Si
