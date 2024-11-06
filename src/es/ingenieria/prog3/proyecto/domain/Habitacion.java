@@ -18,6 +18,7 @@ public class Habitacion {
 		this.camas = camas;
 		this.tipo = tipo;
 		this.huespedes = huespedes;
+		this.precio = precio;
 	}
 
 	public int getPlanta() {
