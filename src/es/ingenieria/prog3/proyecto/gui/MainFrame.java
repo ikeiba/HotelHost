@@ -15,7 +15,7 @@ public class MainFrame extends JFrame {
     private JPanel mainPanel;
 
     public MainFrame() {
-    	// Parametros iniciales
+    	// Parametros del JFrame
         setTitle("Hotel Host"); // Cambiar el título
         setIconImage(new ImageIcon("resources/images/Hotel Host.png").getImage()); // Cambiar el Logo de la ventana y barra de tareas
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
