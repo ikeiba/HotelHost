@@ -5,7 +5,8 @@ import java.awt.*;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
-//Esta clase ha sido generada por CHATGPT
+//IAG: CHATGPT (Toda la clase)
+//Modificación: Si
 @SuppressWarnings("serial")
 public class JTextFieldDefaultText extends JTextField {
     @SuppressWarnings("unused")

@@ -4,7 +4,8 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-//Esta clase ha sido generada por CHATGPT
+//IAG: CHATGPT (Toda la clase)
+//Modificación: Si
 public class JCheckBoxListener implements ActionListener {
     private final JCheckBox[] checkboxes;
 

@@ -5,22 +5,14 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
-//Esta clase ha sido generada por CHATGPT
+//IAG: CHATGPT (Toda la clase)
+//Modificación: Si
 public class EmailSender {
 
     private static final String SMTP_SERVER = "smtp.sendgrid.net"; // SendGrid's SMTP server
     private static final String SMTP_PORT = "587"; // Use port 587 for TLS, or 465 for SSL
-    private static final String USERNAME = "apikey"; // Use "apikey" as the username for SendGrid
-    private static final String PASSWORD = "SG.cItFsi9cQFmmIO08hcqK8g.pvPg" + "LJ7pQKJrVIsSmnV8L7n-3AJZ9b002aXz3cxB5Ls"; // Replace with your SendGrid API key
-
-    /**
-     * Sends an email with the specified parameters.
-     *
-     * @param fromEmail       The email address to send from.
-     * @param toEmail         The recipient's email address.
-     * @param subject         The subject of the email.
-     * @param messageContent  The content of the email.
-     */
+    private static final String USERNAME = "apikey";
+    private static final String PASSWORD = "SG.cItFsi9cQFmmIO08hcqK8g.pvPg" + "LJ7pQKJrVIsSmnV8L7n-3AJZ9b002aXz3cxB5Ls";
     
     public static void sendEmail(String toEmail, String subject, String messageContent) {
         // Configure SMTP server settings
