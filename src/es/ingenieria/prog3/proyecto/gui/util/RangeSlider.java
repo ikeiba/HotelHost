@@ -94,7 +94,7 @@ public class RangeSlider extends JSlider {
         g2.fillRect(0, getHeight() / 2 - 2, getWidth(), 4); // Whole track
 
         // Highlight the selected range
-        g2.setColor(Color.MAGENTA);
+        g2.setColor(Color.ORANGE);
         g2.fillRect(minThumbPos, getHeight() / 2 - 2, maxThumbPos - minThumbPos, 4);
 
         // Draw the thumbs
@@ -103,9 +103,9 @@ public class RangeSlider extends JSlider {
     }
 
     private void drawThumb(Graphics2D g2, int x, Color color) {
-        int thumbSize = 10;
+        int thumbSize = 15;
         g2.setColor(color);
-        g2.fillOval(x - thumbSize / 2, getHeight() / 2 - thumbSize / 2, thumbSize, thumbSize);
+        g2.fillRect(x - thumbSize / 2, getHeight() / 2 - thumbSize / 2, thumbSize, thumbSize);
     }
 
     public int getMinRange() {

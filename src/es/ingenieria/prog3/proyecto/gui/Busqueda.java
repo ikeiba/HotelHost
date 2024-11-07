@@ -3,14 +3,20 @@ package es.ingenieria.prog3.proyecto.gui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SwingConstants;
+import javax.swing.table.TableColumnModel;
 
+import es.ingenieria.prog3.proyecto.domain.Hotel;
 import es.ingenieria.prog3.proyecto.gui.util.JPanelBordesRedondos;
 import es.ingenieria.prog3.proyecto.gui.util.Preferences;
 import es.ingenieria.prog3.proyecto.gui.util.RangeSlider;
@@ -19,13 +25,20 @@ public class Busqueda extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	
+	@SuppressWarnings("unused")
 	private CardLayout cardLayout;
-    private JPanel mainPanel;
+    @SuppressWarnings("unused")
+	private JPanel mainPanel;
+    //Lista de hoteles a renderizar en la tabla
+    private ArrayList<Hotel> hoteles;
+    //Tabla de hoteles
+    private JTable tablaHoteles = new JTable();
 	
-	public Busqueda(CardLayout cardLayout, JPanel mainPanel) {
+	public Busqueda(CardLayout cardLayout, JPanel mainPanel, ArrayList<Hotel> hoteles) {
 		
 		this.cardLayout = cardLayout;
 		this.mainPanel = mainPanel;
+		this.hoteles = hoteles;
 		
 		//Ponemos el fondo del panel blanco y le asignamos el border layout como layoutManager
 		this.setBackground(Color.WHITE);
@@ -77,17 +90,72 @@ public class Busqueda extends JPanel {
         panelFiltro.add(labelPrecioActual);
         panelFiltro.add(sliderPrecio);
         
-        
+
+        //Creamos el panel para la tabla y añadimos la tabla al panel
+        JScrollPane panelScrollTablaHoteles = new JScrollPane(tablaHoteles);
+        tablaHoteles.setRowHeight(45);
+        panelScrollTablaHoteles.setBounds(0, 0, (int) (Preferences.WINDOWWIDTH * 0.5), (int) ((Preferences.WINDOWHEIGHT * 0.9)));
+        panelScrollTablaHoteles.setBounds((int) ((Preferences.WINDOWWIDTH * 0.7) - (panelScrollTablaHoteles.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.5) - (panelScrollTablaHoteles.getHeight() / 2)) - 25, panelScrollTablaHoteles.getWidth(), panelScrollTablaHoteles.getHeight());
+        panelScrollTablaHoteles.setBackground(Color.WHITE);
        
+        
+        //Cargamos los hoteles
+        this.actualizarHoteles();
+        
+        //Creamos el logo
+        JLabel logo = new JLabel();
+		logo.setBounds(0, 0, 200, 150);
+		logo.setBounds((int) ((Preferences.WINDOWWIDTH * 0.20) - (logo.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.2) - (logo.getHeight() / 2)), logo.getWidth(), logo.getHeight());
+		ImageIcon originalIcon = new ImageIcon("resources/images/Hotel Host.png");
+		Image scaledImage = originalIcon.getImage().getScaledInstance(200, 150, Image.SCALE_SMOOTH);
+		ImageIcon resizedIcon = new ImageIcon(scaledImage);
+        logo.setIcon(resizedIcon);
+        logo.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+            	cardLayout.show(mainPanel, "Log1");
+            }
+        });
+        
         
         //Añadimos los componentes al panelCentro y el panelCentro al centro del Panel de la clase (this)
         panelCentro.add(panelFiltro);
+        panelCentro.add(panelScrollTablaHoteles);
+        panelCentro.add(logo);
 
         //Añadimos el panel panelCentro al BorderLayout.CENTER del mainPanel
 		this.add(panelCentro, BorderLayout.CENTER); 
 		
 		// Panel principal sur
         this.add(new JLabel("Hotel Host® 2024"), BorderLayout.SOUTH);
+        
 	}
 	
+	
+	public void actualizarHoteles() {
+		tablaHoteles.setModel(new HotelsTableModel(hoteles));	
+		
+		//Renderer para los hoteles
+		HotelsRenderer rendererHotel = new HotelsRenderer();
+		
+		tablaHoteles.setDefaultRenderer(Object.class, rendererHotel);
+		
+		TableColumnModel columnModel = tablaHoteles.getColumnModel();
+		
+		columnModel.getColumn(0).setPreferredWidth(110);  // Set preferred width for column 0
+		
+		columnModel.getColumn(1).setPreferredWidth(100);  // Set preferred width for column 0
+		
+		columnModel.getColumn(2).setPreferredWidth(100);  // Set preferred width for column 0
+	
+		columnModel.getColumn(3).setPreferredWidth(285);
+		
+		columnModel.getColumn(4).setPreferredWidth(160);
+		
+		columnModel.getColumn(5).setPreferredWidth(100);
+
+		tablaHoteles.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+	}
+		
 }

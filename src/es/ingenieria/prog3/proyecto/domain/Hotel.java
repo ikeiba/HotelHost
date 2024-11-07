@@ -13,10 +13,10 @@ public class Hotel {
 	private static int contador = 1;
 	private int id, estrellas;
 	private String nombre, ciudad, descripcion;
-	private ArrayList<Habitacion> habitaciones;
-	private ArrayList<Valoracion> valoraciones;
+	private ArrayList<Habitacion> habitaciones = new ArrayList<Habitacion>();
+	private ArrayList<Valoracion> valoraciones = new ArrayList<Valoracion>();
 	private ArrayList<Plan> planes;
-	private ArrayList<Reserva> reservas;
+	private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 	
 	
 	public Hotel(int estrellas, String nombre, String ciudad, String descripcion,
@@ -113,7 +113,7 @@ public class Hotel {
 	 
 	
 	public double getPrecioMinimo() {
-		double precioMin = Double.POSITIVE_INFINITY;
+		double precioMin = 99999999;
 		
 		for (Habitacion habitacion : habitaciones) {
 			if (habitacion.getPrecio() < precioMin) {
@@ -125,7 +125,7 @@ public class Hotel {
 	}
 	
 	public double getPrecioMaximo() {
-		double precioMax = Double.NEGATIVE_INFINITY;
+		double precioMax = -99999999;
 		
 		for (Habitacion habitacion : habitaciones) {
 			if (habitacion.getPrecio() < precioMax) {

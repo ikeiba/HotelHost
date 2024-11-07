@@ -30,6 +30,9 @@ public class MainFrame extends JFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
         
+        //CARGAR DATOS
+        ArrayList<Hotel> hoteles = Hotel.cargarHoteles("resources/data/Hoteles.csv");
+        
         // Inicializar los paneles
         mainPanel.add(new Log1(cardLayout, mainPanel), "Log1");
         mainPanel.add(new Log2(cardLayout, mainPanel), "Log2");
@@ -37,7 +40,7 @@ public class MainFrame extends JFrame {
         mainPanel.add(new Log4(cardLayout, mainPanel), "Log4");
         mainPanel.add(new Log5(cardLayout, mainPanel), "Log5");
         mainPanel.add(new Home(cardLayout, mainPanel), "Home");
-        mainPanel.add(new Busqueda(cardLayout, mainPanel), "Busqueda");
+        mainPanel.add(new Busqueda(cardLayout, mainPanel, hoteles), "Busqueda");
 
         
         // Añadir el mainPanel al JFrame
@@ -47,12 +50,8 @@ public class MainFrame extends JFrame {
         setVisible(true);
         
         
-        //CARGAR DATOS
-        ArrayList<Hotel> hoteles = Hotel.cargarHoteles("resources/data/Hoteles.csv");
-        for (Hotel hotel : hoteles) {
-			
-			System.out.println(hotel.getNombre());
-		}
+
+        
         
         
         
