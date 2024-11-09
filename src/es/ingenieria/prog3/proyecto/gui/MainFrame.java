@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import es.ingenieria.prog3.proyecto.domain.Habitacion;
 import es.ingenieria.prog3.proyecto.domain.Hotel;
 
 public class MainFrame extends JFrame {
@@ -31,7 +32,12 @@ public class MainFrame extends JFrame {
         mainPanel = new JPanel(cardLayout);
         
         //CARGAR DATOS
+        //Carga de hoteles
         ArrayList<Hotel> hoteles = Hotel.cargarHoteles("resources/data/Hoteles.csv");
+        Habitacion.crearHabitaciones(hoteles);
+        for (Habitacion habitacion : hoteles.get(0).getHabitaciones()) {
+			System.out.println(habitacion.getPrecio());
+		}
         
         // Inicializar los paneles
         mainPanel.add(new Log1(cardLayout, mainPanel), "Log1");
