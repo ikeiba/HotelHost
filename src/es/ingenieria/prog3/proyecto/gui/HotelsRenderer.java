@@ -1,6 +1,7 @@
 package es.ingenieria.prog3.proyecto.gui;
 
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Image;
 
 import javax.swing.ImageIcon;
@@ -14,37 +15,18 @@ public class HotelsRenderer implements TableCellRenderer {
 	public Component getTableCellRendererComponent(JTable table, Object value, 
 			boolean isSelected, boolean hasFocus, int row, int column) {		
 		
+		//Creamos el label con el color de fondo de la tabla y el texto que tiene el objeto en cada celda
 		JLabel label = new JLabel();
-		//El color de fondo es el color por defecto de la tabla
 		label.setBackground(table.getBackground());
-		//Por defecto el label se centra
-		label.setHorizontalAlignment(JLabel.CENTER);
 		label.setText(value.toString());
 		
-
-
-		//El VUELO, RESERVAS y ASIENTOS LIBRES se renderizan como texto ce trado
-
-		/*
-		if (column == 8) {
-			JProgressBar barra = new JProgressBar(0, 100);
-			barra.setString(value.toString() + "%");
-			barra.setStringPainted(true);
-			barra.setValue((int) Math.round((double)value));
-			return barra;
-			
-		}
-		*/
-			
-		if (column == 4) {
-			label.setText("Precio medio: por calcular ");
-		}
-
-		if (column == 5) {
-			JButton JButton = new JButton("Reservar");
-			return JButton;
+		
+		//0. Renderizacion de la columna con el nombre del hotel
+		if (column == 0) {
+			label.setFont(new Font("Arial", Font.BOLD, 12));
 		}
 		
+		//1. Renderizacion de la columna de estrellas del hotel (dependiendo del numero de estrellas, ponemos una imagen)
 		if(column == 1) {
 			ImageIcon originalIcon = null;
 			switch (label.getText()) {
@@ -69,6 +51,8 @@ public class HotelsRenderer implements TableCellRenderer {
 		    }
 		}
 		
+		
+		//2. Renderizacion de la columna de Ciudades (con la bandera del pais al que pertenecen)
 		if(column == 2) {
 			ImageIcon originalIcon = null;
 			switch (label.getText()) {
@@ -98,13 +82,38 @@ public class HotelsRenderer implements TableCellRenderer {
 		        
 		    }
 		}
+		
+		//4. Renderizacion de la columna del precio medio
+		if (column == 4) {
+			label.setText("Precio medio: por calcular ");
+		}
 
-						
+		//
+		if (column == 5) {
+			JButton JButton = new JButton("Reservar");
+			return JButton;
+		}
+
+		//RENDERIZACIONES ADICIONALES
+		
 		//Si la celda está seleccionada se usa el color por defecto de selección de la tabla
 		if (isSelected) {
 			label.setBackground(table.getSelectionBackground());
 			label.setForeground(table.getSelectionForeground());
 		}
+		
+		//El VUELO, RESERVAS y ASIENTOS LIBRES se renderizan como texto ce trado
+
+		/*
+		if (column == 8) {
+			JProgressBar barra = new JProgressBar(0, 100);
+			barra.setString(value.toString() + "%");
+			barra.setStringPainted(true);
+			barra.setValue((int) Math.round((double)value));
+			return barra;
+			
+		}
+		*/
 		
 		label.setOpaque(true);
 		

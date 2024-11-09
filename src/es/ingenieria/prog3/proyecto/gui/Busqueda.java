@@ -142,7 +142,7 @@ public class Busqueda extends JPanel {
 		
 		TableColumnModel columnModel = tablaHoteles.getColumnModel();
 		
-		columnModel.getColumn(0).setPreferredWidth(110);  // Set preferred width for column 0
+		columnModel.getColumn(0).setPreferredWidth(135);  // Set preferred width for column 0
 		
 		columnModel.getColumn(1).setPreferredWidth(100);  // Set preferred width for column 0
 		
