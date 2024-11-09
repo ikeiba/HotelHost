@@ -18,6 +18,7 @@ public class Log1 extends JPanel {
 
 	public Log1(CardLayout cardLayout, JPanel mainPanel) {
 		
+		
 		this.cardLayout = cardLayout;
 		this.mainPanel = mainPanel;
 		

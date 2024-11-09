@@ -113,7 +113,7 @@ public class Busqueda extends JPanel {
         logo.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	cardLayout.show(mainPanel, "Log1");
+            	cardLayout.show(mainPanel, "Home");
             }
         });
         
