@@ -15,7 +15,6 @@ public class Hotel {
 	private ArrayList<Habitacion> habitaciones = new ArrayList<Habitacion>();
 	private ArrayList<Valoracion> valoraciones = new ArrayList<Valoracion>();
 	private ArrayList<Plan> planes;
-	private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 	
 	
 	public Hotel(int estrellas, String nombre, String ciudad, String descripcion,
@@ -75,14 +74,6 @@ public class Hotel {
 	
 	public ArrayList<Plan> getPlanes() {
 		return planes;
-	}
-
-	public ArrayList<Reserva> getReservas() {
-		return reservas;
-	}
-	
-	public void setReservas(ArrayList<Reserva> reservas) {
-		this.reservas = reservas;
 	}
 
 

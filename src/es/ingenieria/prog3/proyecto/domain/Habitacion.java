@@ -6,19 +6,16 @@ import java.util.Objects;
 public class Habitacion {
 	private int planta, numero, capacidad;
 	private TipoHabitacion tipo;
-	private ArrayList<Huesped> huespedes;
 	private double precio;
-	
-	
-	
+	private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 
-	public Habitacion(int planta, int numero, int capacidad, TipoHabitacion tipo, ArrayList<Huesped> huespedes, double precio) {
+
+	public Habitacion(int planta, int numero, int capacidad, TipoHabitacion tipo, double precio) {
 		super();
 		this.planta = planta;
 		this.numero = numero;
 		this.capacidad = capacidad;
 		this.tipo = tipo;
-		this.huespedes = huespedes;
 		this.precio = precio + calculoSuplemento(tipo, precio);
 	}
 
@@ -42,18 +39,18 @@ public class Habitacion {
 	public TipoHabitacion getTipo() {
 		return tipo;
 	}
-	
-	public ArrayList<Huesped> getHuespedes() {
-		return huespedes;
-	}
-	
-	public void setHuespedes(ArrayList<Huesped> huespedes) {
-		this.huespedes = huespedes;
-	}
 
+	public ArrayList<Reserva> getReservas() {
+		return reservas;
+	}
+	
+	public void setReservas(ArrayList<Reserva> reservas) {
+		this.reservas = reservas;
+	}
+	
 	@Override
 	public int hashCode() {
-		return Objects.hash(capacidad, huespedes, numero, planta, tipo);
+		return Objects.hash(capacidad, numero, planta, tipo);
 	}
 
 	@Override
@@ -65,7 +62,7 @@ public class Habitacion {
 		if (getClass() != obj.getClass())
 			return false;
 		Habitacion other = (Habitacion) obj;
-		return capacidad == other.capacidad && Objects.equals(huespedes, other.huespedes) && numero == other.numero
+		return capacidad == other.capacidad && numero == other.numero
 				&& planta == other.planta && tipo == other.tipo;
 	}
 

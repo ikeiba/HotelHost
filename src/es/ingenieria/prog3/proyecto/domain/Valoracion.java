@@ -6,10 +6,10 @@ public class Valoracion {
 	private long fecha;
 	private String comentario;
 	private int puntuacion;
-	private Huesped autor;
+	private String autor;
 	
 	
-	public Valoracion(long fecha, String comentario, int puntuacion, Huesped autor) {
+	public Valoracion(long fecha, String comentario, int puntuacion,  String autor) {
 		super();
 		this.fecha = fecha;
 		this.comentario = comentario;
@@ -25,7 +25,7 @@ public class Valoracion {
 	public int getPuntuacion() {
 		return puntuacion;
 	}
-	public Huesped getAutor() {
+	public String getAutor() {
 		return autor;
 	}
 	@Override
@@ -46,7 +46,7 @@ public class Valoracion {
 	}
 	@Override
 	public String toString() {
-		return this.getAutor().getNombre();
+		return this.autor;
 	}
 	
 	

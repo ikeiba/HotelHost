@@ -7,19 +7,21 @@ public class Reserva {
 	
 	private static int contador = 1;
 	private int id;
-	private ArrayList<Huesped> huespedes;
-	private long fecha;
+	private ArrayList<String> huespedes;
+	private long fechaInicio;
+	private long fechaFin;
 	private Habitacion habitacion;
 	
 	
 	
-	public Reserva(ArrayList<Huesped> huespedes, long fecha, Habitacion habitacion) {
+	public Reserva(ArrayList<String> huespedes, long fechaInicio, long fechaFin, Habitacion habitacion) {
 		super();
 		
 		this.id = contador;
 		Reserva.contador ++;
 		this.huespedes = huespedes;
-		this.fecha = fecha;
+		this.fechaInicio = fechaInicio;
+		this.fechaFin = fechaFin;
 		this.habitacion = habitacion;
 	}
 
@@ -27,19 +29,26 @@ public class Reserva {
 		return id;
 	}
 	
-	public ArrayList<Huesped> getHuespedes() {
+	public ArrayList<String> getHuespedes() {
 		return huespedes;
 	}
 	
-	public void setHuespedes(ArrayList<Huesped> huespedes) {
+	public void setHuespedes(ArrayList<String> huespedes) {
 		this.huespedes = huespedes;
 	}
-	public long getFecha() {
-		return fecha;
+	public long getFechaInicio() {
+		return fechaInicio;
 	}
 	
-	public void setFecha(long fecha) {
-		this.fecha = fecha;
+	public void setFechaInicio(long fechaInicio) {
+		this.fechaInicio = fechaInicio;
+	}
+	public long getFechaFin() {
+		return fechaFin;
+	}
+	
+	public void setFechaFin(long fechaFin) {
+		this.fechaFin = fechaFin;
 	}
 	public Habitacion getHabitacion() {
 		return habitacion;
