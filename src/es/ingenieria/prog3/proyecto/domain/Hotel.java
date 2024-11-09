@@ -118,7 +118,7 @@ public class Hotel {
 		double precioMax = -99999999;
 		
 		for (Habitacion habitacion : habitaciones) {
-			if (habitacion.getPrecio() < precioMax) {
+			if (habitacion.getPrecio() > precioMax) {
 				precioMax = habitacion.getPrecio();
 			}
 		}

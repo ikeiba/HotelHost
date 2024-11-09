@@ -8,6 +8,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.table.TableCellRenderer;
 
 public class HotelsRenderer implements TableCellRenderer {
@@ -85,7 +86,7 @@ public class HotelsRenderer implements TableCellRenderer {
 		
 		//4. Renderizacion de la columna del precio medio
 		if (column == 4) {
-			label.setText("Precio medio: por calcular ");
+			label.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
 		//

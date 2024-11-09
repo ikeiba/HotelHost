@@ -1,5 +1,6 @@
 package es.ingenieria.prog3.proyecto.gui;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -65,10 +66,20 @@ public class HotelsTableModel extends DefaultTableModel {
 			case 1: return hotel.getEstrellas();
 			case 2: return hotel.getCiudad();
 			case 3: return hotel.getDescripcion();
-			case 4: return (hotel.getPrecioMinimo() + " - " + hotel.getPrecioMaximo());
+			case 4: return (hotel.getPrecioMinimo() + "€" + " - " + hotel.getPrecioMaximo() + "€");
 			case 5: return "reserva";
 			
 			default: return null;
 		}
+	}
+	
+	public ArrayList<Hotel> getHoteles(){
+		return new ArrayList<Hotel>(this.hotels);
+	}
+	
+	
+	public void setHotels(List<Hotel> hotels) {
+	    this.hotels = hotels;
+	    fireTableDataChanged(); // Notifica a la tabla que los datos han cambiado
 	}
 }
