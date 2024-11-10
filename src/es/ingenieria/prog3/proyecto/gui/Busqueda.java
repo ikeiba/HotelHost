@@ -43,6 +43,8 @@ public class Busqueda extends JPanel {
 	private JTable tablaValoraciones = new JTable();
 	//Modelo de datos de la tabla de valoraciones
 	private ValoracionesTableModel valoracionesTableModel;
+	//Panel de scroll de la tabla de valoraciones
+	private JScrollPane panelScrollTablaValoraciones;
 	
 	public Busqueda(CardLayout cardLayout, JPanel mainPanel, ArrayList<Hotel> hoteles) {
 		
@@ -143,10 +145,11 @@ public class Busqueda extends JPanel {
 		
 		//TABLA DE VALORACIONES
         //Creamos el panel para la tabla de valoraciones y añadimos la tabla al panel
-        JScrollPane panelScrollTablaValoraciones = new JScrollPane(tablaValoraciones);
+        panelScrollTablaValoraciones = new JScrollPane(tablaValoraciones);
         panelScrollTablaValoraciones.setBounds(0, 0, (int) (Preferences.WINDOWWIDTH * 0.4), (int) ((Preferences.WINDOWHEIGHT * 0.4)));
         panelScrollTablaValoraciones.setBounds((int) ((Preferences.WINDOWWIDTH * 0.25) - (panelScrollTablaValoraciones.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.65) - (panelScrollTablaValoraciones.getHeight() / 2)) - 25, panelScrollTablaValoraciones.getWidth(), panelScrollTablaValoraciones.getHeight());
         panelScrollTablaValoraciones.setBackground(Color.WHITE);
+        panelScrollTablaValoraciones.setVisible(false);
        
 		
 		
@@ -215,6 +218,7 @@ public class Busqueda extends JPanel {
 			// Cuando se selecciona una fila, se actualiza la tabla de valoraciones
 			Hotel hotelSeleccionado = (Hotel) (tablaHoteles.getValueAt(tablaHoteles.getSelectedRow(), 0));
 			this.cargarTablaValoraciones(((Hotel) hotelSeleccionado).getValoraciones());
+			panelScrollTablaValoraciones.setVisible(true);
 		});
 
 	}
@@ -242,22 +246,20 @@ public class Busqueda extends JPanel {
         
 		tablaValoraciones.setRowHeight(45);
 
-		//Renderer para los hoteles
-		HotelsRenderer rendererHotel = new HotelsRenderer();
+		//Renderer para las valoraciones
+		ValoracionesRenderer rendererHotel = new ValoracionesRenderer();
 		
 		tablaValoraciones.setDefaultRenderer(Object.class, rendererHotel);
 		
 		TableColumnModel columnModel = tablaValoraciones.getColumnModel();
 		
-		columnModel.getColumn(0).setPreferredWidth(135);  // Set preferred width for column 0
+		columnModel.getColumn(0).setPreferredWidth(80);  // Set preferred width for column 0
 		
 		columnModel.getColumn(1).setPreferredWidth(100);  // Set preferred width for column 0
 		
 		columnModel.getColumn(2).setPreferredWidth(100);  // Set preferred width for column 0
 	
 		columnModel.getColumn(3).setPreferredWidth(80);
-
-		tablaValoraciones.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
 	}
 	

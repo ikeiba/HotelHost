@@ -32,7 +32,7 @@ public class HotelsRenderer implements TableCellRenderer {
 			ImageIcon originalIcon = null;
 			switch (label.getText()) {
 			case "1": originalIcon = new ImageIcon("resources/images/1_estrella.png");
-				break;
+			break;
 			case "2": originalIcon = new ImageIcon("resources/images/2_estrellas.png");
 			break;
 			case "3": originalIcon = new ImageIcon("resources/images/3_estrellas.png");
@@ -42,7 +42,7 @@ public class HotelsRenderer implements TableCellRenderer {
 			case "5": originalIcon = new ImageIcon("resources/images/5_estrellas.png");
 			break;
 			default:
-				break;
+			break;
 			}
 			if (originalIcon != null) {
 		        Image scaledImage = originalIcon.getImage().getScaledInstance(95, 22, Image.SCALE_SMOOTH);
