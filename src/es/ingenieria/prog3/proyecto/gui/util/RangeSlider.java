@@ -99,7 +99,7 @@ public class RangeSlider extends JSlider {
 
         // Draw the thumbs
         drawThumb(g2, minThumbPos, Color.BLACK);
-        drawThumb(g2, maxThumbPos, Color.YELLOW);
+        drawThumb(g2, maxThumbPos, Color.BLACK);
     }
 
     private void drawThumb(Graphics2D g2, int x, Color color) {

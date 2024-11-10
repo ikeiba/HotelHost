@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
@@ -11,10 +13,15 @@ import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableColumnModel;
 import javax.swing.event.DocumentEvent;
@@ -227,6 +234,56 @@ public class Busqueda extends JPanel {
 		labelValoraciones.setFont(Preferences.FONT);
 		panelLabelValoraciones.add(labelValoraciones);
        
+		//Creamos el evento de teclado para añadir una valoracion
+		KeyListener keyListener = new KeyListener() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				if (e.getKeyCode() == KeyEvent.VK_V && e.isControlDown()) {
+			        
+					JTextField textFieldComentario = new JTextField(25);
+					JSpinner spinnerPuntuacion = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
+					JTextField textFieldAutor = new JTextField(15);
+					
+			        JLabel labelComentario = new JLabel("Comentario:");
+			        JLabel labelPuntuacion = new JLabel("Puntuacion:");
+			        JLabel labelAutor = new JLabel("Nombre:");
+
+			        
+					JComponent[] componentes = new JComponent[]{labelAutor, textFieldAutor, labelComentario, textFieldComentario, labelPuntuacion, spinnerPuntuacion};
+
+					int respuesta =  JOptionPane.showConfirmDialog(null, componentes, "Valoracion", JOptionPane.OK_CANCEL_OPTION);
+					
+					if (respuesta == 0) {
+						// Crear nueva valoracion
+						Valoracion valoracionNueva = new Valoracion(System.currentTimeMillis(), textFieldComentario.getText(), (int) spinnerPuntuacion.getValue(), textFieldAutor.getText());
+						
+						// Anadir a la lista de comics
+						Hotel hotelAnadirValoracion = (Hotel) tablaHoteles.getValueAt(tablaHoteles.getSelectedRow(), 0);
+						//Cargar la tabla de comics
+						hotelAnadirValoracion.getValoraciones().add(valoracionNueva);
+						cargarTablaValoraciones(hotelAnadirValoracion.getValoraciones());
+					}
+				} 
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		};
+		
+		tablaValoraciones.addKeyListener(keyListener);
+		//Fin listener añadir valoracion
+		
         //Añadimos los componentes al panelCentro y el panelCentro al centro del Panel de la clase (this)
         panelCentro.add(textFieldFiltroHotel);
         panelCentro.add(panelFiltro);
