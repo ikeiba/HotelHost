@@ -6,6 +6,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -138,10 +139,25 @@ public class Busqueda extends JPanel {
 
         };
 		
-		textFieldFiltroHotel.getDocument().addDocumentListener(documentListener);        
-        
+		textFieldFiltroHotel.getDocument().addDocumentListener(documentListener);           
 		//Fin listener filtrar
+				
+		//Inicio listener para añadir un toolTipText con la descripcion del hotel
+		tablaHoteles.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                // Get the row at the mouse position
+                int row = tablaHoteles.rowAtPoint(e.getPoint());
+                Hotel hotel = (Hotel) tablaHoteles.getValueAt(row, 0);
+
+                tablaHoteles.setToolTipText(hotel.getDescripcion());
+                
+            }
+        });
+		
+		//Fin listener añadir toolTipText
 		//FIN TABLA DE HOTELES
+		
 		
 		//TABLA DE VALORACIONES
         //Creamos el panel para la tabla de valoraciones y añadimos la tabla al panel
@@ -151,6 +167,7 @@ public class Busqueda extends JPanel {
         panelScrollTablaValoraciones.setBackground(Color.WHITE);
         panelScrollTablaValoraciones.setVisible(false);
        
+        //FIN TABLA VALORACIONES
 		
 		
 		
@@ -206,11 +223,9 @@ public class Busqueda extends JPanel {
 		
 		columnModel.getColumn(2).setPreferredWidth(100);  // Set preferred width for column 0
 	
-		columnModel.getColumn(3).setPreferredWidth(285);
+		columnModel.getColumn(3).setPreferredWidth(160);
 		
-		columnModel.getColumn(4).setPreferredWidth(160);
-		
-		columnModel.getColumn(5).setPreferredWidth(100);
+		columnModel.getColumn(4).setPreferredWidth(100);
 
 		tablaHoteles.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 		

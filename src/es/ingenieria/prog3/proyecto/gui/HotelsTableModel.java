@@ -17,8 +17,7 @@ public class HotelsTableModel extends DefaultTableModel {
 	private final List<String> headers = Arrays.asList(
 			"HOTEL", 
 			"ESTRELLAS", 
-			"CIUDAD", 
-			"DESCRIPCION", 
+			"CIUDAD",  
 			"RANGO PRECIOS", 
 			"RESERVAR");
 
@@ -64,9 +63,8 @@ public class HotelsTableModel extends DefaultTableModel {
 			case 0: return hotel;
 			case 1: return hotel.getEstrellas();
 			case 2: return hotel.getCiudad();
-			case 3: return hotel.getDescripcion();
-			case 4: return (hotel.getPrecioMinimo() + "€" + " - " + hotel.getPrecioMaximo() + "€");
-			case 5: return "reserva";
+			case 3: return (hotel.getPrecioMinimo() + "€" + " - " + hotel.getPrecioMaximo() + "€");
+			case 4: return "reserva";
 			
 			default: return null;
 		}

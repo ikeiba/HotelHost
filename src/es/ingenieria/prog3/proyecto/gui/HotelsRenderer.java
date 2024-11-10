@@ -84,13 +84,13 @@ public class HotelsRenderer implements TableCellRenderer {
 		    }
 		}
 		
-		//4. Renderizacion de la columna del precio medio
-		if (column == 4) {
+		//3. Renderizacion de la columna del precio medio
+		if (column == 3) {
 			label.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
 		//
-		if (column == 5) {
+		if (column == 4) {
 			JButton JButton = new JButton("Reservar");
 			return JButton;
 		}
