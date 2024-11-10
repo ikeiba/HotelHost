@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -118,7 +119,8 @@ public class Busqueda extends JPanel {
         JTextFieldDefaultText textFieldFiltroHotel = new JTextFieldDefaultText("Nombre Hotel");
         textFieldFiltroHotel.setBounds(0, 0, (int) (Preferences.WINDOWWIDTH * 0.5), 40);
         textFieldFiltroHotel.setBounds((int) ((Preferences.WINDOWWIDTH * 0.7) - (panelScrollTablaHoteles.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.65) - (panelScrollTablaHoteles.getHeight() / 2)) - 75, textFieldFiltroHotel.getWidth(), textFieldFiltroHotel.getHeight());
-        
+        textFieldFiltroHotel.setBorder(BorderFactory.createEmptyBorder());
+
         //Listener para filtrar
         DocumentListener documentListener = new DocumentListener() {
             
@@ -177,8 +179,9 @@ public class Busqueda extends JPanel {
         //Creamos el panel para la tabla de valoraciones y añadimos la tabla al panel
         panelScrollTablaValoraciones = new JScrollPane(tablaValoraciones);
         panelScrollTablaValoraciones.setBounds(0, 0, (int) (Preferences.WINDOWWIDTH * 0.4), (int) ((Preferences.WINDOWHEIGHT * 0.4)));
-        panelScrollTablaValoraciones.setBounds((int) ((Preferences.WINDOWWIDTH * 0.25) - (panelScrollTablaValoraciones.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.65) - (panelScrollTablaValoraciones.getHeight() / 2)) - 25, panelScrollTablaValoraciones.getWidth(), panelScrollTablaValoraciones.getHeight());
-        panelScrollTablaValoraciones.setBackground(Color.WHITE);
+        panelScrollTablaValoraciones.setBounds((int) ((Preferences.WINDOWWIDTH * 0.22) - (panelScrollTablaValoraciones.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.75) - (panelScrollTablaValoraciones.getHeight() / 2)) - 25, panelScrollTablaValoraciones.getWidth(), panelScrollTablaValoraciones.getHeight());
+        panelScrollTablaValoraciones.getViewport().setBackground(Preferences.COLORBACKGROUND);
+        panelScrollTablaValoraciones.setBorder(BorderFactory.createEmptyBorder());
         panelScrollTablaValoraciones.setVisible(false);
        
         //FIN TABLA VALORACIONES
