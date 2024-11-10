@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import es.ingenieria.prog3.proyecto.domain.Habitacion;
 import es.ingenieria.prog3.proyecto.domain.Hotel;
+import es.ingenieria.prog3.proyecto.domain.Valoracion;
 
 public class MainFrame extends JFrame {
 	   
@@ -32,12 +33,20 @@ public class MainFrame extends JFrame {
         mainPanel = new JPanel(cardLayout);
         
         //CARGAR DATOS
-        //Carga de hoteles
-        ArrayList<Hotel> hoteles = Hotel.cargarHoteles("resources/data/Hoteles.csv");
+        
+        //Carga de hoteles (con habitaciones)
+        ArrayList<Hotel> hoteles = Hotel.cargarHoteles("resources/data/hoteles.csv");
         Habitacion.crearHabitaciones(hoteles);
-        for (Habitacion habitacion : hoteles.get(0).getHabitaciones()) {
-			System.out.println(habitacion.getPrecio());
+
+        //Carga de valoraciones
+        ArrayList<Valoracion> valoraciones = Valoracion.cargarValoraciones("resources/data/valoraciones.csv");
+        for (Valoracion valoracion : valoraciones) {
+			int posicionHotel = (int) (Math.random()*hoteles.size());
+			hoteles.get(posicionHotel).getValoraciones().add(valoracion);
 		}
+        
+        //FIN CARGA DATOS
+        
         
         // Inicializar los paneles
         mainPanel.add(new Log1(cardLayout, mainPanel), "Log1");
@@ -54,13 +63,7 @@ public class MainFrame extends JFrame {
         
         // Mostrar el JFrame
         setVisible(true);
-        
-        
 
-        
-        
-        
-        
         // Cambiar el focus para no centrarse en nada
         // IAG: CHATGPT (Próximas 2 líneas)
         // Modificación: Si

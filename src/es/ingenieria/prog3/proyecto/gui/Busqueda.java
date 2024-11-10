@@ -19,6 +19,7 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
 import es.ingenieria.prog3.proyecto.domain.Hotel;
+import es.ingenieria.prog3.proyecto.domain.Valoracion;
 import es.ingenieria.prog3.proyecto.gui.util.JPanelBordesRedondos;
 import es.ingenieria.prog3.proyecto.gui.util.JTextFieldDefaultText;
 import es.ingenieria.prog3.proyecto.gui.util.Preferences;
@@ -38,7 +39,12 @@ public class Busqueda extends JPanel {
     private JTable tablaHoteles = new JTable();
     //Modelo de datos de la tabla de hoteles
 	private HotelsTableModel hotelsTableModel;
-
+	//Lista de valoraciones a renderizar en la tabla
+    private ArrayList<Valoracion> valoraciones;
+	//Tabla de valoraciones
+	private JTable tablaValoraciones = new JTable();
+	//Modelo de datos de la tabla de valoraciones
+	private ValoracionesTableModel valoracionesTableModel;
 	
 	public Busqueda(CardLayout cardLayout, JPanel mainPanel, ArrayList<Hotel> hoteles) {
 		
@@ -97,13 +103,13 @@ public class Busqueda extends JPanel {
         panelFiltro.add(labelPrecioActual);
         panelFiltro.add(sliderPrecio);
         
-        //Creamos el panel para la tabla y añadimos la tabla al panel
+        //Creamos el panel para la tabla de hoteles y añadimos la tabla al panel
         JScrollPane panelScrollTablaHoteles = new JScrollPane(tablaHoteles);
-        tablaHoteles.setRowHeight(45);
         panelScrollTablaHoteles.setBounds(0, 0, (int) (Preferences.WINDOWWIDTH * 0.5), (int) ((Preferences.WINDOWHEIGHT * 0.6)));
         panelScrollTablaHoteles.setBounds((int) ((Preferences.WINDOWWIDTH * 0.7) - (panelScrollTablaHoteles.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.65) - (panelScrollTablaHoteles.getHeight() / 2)) - 25, panelScrollTablaHoteles.getWidth(), panelScrollTablaHoteles.getHeight());
         panelScrollTablaHoteles.setBackground(Color.WHITE);
        
+        //TABLA DE HOTELES
         //Cargamos los hoteles
         this.actualizarTablaHoteles();
         
@@ -134,6 +140,22 @@ public class Busqueda extends JPanel {
 		
 		textFieldFiltroHotel.getDocument().addDocumentListener(documentListener);        
         
+		//Fin listener filtrar
+		//FIN TABLA DE HOTELES
+		
+		//TABLA DE VALORACIONES
+        //Creamos el panel para la tabla de valoraciones y añadimos la tabla al panel
+        JScrollPane panelScrollTablaValoraciones = new JScrollPane(tablaValoraciones);
+        panelScrollTablaValoraciones.setBounds(0, 0, (int) (Preferences.WINDOWWIDTH * 0.5), (int) ((Preferences.WINDOWHEIGHT * 0.6)));
+        panelScrollTablaValoraciones.setBounds((int) ((Preferences.WINDOWWIDTH * 0.25) - (panelScrollTablaValoraciones.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.65) - (panelScrollTablaValoraciones.getHeight() / 2)) - 25, panelScrollTablaValoraciones.getWidth(), panelScrollTablaValoraciones.getHeight());
+        panelScrollTablaValoraciones.setBackground(Color.WHITE);
+       
+        //Cargamos las valoraciones
+        this.actualizarTablaValoraciones();
+		
+		
+		
+		
 		
         //Creamos el logo
         JLabel logo = new JLabel();
@@ -149,9 +171,7 @@ public class Busqueda extends JPanel {
             	cardLayout.show(mainPanel, "Home");
             }
         });
-        
-        
-        
+       
         //Añadimos los componentes al panelCentro y el panelCentro al centro del Panel de la clase (this)
         panelCentro.add(textFieldFiltroHotel);
         panelCentro.add(panelFiltro);
@@ -161,16 +181,19 @@ public class Busqueda extends JPanel {
         //Añadimos el panel panelCentro al BorderLayout.CENTER del mainPanel
 		this.add(panelCentro, BorderLayout.CENTER); 
 		
-		// Panel principal sur
+		//Panel principal sur
         this.add(new JLabel("Hotel Host® 2024"), BorderLayout.SOUTH);
         
 	}
 	
 	
+	//Metodos tabla hotel
 	public void actualizarTablaHoteles() {
 		this.hotelsTableModel = new HotelsTableModel(hoteles);
 		tablaHoteles.setModel(this.hotelsTableModel);	
-		
+        
+		tablaHoteles.setRowHeight(45);
+
 		//Renderer para los hoteles
 		HotelsRenderer rendererHotel = new HotelsRenderer();
 		
@@ -204,9 +227,45 @@ public class Busqueda extends JPanel {
 	            hotelesFiltrados.add(hotel);
 	        }
 	    });
-	    
 	    // Actualiza el modelo de datos de la tabla con la lista filtrada
 	    hotelsTableModel.setHotels(hotelesFiltrados);
 	}
+	//Fin metodos tabla hotel
+	
+	
+	//Metodos tabla valoracion
+	public void actualizarTablaValoraciones() {
+		this.valoracionesTableModel = new ValoracionesTableModel(valoraciones);
+		tablaValoraciones.setModel(this.valoracionesTableModel);	
+        
+		tablaValoraciones.setRowHeight(45);
+
+		//Renderer para los hoteles
+		HotelsRenderer rendererHotel = new HotelsRenderer();
+		
+		tablaValoraciones.setDefaultRenderer(Object.class, rendererHotel);
+		
+		TableColumnModel columnModel = tablaValoraciones.getColumnModel();
+		
+		columnModel.getColumn(0).setPreferredWidth(135);  // Set preferred width for column 0
+		
+		columnModel.getColumn(1).setPreferredWidth(100);  // Set preferred width for column 0
+		
+		columnModel.getColumn(2).setPreferredWidth(100);  // Set preferred width for column 0
+	
+		columnModel.getColumn(3).setPreferredWidth(285);
+		
+		columnModel.getColumn(4).setPreferredWidth(160);
+		
+		columnModel.getColumn(5).setPreferredWidth(100);
+
+		tablaValoraciones.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+
+	}
+	
+	
+	
+	
+	//Fin metodos tabla valoracion
 	
 }
