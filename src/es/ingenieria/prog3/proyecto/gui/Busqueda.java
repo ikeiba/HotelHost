@@ -47,6 +47,8 @@ public class Busqueda extends JPanel {
 	private ValoracionesTableModel valoracionesTableModel;
 	//Panel de scroll de la tabla de valoraciones
 	private JScrollPane panelScrollTablaValoraciones;
+	//Panel del label valoraciones
+	private JPanelBordesRedondos panelLabelValoraciones;
 	
 	public Busqueda(CardLayout cardLayout, JPanel mainPanel, ArrayList<Hotel> hoteles) {
 		
@@ -166,8 +168,12 @@ public class Busqueda extends JPanel {
 				Hotel hotelSeleccionado = (Hotel) (tablaHoteles.getValueAt(tablaHoteles.getSelectedRow(), 0));
 				this.cargarTablaValoraciones(((Hotel) hotelSeleccionado).getValoraciones());
 				panelScrollTablaValoraciones.setVisible(true);
+		  		panelLabelValoraciones.setVisible(true);
+
 			}else {
 				panelScrollTablaValoraciones.setVisible(false); //para que cuando estemos filtrando desaparezca la tabla de valoraciones
+		  		panelLabelValoraciones.setVisible(false);
+
 			}
 		});
 		
@@ -182,13 +188,11 @@ public class Busqueda extends JPanel {
         panelScrollTablaValoraciones.setBounds((int) ((Preferences.WINDOWWIDTH * 0.22) - (panelScrollTablaValoraciones.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.75) - (panelScrollTablaValoraciones.getHeight() / 2)) - 25, panelScrollTablaValoraciones.getWidth(), panelScrollTablaValoraciones.getHeight());
         panelScrollTablaValoraciones.getViewport().setBackground(Preferences.COLORBACKGROUND);
         panelScrollTablaValoraciones.setBorder(BorderFactory.createEmptyBorder());
-        panelScrollTablaValoraciones.setVisible(false);
-       
+        panelScrollTablaValoraciones.setVisible(false);       
+        
         //FIN TABLA VALORACIONES
 		
-		
-		
-		
+        
         //Creamos el logo
         JLabel logo = new JLabel();
 		logo.setBounds(0, 0, 50, 35);
@@ -203,6 +207,22 @@ public class Busqueda extends JPanel {
             	cardLayout.show(mainPanel, "Home");
             }
         });
+        
+        //Creamos el panel que contendra el filtro del precio
+  		this.panelLabelValoraciones = new JPanelBordesRedondos(25);
+  		panelLabelValoraciones.setBounds(0, 0, (int) (Preferences.WINDOWWIDTH * 0.17), 35);
+  		panelLabelValoraciones.setBounds((int) ((Preferences.WINDOWWIDTH * 0.22) - (panelScrollTablaValoraciones.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.75) - (panelScrollTablaValoraciones.getHeight() / 2)) - 75, panelLabelValoraciones.getWidth(), panelLabelValoraciones.getHeight());
+  		panelLabelValoraciones.setBackground(Color.WHITE);
+  		panelLabelValoraciones.setLayout(null);
+  		panelLabelValoraciones.setVisible(false);
+  		
+  		//Creamos el label diciendo que vamos a filtrar
+  		JLabel labelValoraciones = new JLabel("Valoraciones:");
+		labelValoraciones.setHorizontalAlignment(SwingConstants.LEFT);
+		labelValoraciones.setVerticalAlignment(SwingConstants.TOP);
+		labelValoraciones.setBounds(15, 5, panelLabelValoraciones.getWidth(), 20);
+		labelValoraciones.setFont(Preferences.FONT);
+		panelLabelValoraciones.add(labelValoraciones);
        
         //Añadimos los componentes al panelCentro y el panelCentro al centro del Panel de la clase (this)
         panelCentro.add(textFieldFiltroHotel);
@@ -210,6 +230,7 @@ public class Busqueda extends JPanel {
         panelCentro.add(panelScrollTablaHoteles);
         panelCentro.add(logo);
         panelCentro.add(panelScrollTablaValoraciones);
+        panelCentro.add(panelLabelValoraciones);
         
         //Añadimos el panel panelCentro al BorderLayout.CENTER del Panel de la clase (this)
 		this.add(panelCentro, BorderLayout.CENTER); 
