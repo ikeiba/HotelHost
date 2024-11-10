@@ -18,8 +18,7 @@ public class HotelsTableModel extends DefaultTableModel {
 			"HOTEL", 
 			"ESTRELLAS", 
 			"CIUDAD",  
-			"RANGO PRECIOS", 
-			"RESERVAR");
+			"RANGO PRECIOS");
 
 	public HotelsTableModel(List<Hotel> hotels) {
 		this.hotels = hotels;
@@ -64,7 +63,6 @@ public class HotelsTableModel extends DefaultTableModel {
 			case 1: return hotel.getEstrellas();
 			case 2: return hotel.getCiudad();
 			case 3: return (hotel.getPrecioMinimo() + "€" + " - " + hotel.getPrecioMaximo() + "€");
-			case 4: return "reserva";
 			
 			default: return null;
 		}

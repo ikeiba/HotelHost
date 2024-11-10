@@ -265,7 +265,6 @@ public class Busqueda extends JPanel {
 	
 		columnModel.getColumn(3).setPreferredWidth(100);
 		
-		columnModel.getColumn(4).setPreferredWidth(100);
 
 		//No dejar que las columnas se muevan
 		tablaHoteles.getTableHeader().setReorderingAllowed(false);

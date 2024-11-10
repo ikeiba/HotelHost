@@ -89,11 +89,7 @@ public class HotelsRenderer implements TableCellRenderer {
 			label.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 
-		//
-		if (column == 4) {
-			JButton JButton = new JButton("Reservar");
-			return JButton;
-		}
+
 
 		//RENDERIZACIONES ADICIONALES
 		
