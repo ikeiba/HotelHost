@@ -162,7 +162,7 @@ public class Hotel {
         return hoteles;
     }
 	
-	public static double precioMaximo(ArrayList<Hotel> hoteles) {
+	public static double precioMaximoHoteles(ArrayList<Hotel> hoteles) {
 		double precioMaximo = -9999999;
 		for (Hotel hotel : hoteles) {
 			if (hotel.getPrecioMaximo() > precioMaximo) {
@@ -172,11 +172,11 @@ public class Hotel {
 		return precioMaximo;
 	}
 	
-	public static double precioMinimo(ArrayList<Hotel> hoteles) {
+	public static double precioMinimoHoteles(ArrayList<Hotel> hoteles) {
 		double precioMinimo = 9999999;
 		for (Hotel hotel : hoteles) {
 			if (hotel.getPrecioMinimo() < precioMinimo) {
-				precioMinimo = hotel.getPrecioMaximo();
+				precioMinimo = hotel.getPrecioMinimo();
 			}
 		}
 		return precioMinimo;

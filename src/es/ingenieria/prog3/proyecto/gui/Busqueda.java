@@ -82,31 +82,6 @@ public class Busqueda extends JPanel {
         labelFiltrar.setFont(Preferences.FONT);
         panelFiltro.add(labelFiltrar);
 		
-        // Queria crear un JSlider con dos "cabezas", y al no encontrar una clase así 
-        // pregunte a chatGPT si existia. Me dio la opcion de utilizar una libreria externa como
-        // SwingX o aplicar dos sliders. Con su ayuda, implemente la segunda opcion:
-        RangeSlider sliderPrecio = new RangeSlider(1, 100);
-        sliderPrecio.setBounds(0, 0, (int) (panelFiltro.getWidth()*0.2), 20);
-        sliderPrecio.setBounds((int) (panelFiltro.getWidth()*0.25 - (sliderPrecio.getWidth() / 2)), 30, sliderPrecio.getWidth(), sliderPrecio.getHeight());
-        sliderPrecio.setBackground(Color.WHITE);
-        sliderPrecio.setFocusable(false);
-
-        // Creamos un label para mostrar en que rango de precios se encuentra 
-        JLabel labelPrecioActual = new JLabel();
-        labelPrecioActual.setHorizontalAlignment(SwingConstants.LEFT);
-        labelPrecioActual.setVerticalAlignment(SwingConstants.TOP);
-        labelPrecioActual.setBounds(0, 0, panelFiltro.getWidth(), 150);
-        labelPrecioActual.setBounds((int) (sliderPrecio.getWidth()*0.75), 50, labelPrecioActual.getWidth(), labelPrecioActual.getHeight());
-        
-        // Listener que actualiza en que rango de precios se encuentra
-        sliderPrecio.addChangeListener(e -> {
-        	labelPrecioActual.setText("Precio minimo: " + sliderPrecio.getMinRange() + ", Precio maximo: " + sliderPrecio.getMaxRange());
-        });
-        
-        //Anadimos el label y el slider al panel del filro
-        panelFiltro.add(labelPrecioActual);
-        panelFiltro.add(sliderPrecio);
-        
         //Creamos el panel para la tabla de hoteles y añadimos la tabla al panel
         JScrollPane panelScrollTablaHoteles = new JScrollPane(tablaHoteles);
         panelScrollTablaHoteles.setBounds(0, 0, (int) (Preferences.WINDOWWIDTH * 0.5), (int) ((Preferences.WINDOWHEIGHT * 0.6)));
@@ -123,22 +98,50 @@ public class Busqueda extends JPanel {
         textFieldFiltroHotel.setBounds((int) ((Preferences.WINDOWWIDTH * 0.7) - (panelScrollTablaHoteles.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.65) - (panelScrollTablaHoteles.getHeight() / 2)) - 75, textFieldFiltroHotel.getWidth(), textFieldFiltroHotel.getHeight());
         textFieldFiltroHotel.setBorder(BorderFactory.createEmptyBorder());
 
+        // Queria crear un JSlider con dos "cabezas", y al no encontrar una clase así 
+        // pregunte a chatGPT si existia. Me dio la opcion de utilizar una libreria externa como
+        // SwingX o aplicar dos sliders. Con su ayuda, implemente la segunda opcion:
+        RangeSlider sliderPrecio = new RangeSlider((int) Hotel.precioMinimoHoteles(hoteles) - 1,(int) Hotel.precioMaximoHoteles(hoteles) + 1);
+        sliderPrecio.setBounds(0, 0, (int) (panelFiltro.getWidth()*0.2), 20);
+        sliderPrecio.setBounds((int) (panelFiltro.getWidth()*0.25 - (sliderPrecio.getWidth() / 2)), 30, sliderPrecio.getWidth(), sliderPrecio.getHeight());
+        sliderPrecio.setBackground(Color.WHITE);
+        sliderPrecio.setFocusable(false);
+
+        // Creamos un label para mostrar en que rango de precios se encuentra 
+        JLabel labelPrecioActual = new JLabel();
+        labelPrecioActual.setHorizontalAlignment(SwingConstants.LEFT);
+        labelPrecioActual.setVerticalAlignment(SwingConstants.TOP);
+        labelPrecioActual.setBounds(0, 0, panelFiltro.getWidth(), 150);
+        labelPrecioActual.setBounds((int) (sliderPrecio.getWidth()*0.75), 50, labelPrecioActual.getWidth(), labelPrecioActual.getHeight());
+    	labelPrecioActual.setText("Precio minimo: " + sliderPrecio.getMinRange() + ", Precio maximo: " + sliderPrecio.getMaxRange());
+        
+        // Listener que actualiza en que rango de precios se encuentra
+        sliderPrecio.addChangeListener(e -> {
+        	labelPrecioActual.setText("Precio minimo: " + sliderPrecio.getMinRange() + ", Precio maximo: " + sliderPrecio.getMaxRange());
+        	filtrarHotelesPorNombreYPrecio(textFieldFiltroHotel.getText(), sliderPrecio.getMinRange(), sliderPrecio.getMaxRange());
+        	
+        });
+        
+        //Anadimos el label y el slider al panel del filro
+        panelFiltro.add(labelPrecioActual);
+        panelFiltro.add(sliderPrecio);
+        
         //Listener para filtrar
         DocumentListener documentListener = new DocumentListener() {
             
         	@Override
             public void insertUpdate(DocumentEvent e) {
-        		filtrarHotelesPorNombre(textFieldFiltroHotel.getText());
+            	filtrarHotelesPorNombreYPrecio(textFieldFiltroHotel.getText(), sliderPrecio.getMinRange(), sliderPrecio.getMaxRange());
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-            	filtrarHotelesPorNombre(textFieldFiltroHotel.getText());
+            	filtrarHotelesPorNombreYPrecio(textFieldFiltroHotel.getText(), sliderPrecio.getMinRange(), sliderPrecio.getMaxRange());
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-            	filtrarHotelesPorNombre(textFieldFiltroHotel.getText());
+            	filtrarHotelesPorNombreYPrecio(textFieldFiltroHotel.getText(), sliderPrecio.getMinRange(), sliderPrecio.getMaxRange());
             }
 
         };
@@ -270,21 +273,26 @@ public class Busqueda extends JPanel {
 	}
 	
 	//Metodo para filtrar los hoteles segun el nombre
-	public void filtrarHotelesPorNombre(String filtro) {
+	public void filtrarHotelesPorNombreYPrecio(String filtro, int minimo, int maximo) {
 	    // Crea una lista filtrada con los hoteles que coinciden con el filtro
 	    ArrayList<Hotel> hotelesFiltrados = new ArrayList<>();
 	    if (filtro.isEmpty() || filtro.equals("Nombre Hotel")) {
-		    hotelsTableModel.setHotels(hoteles);
+	    	hoteles.forEach(hotel -> {
+		        if (hotel.getPrecioMaximo() < maximo && hotel.getPrecioMinimo() > minimo) {
+		        	hotelesFiltrados.add(hotel);
+		        }
+		    });
 	    }else {
 	    	hoteles.forEach(hotel -> {
-		        if (hotel.getNombre().toLowerCase().contains(filtro.toLowerCase())) {
+		        if (hotel.getNombre().toLowerCase().contains(filtro.toLowerCase()) && hotel.getPrecioMaximo() < maximo && hotel.getPrecioMinimo() > minimo) {
 		            hotelesFiltrados.add(hotel);
 		        }
 		    });
-		    // Actualiza el modelo de datos de la tabla con la lista filtrada
-		    hotelsTableModel.setHotels(hotelesFiltrados);
 	    } 
+	    // Actualiza el modelo de datos de la tabla con la lista filtrada
+	    hotelsTableModel.setHotels(hotelesFiltrados);
 	}
+	
 	//Fin metodos tabla hotel
 	
 	
