@@ -39,8 +39,6 @@ public class Busqueda extends JPanel {
     private JTable tablaHoteles = new JTable();
     //Modelo de datos de la tabla de hoteles
 	private HotelsTableModel hotelsTableModel;
-	//Lista de valoraciones a renderizar en la tabla
-    private ArrayList<Valoracion> valoraciones;
 	//Tabla de valoraciones
 	private JTable tablaValoraciones = new JTable();
 	//Modelo de datos de la tabla de valoraciones
@@ -111,7 +109,7 @@ public class Busqueda extends JPanel {
        
         //TABLA DE HOTELES
         //Cargamos los hoteles
-        this.actualizarTablaHoteles();
+        this.cargarTablaHoteles();
         
         //Filtro para el nombre del hotel
         JTextFieldDefaultText textFieldFiltroHotel = new JTextFieldDefaultText("Nombre Hotel");
@@ -146,13 +144,10 @@ public class Busqueda extends JPanel {
 		//TABLA DE VALORACIONES
         //Creamos el panel para la tabla de valoraciones y añadimos la tabla al panel
         JScrollPane panelScrollTablaValoraciones = new JScrollPane(tablaValoraciones);
-        panelScrollTablaValoraciones.setBounds(0, 0, (int) (Preferences.WINDOWWIDTH * 0.5), (int) ((Preferences.WINDOWHEIGHT * 0.6)));
+        panelScrollTablaValoraciones.setBounds(0, 0, (int) (Preferences.WINDOWWIDTH * 0.4), (int) ((Preferences.WINDOWHEIGHT * 0.4)));
         panelScrollTablaValoraciones.setBounds((int) ((Preferences.WINDOWWIDTH * 0.25) - (panelScrollTablaValoraciones.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.65) - (panelScrollTablaValoraciones.getHeight() / 2)) - 25, panelScrollTablaValoraciones.getWidth(), panelScrollTablaValoraciones.getHeight());
         panelScrollTablaValoraciones.setBackground(Color.WHITE);
        
-        //Cargamos las valoraciones
-        this.actualizarTablaValoraciones();
-		
 		
 		
 		
@@ -177,8 +172,9 @@ public class Busqueda extends JPanel {
         panelCentro.add(panelFiltro);
         panelCentro.add(panelScrollTablaHoteles);
         panelCentro.add(logo);
-
-        //Añadimos el panel panelCentro al BorderLayout.CENTER del mainPanel
+        panelCentro.add(panelScrollTablaValoraciones);
+        
+        //Añadimos el panel panelCentro al BorderLayout.CENTER del Panel de la clase (this)
 		this.add(panelCentro, BorderLayout.CENTER); 
 		
 		//Panel principal sur
@@ -188,7 +184,7 @@ public class Busqueda extends JPanel {
 	
 	
 	//Metodos tabla hotel
-	public void actualizarTablaHoteles() {
+	public void cargarTablaHoteles() {
 		this.hotelsTableModel = new HotelsTableModel(hoteles);
 		tablaHoteles.setModel(this.hotelsTableModel);	
         
@@ -214,6 +210,12 @@ public class Busqueda extends JPanel {
 		columnModel.getColumn(5).setPreferredWidth(100);
 
 		tablaHoteles.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+		
+		this.tablaHoteles.getSelectionModel().addListSelectionListener(e -> {
+			// Cuando se selecciona una fila, se actualiza la tabla de valoraciones
+			Hotel hotelSeleccionado = (Hotel) (tablaHoteles.getValueAt(tablaHoteles.getSelectedRow(), 0));
+			this.cargarTablaValoraciones(((Hotel) hotelSeleccionado).getValoraciones());
+		});
 
 	}
 	
@@ -234,7 +236,7 @@ public class Busqueda extends JPanel {
 	
 	
 	//Metodos tabla valoracion
-	public void actualizarTablaValoraciones() {
+	public void cargarTablaValoraciones(ArrayList<Valoracion> valoraciones) {
 		this.valoracionesTableModel = new ValoracionesTableModel(valoraciones);
 		tablaValoraciones.setModel(this.valoracionesTableModel);	
         
@@ -253,11 +255,7 @@ public class Busqueda extends JPanel {
 		
 		columnModel.getColumn(2).setPreferredWidth(100);  // Set preferred width for column 0
 	
-		columnModel.getColumn(3).setPreferredWidth(285);
-		
-		columnModel.getColumn(4).setPreferredWidth(160);
-		
-		columnModel.getColumn(5).setPreferredWidth(100);
+		columnModel.getColumn(3).setPreferredWidth(80);
 
 		tablaValoraciones.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
 
