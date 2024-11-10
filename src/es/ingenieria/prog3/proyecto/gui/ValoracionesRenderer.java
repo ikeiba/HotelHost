@@ -3,11 +3,13 @@ package es.ingenieria.prog3.proyecto.gui;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Font;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.JLabel;
 import javax.swing.JProgressBar;
 import javax.swing.JTable;
+import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.TableCellRenderer;
 
@@ -38,6 +40,7 @@ public class ValoracionesRenderer implements TableCellRenderer {
 			barra.setValue(valor*10);
 			barra.setBackground(Color.WHITE);
 			barra.setFont(new Font("Arial", Font.BOLD, 15));
+			
 			
 			switch (valor) {
 			case 0: 
@@ -71,8 +74,10 @@ public class ValoracionesRenderer implements TableCellRenderer {
 		
 		//3. Renderizacion de la columna de la fecha
 		if(column == 3) {
+			SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 			Date fecha = new Date(Long.valueOf(value.toString()));
-			label.setText(fecha.toString());
+			label.setText(String.format(dateFormat.format(fecha)));
+			label.setHorizontalAlignment(SwingConstants.CENTER);
 		}
 		
 
