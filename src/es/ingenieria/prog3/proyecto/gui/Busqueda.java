@@ -264,6 +264,9 @@ public class Busqueda extends JPanel {
 		
 		columnModel.getColumn(4).setPreferredWidth(100);
 
+		//No dejar que las columnas se muevan
+		tablaHoteles.getTableHeader().setReorderingAllowed(false);
+
 	}
 	
 	//Metodo para filtrar los hoteles segun el nombre
@@ -306,7 +309,9 @@ public class Busqueda extends JPanel {
 		columnModel.getColumn(2).setPreferredWidth(180);  // Set preferred width for column 0
 	
 		columnModel.getColumn(3).setPreferredWidth(80);
-
+		
+		//No dejar que las columnas se muevan
+		tablaValoraciones.getTableHeader().setReorderingAllowed(false);
 	}
 	
 	
