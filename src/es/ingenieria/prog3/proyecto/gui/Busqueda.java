@@ -52,7 +52,7 @@ public class Busqueda extends JPanel {
 		this.cardLayout = cardLayout;
 		this.mainPanel = mainPanel;
 		this.hoteles = hoteles;
-
+		
 		
 		//Ponemos el fondo del panel blanco y le asignamos el border layout como layoutManager
 		this.setBackground(Color.WHITE);
@@ -156,6 +156,20 @@ public class Busqueda extends JPanel {
         });
 		
 		//Fin listener añadir toolTipText
+		
+		//Inicio listener mostrar tabla valoraciones
+		tablaHoteles.getSelectionModel().addListSelectionListener(e -> {
+			// Cuando se selecciona una fila, se actualiza la tabla de valoraciones
+			if (tablaHoteles.getSelectedRow() != -1) {
+				Hotel hotelSeleccionado = (Hotel) (tablaHoteles.getValueAt(tablaHoteles.getSelectedRow(), 0));
+				this.cargarTablaValoraciones(((Hotel) hotelSeleccionado).getValoraciones());
+				panelScrollTablaValoraciones.setVisible(true);
+			}else {
+				panelScrollTablaValoraciones.setVisible(false);
+			}
+		});
+		
+		//Fin listener mostrar tabla valoraciones
 		//FIN TABLA DE HOTELES
 		
 		
@@ -199,6 +213,7 @@ public class Busqueda extends JPanel {
 		
 		//Panel principal sur
         this.add(new JLabel("Hotel Host® 2024"), BorderLayout.SOUTH);
+        System.out.println(tablaHoteles.getSelectedRow());
         
 	}
 	
@@ -223,18 +238,9 @@ public class Busqueda extends JPanel {
 		
 		columnModel.getColumn(2).setPreferredWidth(100);  // Set preferred width for column 0
 	
-		columnModel.getColumn(3).setPreferredWidth(160);
+		columnModel.getColumn(3).setPreferredWidth(100);
 		
 		columnModel.getColumn(4).setPreferredWidth(100);
-
-		tablaHoteles.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-		
-		this.tablaHoteles.getSelectionModel().addListSelectionListener(e -> {
-			// Cuando se selecciona una fila, se actualiza la tabla de valoraciones
-			Hotel hotelSeleccionado = (Hotel) (tablaHoteles.getValueAt(tablaHoteles.getSelectedRow(), 0));
-			this.cargarTablaValoraciones(((Hotel) hotelSeleccionado).getValoraciones());
-			panelScrollTablaValoraciones.setVisible(true);
-		});
 
 	}
 	
@@ -242,14 +248,17 @@ public class Busqueda extends JPanel {
 	public void filtrarHotelesPorNombre(String filtro) {
 	    // Crea una lista filtrada con los hoteles que coinciden con el filtro
 	    ArrayList<Hotel> hotelesFiltrados = new ArrayList<>();
-	    
-	    hoteles.forEach(hotel -> {
-	        if (hotel.getNombre().toLowerCase().contains(filtro.toLowerCase())) {
-	            hotelesFiltrados.add(hotel);
-	        }
-	    });
-	    // Actualiza el modelo de datos de la tabla con la lista filtrada
-	    hotelsTableModel.setHotels(hotelesFiltrados);
+	    if (filtro.isEmpty() || filtro.equals("Nombre Hotel")) {
+		    hotelsTableModel.setHotels(hoteles);
+	    }else {
+	    	hoteles.forEach(hotel -> {
+		        if (hotel.getNombre().toLowerCase().contains(filtro.toLowerCase())) {
+		            hotelesFiltrados.add(hotel);
+		        }
+		    });
+		    // Actualiza el modelo de datos de la tabla con la lista filtrada
+		    hotelsTableModel.setHotels(hotelesFiltrados);
+	    } 
 	}
 	//Fin metodos tabla hotel
 	

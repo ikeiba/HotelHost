@@ -20,7 +20,7 @@ public class HotelsRenderer implements TableCellRenderer {
 		JLabel label = new JLabel();
 		label.setBackground(table.getBackground());
 		label.setText(value.toString());
-		
+        
 		
 		//0. Renderizacion de la columna con el nombre del hotel
 		if (column == 0) {
