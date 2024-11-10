@@ -165,7 +165,7 @@ public class Busqueda extends JPanel {
 				this.cargarTablaValoraciones(((Hotel) hotelSeleccionado).getValoraciones());
 				panelScrollTablaValoraciones.setVisible(true);
 			}else {
-				panelScrollTablaValoraciones.setVisible(false);
+				panelScrollTablaValoraciones.setVisible(false); //para que cuando estemos filtrando desaparezca la tabla de valoraciones
 			}
 		});
 		
@@ -212,9 +212,7 @@ public class Busqueda extends JPanel {
 		this.add(panelCentro, BorderLayout.CENTER); 
 		
 		//Panel principal sur
-        this.add(new JLabel("Hotel Host® 2024"), BorderLayout.SOUTH);
-        System.out.println(tablaHoteles.getSelectedRow());
-        
+        this.add(new JLabel("Hotel Host® 2024"), BorderLayout.SOUTH);        
 	}
 	
 	
