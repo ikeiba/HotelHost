@@ -40,10 +40,19 @@ public class MainFrame extends JFrame {
 
         //Carga de valoraciones
         ArrayList<Valoracion> valoraciones = Valoracion.cargarValoraciones("resources/data/valoraciones.csv");
-        for (Valoracion valoracion : valoraciones) {
-			int posicionHotel = (int) (Math.random()*hoteles.size());
-			hoteles.get(posicionHotel).getValoraciones().add(valoracion);
-		}
+        
+        // Asignamos secuencialmente las primeras valoraciones a los hoteles
+        for (int i = 0; i < hoteles.size(); i++) {
+            // Asignamos la valoración i al hotel i
+            hoteles.get(i).getValoraciones().add(valoraciones.get(i));
+        }
+
+        //Asignamos el resto de valoraciones aleatoriamente
+        for (int i = hoteles.size(); i < valoraciones.size(); i++) {
+            // Asignamos las valoraciones restantes aleatoriamente
+            int posicionHotel = (int) (Math.random() * hoteles.size());
+            hoteles.get(posicionHotel).getValoraciones().add(valoraciones.get(i));
+        }
         
         //FIN CARGA DATOS
         
