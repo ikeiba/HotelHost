@@ -2,6 +2,8 @@ package es.ingenieria.prog3.proyecto.gui;
 
 import javax.swing.*;
 
+import com.toedter.calendar.JDateChooser;
+
 import es.ingenieria.prog3.proyecto.gui.util.JPanelBordesRedondos;
 import es.ingenieria.prog3.proyecto.gui.util.JSeparatorPunteada;
 import es.ingenieria.prog3.proyecto.gui.util.Preferences;
@@ -9,6 +11,7 @@ import es.ingenieria.prog3.proyecto.gui.util.Preferences;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.Date;
 
 @SuppressWarnings("serial")
 public class Home extends JPanel {
@@ -57,8 +60,32 @@ public class Home extends JPanel {
         panelbuscar.setBackground(Color.WHITE);
         panelbuscar.setLayout(null);
         
+        String[] nombrespaises = {"Estados Unidos", "Francia", "Italia", "Tailandia", "China", "Vietnam"};
+        JComboBox<String> JComboBoxPaises = new JComboBox<>(nombrespaises);
+        JComboBoxPaises.setBackground(Color.WHITE);
+        JComboBoxPaises.setBounds((int) (panelbuscar.getWidth() * 0.01), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
+        panelbuscar.add(JComboBoxPaises);
+        
+        String[] nombresciudades = {"Paris", "Las Vegas", "Los Angeles", "Roma", "Bangkok", "Hanoi", "Hong Kong", "Miami", "Nueva York", "Pattaya"};
+        JComboBox<String> JComboBoxCiudades = new JComboBox<>(nombresciudades);
+        JComboBoxCiudades.setBackground(Color.WHITE);
+        JComboBoxCiudades.setBounds((int) (panelbuscar.getWidth() * 0.21), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
+        panelbuscar.add(JComboBoxCiudades);
+        
+        JDateChooser dateChooserinicio = new JDateChooser();
+        dateChooserinicio.setDateFormatString("dd/MM/yyyy");
+        dateChooserinicio.setDate(new Date());
+        dateChooserinicio.setBounds((int) (panelbuscar.getWidth() * 0.41), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
+        panelbuscar.add(dateChooserinicio);
+        
+        JDateChooser dateChooserfinal = new JDateChooser();
+        dateChooserfinal.setDateFormatString("dd/MM/yyyy");
+        dateChooserfinal.setDate(new Date());
+        dateChooserfinal.setBounds((int) (panelbuscar.getWidth() * 0.61), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
+        panelbuscar.add(dateChooserfinal);
+        
         JButton botonBuscar = new JButton("Buscar");
-        botonBuscar.setBounds((int) (panelbuscar.getWidth() * 0.79), 10, (int) (panelbuscar.getWidth() * 0.2), 50);
+        botonBuscar.setBounds((int) (panelbuscar.getWidth() * 0.81), 10, (int) (panelbuscar.getWidth() * 0.18), 50);
         botonBuscar.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Busqueda"));
         panelbuscar.add(botonBuscar);
         
