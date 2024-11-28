@@ -120,6 +120,7 @@ public class Home extends JPanel {
         dateChooserinicio.setDateFormatString("dd/MM/yyyy");
         dateChooserinicio.setDate(new Date());
         dateChooserinicio.setBounds((int) (panelbuscar.getWidth() * 0.41), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
+        dateChooserinicio.setSelectableDateRange(new Date(), null);  // El primer parámetro es la fecha de inicio (hoy)
         panelbuscar.add(dateChooserinicio);
         
         // Impide que el calendario se pueda modificar mediante el teclado (Codigo creado con la ayuda de ChatGPT)
@@ -132,8 +133,9 @@ public class Home extends JPanel {
         
         JDateChooser dateChooserfinal = new JDateChooser();
         dateChooserfinal.setDateFormatString("dd/MM/yyyy");
-        dateChooserfinal.setDate(new Date());
+        //dateChooserfinal.setDate(new Date());
         dateChooserfinal.setBounds((int) (panelbuscar.getWidth() * 0.61), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
+        dateChooserfinal.setSelectableDateRange(new Date(), null);  // El primer parámetro es la fecha de inicio (hoy)
         panelbuscar.add(dateChooserfinal);
         
         // Impide que el calendario se pueda modificar mediante el teclado (Codigo creado con la ayuda de ChatGPT)
@@ -180,13 +182,15 @@ public class Home extends JPanel {
         JButton botonBuscar = new JButton("Buscar");
         botonBuscar.setBounds((int) (panelbuscar.getWidth() * 0.81), 10, (int) (panelbuscar.getWidth() * 0.18), 50);
         botonBuscar.addActionListener(e -> {
-        	if (!JComboBoxPaises.getSelectedItem().equals("")) {
+        	if (JComboBoxPaises.getSelectedItem().equals("")) {
+        		JOptionPane.showMessageDialog(null, "No has seleccionado ningun pais", "NINGUN PAIS SELECCIONADO", JOptionPane.ERROR_MESSAGE, null);
+        	} else if (dateChooserinicio.getDate() == null || dateChooserfinal.getDate() == null) {
+        		JOptionPane.showMessageDialog(null, "Debes seleccionar fechas validas", "FECHAS NO VALIDAS", JOptionPane.ERROR_MESSAGE, null);
+        	} else {
         		String seleccionado = (String) JComboBoxCiudades.getSelectedItem();
         		System.out.println(seleccionado);
-        		DataStore.setSelectedValue(seleccionado);
+        		DataStore.setSelectedCiudad(seleccionado);
         		this.cardLayout.show(this.mainPanel, "Busqueda");
-        	} else {
-        		JOptionPane.showMessageDialog(null, "Debes filtrar al menos por un pais", "NINGUN PAIS SELECCIONADO", JOptionPane.ERROR_MESSAGE, null);
         	}
         });
         panelbuscar.add(botonBuscar);
@@ -236,7 +240,7 @@ public class Home extends JPanel {
 		ciudad.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	DataStore.setSelectedValue("Paris");
+            	DataStore.setSelectedCiudad("Paris");
             	cardLayout.show(mainPanel, "Busqueda");
             }
         });
@@ -276,7 +280,7 @@ public class Home extends JPanel {
 		ciudad2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	DataStore.setSelectedValue("Newy York");
+            	DataStore.setSelectedCiudad("Newy York");
             	cardLayout.show(mainPanel, "Busqueda");
             }
         });
@@ -316,7 +320,7 @@ public class Home extends JPanel {
 		ciudad3.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	DataStore.setSelectedValue("Roma");
+            	DataStore.setSelectedCiudad("Roma");
             	cardLayout.show(mainPanel, "Busqueda");
             }
         });
@@ -354,7 +358,7 @@ public class Home extends JPanel {
 		ciudad4.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	DataStore.setSelectedValue("Hong Kong");
+            	DataStore.setSelectedCiudad("Hong Kong");
             	cardLayout.show(mainPanel, "Busqueda");
             }
         });

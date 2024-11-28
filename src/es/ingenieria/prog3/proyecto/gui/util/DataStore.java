@@ -1,13 +1,34 @@
 package es.ingenieria.prog3.proyecto.gui.util;
 
-public class DataStore {
-	private static String selectedValue;
+import java.util.Date;
 
-    public static String getSelectedValue() {
-        return selectedValue;
+public class DataStore {
+	private static String ciudad;
+	private static Date fechaInicio;
+	private static Date fechaFin;
+
+
+    public static String getSelectedCiudad() {
+        return ciudad;
     }
 
-    public static void setSelectedValue(String value) {
-        selectedValue = value;
+    public static Date getSelectedFechaInicio() {
+        return fechaInicio;
+    }
+    
+    public static Date getSelectedFechaFin() {
+        return fechaFin;
+    }
+
+    public static void setSelectedCiudad(String value) {
+        ciudad = value;
+    }
+    
+    public static void setSelectedFechaInicio(Date inicio) {
+    	fechaInicio = inicio;
+    }
+    
+    public static void setSelectedFechaFin(Date fin) {
+    	fechaFin = fin;
     }
 }

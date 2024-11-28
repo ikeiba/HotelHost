@@ -127,7 +127,7 @@ public class Busqueda extends JPanel {
         sliderPrecio.addChangeListener(e -> {
         	labelPrecioActual.setText("Precio minimo: " + sliderPrecio.getMinRange() + ", Precio maximo: " + sliderPrecio.getMaxRange());
         	filtrarHotelesPorNombreYPrecio(textFieldFiltroHotel.getText(), sliderPrecio.getMinRange(), sliderPrecio.getMaxRange());
-        	System.out.println(DataStore.getSelectedValue());
+
         });
         
         //Anadimos el label y el slider al panel del filro
