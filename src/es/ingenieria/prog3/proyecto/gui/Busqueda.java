@@ -23,6 +23,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingConstants;
+import javax.swing.table.AbstractTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -127,7 +128,6 @@ public class Busqueda extends JPanel {
         sliderPrecio.addChangeListener(e -> {
         	labelPrecioActual.setText("Precio minimo: " + sliderPrecio.getMinRange() + ", Precio maximo: " + sliderPrecio.getMaxRange());
         	filtrarHotelesPorNombreYPrecio(textFieldFiltroHotel.getText(), sliderPrecio.getMinRange(), sliderPrecio.getMaxRange());
-
         });
         
         //Anadimos el label y el slider al panel del filro
@@ -269,7 +269,7 @@ public class Busqueda extends JPanel {
 						Hotel hotelAnadirValoracion = (Hotel) tablaHoteles.getValueAt(tablaHoteles.getSelectedRow(), 0);
 						//Cargar la tabla de comics
 						hotelAnadirValoracion.getValoraciones().add(valoracionNueva);
-						cargarTablaValoraciones(hotelAnadirValoracion.getValoraciones());
+						((AbstractTableModel) tablaValoraciones.getModel()).fireTableDataChanged();
 					}
 				} 
 			}
