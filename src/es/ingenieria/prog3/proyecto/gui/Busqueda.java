@@ -29,6 +29,7 @@ import javax.swing.event.DocumentListener;
 
 import es.ingenieria.prog3.proyecto.domain.Hotel;
 import es.ingenieria.prog3.proyecto.domain.Valoracion;
+import es.ingenieria.prog3.proyecto.gui.util.DataStore;
 import es.ingenieria.prog3.proyecto.gui.util.JPanelBordesRedondos;
 import es.ingenieria.prog3.proyecto.gui.util.JTextFieldDefaultText;
 import es.ingenieria.prog3.proyecto.gui.util.Preferences;
@@ -56,14 +57,14 @@ public class Busqueda extends JPanel {
 	private JScrollPane panelScrollTablaValoraciones;
 	//Panel del label valoraciones
 	private JPanelBordesRedondos panelLabelValoraciones;
+
 	
 	public Busqueda(CardLayout cardLayout, JPanel mainPanel, ArrayList<Hotel> hoteles) {
 		
 		this.cardLayout = cardLayout;
 		this.mainPanel = mainPanel;
 		this.hoteles = hoteles;
-		
-		
+	
 		//Ponemos el fondo del panel blanco y le asignamos el border layout como layoutManager
 		this.setBackground(Color.WHITE);
 		this.setLayout(new BorderLayout());  
@@ -126,7 +127,7 @@ public class Busqueda extends JPanel {
         sliderPrecio.addChangeListener(e -> {
         	labelPrecioActual.setText("Precio minimo: " + sliderPrecio.getMinRange() + ", Precio maximo: " + sliderPrecio.getMaxRange());
         	filtrarHotelesPorNombreYPrecio(textFieldFiltroHotel.getText(), sliderPrecio.getMinRange(), sliderPrecio.getMaxRange());
-        	
+        	System.out.println(DataStore.getSelectedValue());
         });
         
         //Anadimos el label y el slider al panel del filro

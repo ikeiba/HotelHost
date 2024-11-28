@@ -4,14 +4,20 @@ import javax.swing.*;
 
 import com.toedter.calendar.JDateChooser;
 
+import es.ingenieria.prog3.proyecto.gui.util.DataStore;
 import es.ingenieria.prog3.proyecto.gui.util.JPanelBordesRedondos;
 import es.ingenieria.prog3.proyecto.gui.util.JSeparatorPunteada;
 import es.ingenieria.prog3.proyecto.gui.util.Preferences;
 
 import java.awt.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.util.Date;
+import java.util.HashMap;
 
 @SuppressWarnings("serial")
 public class Home extends JPanel {
@@ -60,17 +66,55 @@ public class Home extends JPanel {
         panelbuscar.setBackground(Color.WHITE);
         panelbuscar.setLayout(null);
         
-        String[] nombrespaises = {"Estados Unidos", "Francia", "Italia", "Tailandia", "China", "Vietnam"};
+        String[] nombrespaises = {"", "Estados Unidos", "Francia", "Italia", "Tailandia", "China", "Vietnam"};
         JComboBox<String> JComboBoxPaises = new JComboBox<>(nombrespaises);
         JComboBoxPaises.setBackground(Color.WHITE);
         JComboBoxPaises.setBounds((int) (panelbuscar.getWidth() * 0.01), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
         panelbuscar.add(JComboBoxPaises);
         
-        String[] nombresciudades = {"Paris", "Las Vegas", "Los Angeles", "Roma", "Bangkok", "Hanoi", "Hong Kong", "Miami", "Nueva York", "Pattaya"};
+        String[] nombresciudades = {"", "Paris", "Las Vegas", "Los Angeles", "Roma", "Bangkok", "Hanoi", "Hong Kong", "Miami", "Nueva York", "Pattaya"};
         JComboBox<String> JComboBoxCiudades = new JComboBox<>(nombresciudades);
         JComboBoxCiudades.setBackground(Color.WHITE);
         JComboBoxCiudades.setBounds((int) (panelbuscar.getWidth() * 0.21), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
+        JComboBoxCiudades.setEnabled(false);
         panelbuscar.add(JComboBoxCiudades);
+        
+
+        // Mapa de países y sus ciudades asociadas
+        HashMap<String, String[]> ciudadesPorPais = new HashMap<>();
+        ciudadesPorPais.put("Estados Unidos", new String[]{"Las Vegas", "Los Angeles", "Miami", "Nueva York"});
+        ciudadesPorPais.put("Francia", new String[]{"Paris"});
+        ciudadesPorPais.put("Italia", new String[]{"Roma"});
+        ciudadesPorPais.put("Tailandia", new String[]{"Bangkok", "Pattaya"});
+        ciudadesPorPais.put("China", new String[]{"Hong Kong"});
+        ciudadesPorPais.put("Vietnam", new String[]{"Hanoi"});
+
+        // Listener para el JComboBox de países
+        JComboBoxPaises.addActionListener( e -> {
+
+        	String paisSeleccionado = (String) JComboBoxPaises.getSelectedItem();
+
+            // Limpiar el JComboBox de ciudades
+            JComboBoxCiudades.removeAllItems();
+
+            if (paisSeleccionado != null && !paisSeleccionado.isEmpty()) {
+                // Poner las ciudades correspondientes
+                JComboBoxCiudades.setEnabled(true);
+                if (ciudadesPorPais.containsKey(paisSeleccionado)) {
+                	// Si hay mas de una ciudad poner una opcion para todas
+                	if (ciudadesPorPais.get(paisSeleccionado).length > 1)
+                    	JComboBoxCiudades.addItem("-");
+                	//Añadir las ciudades al comboBox
+                    for (String ciudad : ciudadesPorPais.get(paisSeleccionado)) {
+                        JComboBoxCiudades.addItem(ciudad);
+                    }
+                }
+            } else {
+                // Deshabilitar el JComboBoxCiudades si no hay país seleccionado
+                JComboBoxCiudades.setEnabled(false);
+            }
+        });
+        
         
         JDateChooser dateChooserinicio = new JDateChooser();
         dateChooserinicio.setDateFormatString("dd/MM/yyyy");
@@ -78,15 +122,73 @@ public class Home extends JPanel {
         dateChooserinicio.setBounds((int) (panelbuscar.getWidth() * 0.41), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
         panelbuscar.add(dateChooserinicio);
         
+        // Impide que el calendario se pueda modificar mediante el teclado (Codigo creado con la ayuda de ChatGPT)
+        dateChooserinicio.getDateEditor().getUiComponent().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                e.consume();  // Ignora cualquier tecla presionada
+            }
+        });
+        
         JDateChooser dateChooserfinal = new JDateChooser();
         dateChooserfinal.setDateFormatString("dd/MM/yyyy");
         dateChooserfinal.setDate(new Date());
         dateChooserfinal.setBounds((int) (panelbuscar.getWidth() * 0.61), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
         panelbuscar.add(dateChooserfinal);
         
+        // Impide que el calendario se pueda modificar mediante el teclado (Codigo creado con la ayuda de ChatGPT)
+        dateChooserfinal.getDateEditor().getUiComponent().addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                e.consume();  // Ignora cualquier tecla presionada
+            }
+        });
+        
+        // Listeners para asegurar que la seleccion de fechas es correcta (logica)
+        // Codigo creado con la ayuda de ChatGPT
+        dateChooserinicio.addPropertyChangeListener("date", new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                Date fechaInicio = dateChooserinicio.getDate();
+                Date fechaFinal = dateChooserfinal.getDate();
+
+                // Si fechaInicio no es null y es después de fechaFinal
+                if (fechaInicio != null && fechaFinal != null && fechaInicio.after(fechaFinal)) {
+                    JOptionPane.showMessageDialog(null, "La fecha de inicio no puede ser posterior a la fecha final.", "Error", JOptionPane.WARNING_MESSAGE);
+                    dateChooserinicio.setDate(fechaFinal); // Ajustar fecha de inicio
+                }
+            }
+        });
+
+        // Listener para validar la fecha de salida
+        dateChooserfinal.addPropertyChangeListener("date", new PropertyChangeListener() {
+            @Override
+            public void propertyChange(PropertyChangeEvent evt) {
+                Date fechaInicio = dateChooserinicio.getDate();
+                Date fechaFinal = dateChooserfinal.getDate();
+
+                // Si fechaFinal no es null y es antes de fechaInicio
+                if (fechaInicio != null && fechaFinal != null && fechaFinal.before(fechaInicio)) {
+                    JOptionPane.showMessageDialog(null, "La fecha final no puede ser anterior a la fecha de inicio.", "Error", JOptionPane.WARNING_MESSAGE);
+                    dateChooserfinal.setDate(fechaInicio); // Ajustar fecha final
+                }
+            }
+        });
+
+        
+        
         JButton botonBuscar = new JButton("Buscar");
         botonBuscar.setBounds((int) (panelbuscar.getWidth() * 0.81), 10, (int) (panelbuscar.getWidth() * 0.18), 50);
-        botonBuscar.addActionListener(e -> this.cardLayout.show(this.mainPanel, "Busqueda"));
+        botonBuscar.addActionListener(e -> {
+        	if (!JComboBoxPaises.getSelectedItem().equals("")) {
+        		String seleccionado = (String) JComboBoxCiudades.getSelectedItem();
+        		System.out.println(seleccionado);
+        		DataStore.setSelectedValue(seleccionado);
+        		this.cardLayout.show(this.mainPanel, "Busqueda");
+        	} else {
+        		JOptionPane.showMessageDialog(null, "Debes filtrar al menos por un pais", "NINGUN PAIS SELECCIONADO", JOptionPane.ERROR_MESSAGE, null);
+        	}
+        });
         panelbuscar.add(botonBuscar);
         
         JSeparatorPunteada barraSeparadora2 = new JSeparatorPunteada();
@@ -114,12 +216,6 @@ public class Home extends JPanel {
 		Image banderaScaled = banderaIcon.getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
 		ImageIcon banderaResized = new ImageIcon(banderaScaled);
 		bandera.setIcon(banderaResized);
-		bandera.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	cardLayout.show(mainPanel, "Busqueda");
-            }
-        });
 		panelciudad.add(bandera);
 		
         JLabel labelciudad = new JLabel("Paris");
@@ -129,12 +225,6 @@ public class Home extends JPanel {
         labelciudad.setFont(new Font("Verdana", Font.BOLD, 15));
         labelciudad.setForeground(Color.WHITE);
         add(labelciudad, BorderLayout.CENTER);
-        labelciudad.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	cardLayout.show(mainPanel, "Busqueda");
-            }
-        });
 		panelciudad.add(labelciudad);
         
         JLabel ciudad = new JLabel();
@@ -146,6 +236,7 @@ public class Home extends JPanel {
 		ciudad.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+            	DataStore.setSelectedValue("Paris");
             	cardLayout.show(mainPanel, "Busqueda");
             }
         });
@@ -165,12 +256,6 @@ public class Home extends JPanel {
 		Image banderaScaled2 = banderaIcon2.getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
 		ImageIcon banderaResized2 = new ImageIcon(banderaScaled2);
 		bandera2.setIcon(banderaResized2);
-		bandera2.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	cardLayout.show(mainPanel, "Busqueda");
-            }
-        });
 		panelciudad2.add(bandera2);
 		
         JLabel labelciudad2 = new JLabel("Nueva York");
@@ -180,12 +265,6 @@ public class Home extends JPanel {
         labelciudad2.setFont(new Font("Verdana", Font.BOLD, 15));
         labelciudad2.setForeground(Color.WHITE);
         add(labelciudad2, BorderLayout.CENTER);
-        labelciudad2.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	cardLayout.show(mainPanel, "Busqueda");
-            }
-        });
 		panelciudad2.add(labelciudad2);
         
         JLabel ciudad2 = new JLabel();
@@ -197,6 +276,7 @@ public class Home extends JPanel {
 		ciudad2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+            	DataStore.setSelectedValue("Newy York");
             	cardLayout.show(mainPanel, "Busqueda");
             }
         });
@@ -216,12 +296,6 @@ public class Home extends JPanel {
 		Image banderaScaled3 = banderaIcon3.getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
 		ImageIcon banderaResized3 = new ImageIcon(banderaScaled3);
 		bandera3.setIcon(banderaResized3);
-		bandera3.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	cardLayout.show(mainPanel, "Busqueda");
-            }
-        });
 		panelciudad3.add(bandera3);
 		
         JLabel labelciudad3 = new JLabel("Roma");
@@ -231,12 +305,6 @@ public class Home extends JPanel {
         labelciudad3.setFont(new Font("Verdana", Font.BOLD, 15));
         labelciudad3.setForeground(Color.WHITE);
         add(labelciudad3, BorderLayout.CENTER);
-        labelciudad3.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	cardLayout.show(mainPanel, "Busqueda");
-            }
-        });
 		panelciudad3.add(labelciudad3);
         
         JLabel ciudad3 = new JLabel();
@@ -248,6 +316,7 @@ public class Home extends JPanel {
 		ciudad3.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+            	DataStore.setSelectedValue("Roma");
             	cardLayout.show(mainPanel, "Busqueda");
             }
         });
@@ -265,12 +334,6 @@ public class Home extends JPanel {
 		Image banderaScaled4 = banderaIcon4.getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
 		ImageIcon banderaResized4 = new ImageIcon(banderaScaled4);
 		bandera4.setIcon(banderaResized4);
-		bandera4.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	cardLayout.show(mainPanel, "Busqueda");
-            }
-        });
 		panelciudad4.add(bandera4);
 		
         JLabel labelciudad4 = new JLabel("Hong Kong");
@@ -280,12 +343,6 @@ public class Home extends JPanel {
         labelciudad4.setFont(new Font("Verdana", Font.BOLD, 15));
         labelciudad4.setForeground(Color.WHITE);
         add(labelciudad4, BorderLayout.CENTER);
-        labelciudad4.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	cardLayout.show(mainPanel, "Busqueda");
-            }
-        });
 		panelciudad4.add(labelciudad4);
         
         JLabel ciudad4 = new JLabel();
@@ -297,6 +354,7 @@ public class Home extends JPanel {
 		ciudad4.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+            	DataStore.setSelectedValue("Hong Kong");
             	cardLayout.show(mainPanel, "Busqueda");
             }
         });
