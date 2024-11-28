@@ -317,11 +317,11 @@ public class Busqueda extends JPanel {
 		
 		columnModel.getColumn(0).setPreferredWidth(135);  // Set preferred width for column 0
 		
-		columnModel.getColumn(1).setPreferredWidth(100);  // Set preferred width for column 0
+		columnModel.getColumn(1).setPreferredWidth(100);  // Set preferred width for column 1
 		
-		columnModel.getColumn(2).setPreferredWidth(100);  // Set preferred width for column 0
+		columnModel.getColumn(2).setPreferredWidth(100);  // Set preferred width for column 2
 	
-		columnModel.getColumn(3).setPreferredWidth(100);
+		columnModel.getColumn(3).setPreferredWidth(100); // Set preferred width for column 3
 		
 
 		//No dejar que las columnas se muevan
