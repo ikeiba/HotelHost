@@ -188,8 +188,11 @@ public class Home extends JPanel {
         		JOptionPane.showMessageDialog(null, "Debes seleccionar fechas validas", "FECHAS NO VALIDAS", JOptionPane.ERROR_MESSAGE, null);
         	} else {
         		String seleccionado = (String) JComboBoxCiudades.getSelectedItem();
-        		System.out.println(seleccionado);
         		DataStore.setSelectedCiudad(seleccionado);
+        		Date fechaInicio = dateChooserinicio.getDate();
+        		DataStore.setSelectedFechaInicio(fechaInicio);
+        		Date fechaFin = dateChooserfinal.getDate();
+        		DataStore.setSelectedFechaFin(fechaFin);
         		this.cardLayout.show(this.mainPanel, "Busqueda");
         	}
         });
