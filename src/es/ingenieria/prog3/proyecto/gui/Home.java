@@ -82,7 +82,7 @@ public class Home extends JPanel {
 
         // Mapa de países y sus ciudades asociadas
         HashMap<String, String[]> ciudadesPorPais = new HashMap<>();
-        ciudadesPorPais.put("Estados Unidos", new String[]{"Las Vegas", "Los Angeles", "Miami", "Nueva York"});
+        ciudadesPorPais.put("Estados Unidos", new String[]{"Las Vegas", "Los Angeles", "Miami", "New York"});
         ciudadesPorPais.put("Francia", new String[]{"Paris"});
         ciudadesPorPais.put("Italia", new String[]{"Roma"});
         ciudadesPorPais.put("Tailandia", new String[]{"Bangkok", "Pattaya"});
@@ -101,9 +101,6 @@ public class Home extends JPanel {
                 // Poner las ciudades correspondientes
                 JComboBoxCiudades.setEnabled(true);
                 if (ciudadesPorPais.containsKey(paisSeleccionado)) {
-                	// Si hay mas de una ciudad poner una opcion para todas
-                	if (ciudadesPorPais.get(paisSeleccionado).length > 1)
-                    	JComboBoxCiudades.addItem("-");
                 	//Añadir las ciudades al comboBox
                     for (String ciudad : ciudadesPorPais.get(paisSeleccionado)) {
                         JComboBoxCiudades.addItem(ciudad);

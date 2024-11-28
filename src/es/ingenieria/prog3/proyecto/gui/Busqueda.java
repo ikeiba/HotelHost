@@ -127,7 +127,7 @@ public class Busqueda extends JPanel {
         // Listener que actualiza en que rango de precios se encuentra
         sliderPrecio.addChangeListener(e -> {
         	labelPrecioActual.setText("Precio minimo: " + sliderPrecio.getMinRange() + ", Precio maximo: " + sliderPrecio.getMaxRange());
-        	filtrarHotelesPorNombreYPrecio(textFieldFiltroHotel.getText(), sliderPrecio.getMinRange(), sliderPrecio.getMaxRange());
+        	filtrarHoteles(textFieldFiltroHotel.getText(), sliderPrecio.getMinRange(), sliderPrecio.getMaxRange());
         });
         
         //Anadimos el label y el slider al panel del filro
@@ -139,17 +139,17 @@ public class Busqueda extends JPanel {
             
         	@Override
             public void insertUpdate(DocumentEvent e) {
-            	filtrarHotelesPorNombreYPrecio(textFieldFiltroHotel.getText(), sliderPrecio.getMinRange(), sliderPrecio.getMaxRange());
+            	filtrarHoteles(textFieldFiltroHotel.getText(), sliderPrecio.getMinRange(), sliderPrecio.getMaxRange());
             }
 
             @Override
             public void removeUpdate(DocumentEvent e) {
-            	filtrarHotelesPorNombreYPrecio(textFieldFiltroHotel.getText(), sliderPrecio.getMinRange(), sliderPrecio.getMaxRange());
+            	filtrarHoteles(textFieldFiltroHotel.getText(), sliderPrecio.getMinRange(), sliderPrecio.getMaxRange());
             }
 
             @Override
             public void changedUpdate(DocumentEvent e) {
-            	filtrarHotelesPorNombreYPrecio(textFieldFiltroHotel.getText(), sliderPrecio.getMinRange(), sliderPrecio.getMaxRange());
+            	filtrarHoteles(textFieldFiltroHotel.getText(), sliderPrecio.getMinRange(), sliderPrecio.getMaxRange());
             }
 
         };
@@ -330,18 +330,25 @@ public class Busqueda extends JPanel {
 	}
 	
 	//Metodo para filtrar los hoteles segun el nombre
-	public void filtrarHotelesPorNombreYPrecio(String filtro, int minimo, int maximo) {
+	public void filtrarHoteles(String filtro, int minimo, int maximo) {
 	    // Crea una lista filtrada con los hoteles que coinciden con el filtro
 	    ArrayList<Hotel> hotelesFiltrados = new ArrayList<>();
 	    if (filtro.isEmpty() || filtro.equals("Nombre Hotel")) {
 	    	hoteles.forEach(hotel -> {
-		        if (hotel.getPrecioMaximo() < maximo && hotel.getPrecioMinimo() > minimo) {
+		        if (hotel.getPrecioMaximo() < maximo 
+		        		&& hotel.getPrecioMinimo() > minimo 
+		        		&& hotel.getCiudad().equals(DataStore.getSelectedCiudad())) {
+		        	
 		        	hotelesFiltrados.add(hotel);
 		        }
 		    });
 	    }else {
 	    	hoteles.forEach(hotel -> {
-		        if (hotel.getNombre().toLowerCase().contains(filtro.toLowerCase()) && hotel.getPrecioMaximo() < maximo && hotel.getPrecioMinimo() > minimo) {
+		        if (hotel.getNombre().toLowerCase().contains(filtro.toLowerCase()) 
+		        		&& hotel.getPrecioMaximo() < maximo 
+		        		&& hotel.getPrecioMinimo() > minimo
+		        		&& hotel.getCiudad().equals(DataStore.getSelectedCiudad())) {
+		        	
 		            hotelesFiltrados.add(hotel);
 		        }
 		    });
@@ -369,11 +376,11 @@ public class Busqueda extends JPanel {
 		
 		columnModel.getColumn(0).setPreferredWidth(120);  // Set preferred width for column 0
 		
-		columnModel.getColumn(1).setPreferredWidth(80);  // Set preferred width for column 0
+		columnModel.getColumn(1).setPreferredWidth(80);  // Set preferred width for column 1
 		
-		columnModel.getColumn(2).setPreferredWidth(180);  // Set preferred width for column 0
+		columnModel.getColumn(2).setPreferredWidth(180);  // Set preferred width for column 2
 	
-		columnModel.getColumn(3).setPreferredWidth(80);
+		columnModel.getColumn(3).setPreferredWidth(80); // Set preferred width for column 3
 		
 		//No dejar que las columnas se muevan
 		tablaValoraciones.getTableHeader().setReorderingAllowed(false);

@@ -2,6 +2,8 @@ package es.ingenieria.prog3.proyecto.gui;
 
 import java.awt.CardLayout;
 import java.awt.KeyboardFocusManager;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -64,9 +66,19 @@ public class MainFrame extends JFrame {
         mainPanel.add(new Log4(cardLayout, mainPanel), "Log4");
         mainPanel.add(new Log5(cardLayout, mainPanel), "Log5");
         mainPanel.add(new Home(cardLayout, mainPanel), "Home");
-        mainPanel.add(new Busqueda(cardLayout, mainPanel, hoteles), "Busqueda");
-
         
+        // Añadimos una funcionalidad al hotel cuando sea el que esta visible
+        Busqueda panelBusqueda = new Busqueda(cardLayout, mainPanel, hoteles);
+        panelBusqueda.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentShown(ComponentEvent e) {
+                // Modificar atributo de panel3, como el color de fondo
+            	panelBusqueda.filtrarHoteles("", 0, 100000);
+            }
+        });
+        // Añadimos el panel de busqueda al cardLayout
+        mainPanel.add(panelBusqueda, "Busqueda");
+
         // Añadir el mainPanel al JFrame
         this.add(mainPanel);
         

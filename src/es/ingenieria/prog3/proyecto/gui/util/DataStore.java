@@ -6,6 +6,7 @@ public class DataStore {
 	private static String ciudad;
 	private static Date fechaInicio;
 	private static Date fechaFin;
+	private static boolean visible;
 
 
     public static String getSelectedCiudad() {
@@ -20,6 +21,10 @@ public class DataStore {
         return fechaFin;
     }
 
+    public static boolean getVisible() {
+        return visible;
+    }
+    
     public static void setSelectedCiudad(String value) {
         ciudad = value;
     }
@@ -30,5 +35,9 @@ public class DataStore {
     
     public static void setSelectedFechaFin(Date fin) {
     	fechaFin = fin;
+    }
+    
+    public static void setVisible(boolean value) {
+    	visible = value;
     }
 }
