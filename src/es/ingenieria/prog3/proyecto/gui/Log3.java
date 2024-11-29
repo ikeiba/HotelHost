@@ -81,15 +81,15 @@ public class Log3 extends JPanel{
         barraSeparadora.setOrientation(SwingConstants.HORIZONTAL);
         panelnuevousuario.add(barraSeparadora);
         
+        //Creamos el textField para introducir el usuario
+        JTextFieldDefaultText textFieldUsuario = new JTextFieldDefaultText("Usuario");
+        textFieldUsuario.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 130, (int) (panelnuevousuario.getWidth() * 0.88), 50);
+        panelnuevousuario.add(textFieldUsuario);
+        
         //Creamos el textField para introducir el email
         JTextFieldDefaultText textFieldEmail = new JTextFieldDefaultText("Email");
-        textFieldEmail.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 130, (int) (panelnuevousuario.getWidth() * 0.88), 50);
+        textFieldEmail.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 200, (int) (panelnuevousuario.getWidth() * 0.88), 50);
         panelnuevousuario.add(textFieldEmail);
-        
-        //Creamos el textField para introducir el telefono
-        JTextFieldDefaultText textFieldTelefono = new JTextFieldDefaultText("Teléfono");
-        textFieldTelefono.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 200, (int) (panelnuevousuario.getWidth() * 0.88), 50);
-        panelnuevousuario.add(textFieldTelefono);
         
         //Creamos el boton que regresa a la pantalla de inicio de sesion
         JButton botonVolver = new JButton("Volver");
