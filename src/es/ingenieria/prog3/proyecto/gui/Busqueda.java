@@ -285,6 +285,22 @@ public class Busqueda extends JPanel {
 		tablaValoraciones.addKeyListener(keyListener);
 		//Fin listener añadir valoracion
 		
+		//ANUNCIOS
+		//Creamos el panel para los anuncios y añadimos la tabla al panel
+		JPanelBordesRedondos panelAnuncios = new JPanelBordesRedondos(25);
+		panelAnuncios.setBounds(0, 0, (int) (Preferences.WINDOWWIDTH * 0.4), 125);
+		panelAnuncios.setBounds((int) ((Preferences.WINDOWWIDTH * 0.22) - (panelAnuncios.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.435) - (panelAnuncios.getHeight() / 2)) - 75, panelAnuncios.getWidth(), panelAnuncios.getHeight());
+		panelAnuncios.setBackground(Color.RED);
+		panelAnuncios.setLayout(null);
+		/*Thread hiloAnuncio = new Thread() {
+			@Override
+			public void run() {
+				
+			}
+		};*/
+		
+		
+		
         //Añadimos los componentes al panelCentro y el panelCentro al centro del Panel de la clase (this)
         panelCentro.add(textFieldFiltroHotel);
         panelCentro.add(panelFiltro);
@@ -292,6 +308,7 @@ public class Busqueda extends JPanel {
         panelCentro.add(logo);
         panelCentro.add(panelScrollTablaValoraciones);
         panelCentro.add(panelLabelValoraciones);
+        panelCentro.add(panelAnuncios);
         
         //Añadimos el panel panelCentro al BorderLayout.CENTER del Panel de la clase (this)
 		this.add(panelCentro, BorderLayout.CENTER); 
