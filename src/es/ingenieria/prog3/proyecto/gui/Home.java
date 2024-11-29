@@ -280,7 +280,7 @@ public class Home extends JPanel {
 		ciudad2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	DataStore.setSelectedCiudad("Newy York");
+            	DataStore.setSelectedCiudad("New York");
             	cardLayout.show(mainPanel, "Busqueda");
             }
         });
