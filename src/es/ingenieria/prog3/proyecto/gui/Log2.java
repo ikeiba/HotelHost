@@ -153,13 +153,14 @@ public class Log2 extends JPanel {
         JCheckBox[] checkboxgenero = {checkboxgenerohombre, checkboxgeneromujer, checkboxgenerootro};
         new JCheckBoxListener(checkboxgenero);
         
-        JTextFieldDefaultText textFieldEmail = new JTextFieldDefaultText("Email");
-        textFieldEmail.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 380, (int) (panelnuevousuario.getWidth() * 0.88), 50);
-        panelnuevousuario.add(textFieldEmail);
+        JTextFieldDefaultText textFieldUsusario = new JTextFieldDefaultText("Usuario");
+        textFieldUsusario.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 380, (int) (panelnuevousuario.getWidth() * 0.88), 50);
+        panelnuevousuario.add(textFieldUsusario);
         
-        JTextFieldDefaultText textFieldTelefono = new JTextFieldDefaultText("Telefono");
-        textFieldTelefono.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 440, (int) (panelnuevousuario.getWidth() * 0.88), 50);
-        panelnuevousuario.add(textFieldTelefono);
+        JTextFieldDefaultText textFieldEmail = new JTextFieldDefaultText("Email");
+        textFieldEmail.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 440, (int) (panelnuevousuario.getWidth() * 0.88), 50);
+        panelnuevousuario.add(textFieldEmail);
+
         
         JCheckBox checkBoxContrasena = new JCheckBox();
         checkBoxContrasena.setBackground(Color.WHITE);
@@ -212,7 +213,7 @@ public class Log2 extends JPanel {
 
                 // If "Accept" is chosen, execute functions
                 if (option == JOptionPane.YES_OPTION) {
-                    EmailSender.sendEmail(textFieldEmail.getText(), "Te damos la bienvenida a HotelHost", "Si has recibido este email, eso significa que tu cuenta se ha creado correctamente");
+                    EmailSender.sendEmail(textFieldEmail.getText(), "Te damos la bienvenida a HotelHost", "Si has recibido este email, eso significa que tu cuenta se ha creado correctamente, gracias por unirte a HotelHost " + textFieldUsusario.getText());
                 }
                 // "Cancel" will close the dialog automatically
             }
