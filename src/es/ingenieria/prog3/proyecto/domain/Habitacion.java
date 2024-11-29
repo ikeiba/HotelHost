@@ -32,7 +32,7 @@ public class Habitacion {
 		return precio;
 	}
 	
-	public int getCamas() {
+	public int getCapacidad() {
 		return capacidad;
 	}
 	

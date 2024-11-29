@@ -3,7 +3,7 @@ package es.ingenieria.prog3.proyecto.domain;
 import java.util.ArrayList;
 import java.util.Objects;
 
-public class Reserva {
+public class Reserva implements Comparable<Reserva> {
 	
 	private static int contador = 1;
 	private int id;
@@ -80,6 +80,9 @@ public class Reserva {
 		return String.valueOf(this.getHabitacion().getNumero());
 	}
 	
-	
+    @Override
+    public int compareTo(Reserva other) {
+        return Long.compare(this.fechaInicio, other.fechaInicio);
+    }
 	
 }
