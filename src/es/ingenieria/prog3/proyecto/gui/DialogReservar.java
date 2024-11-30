@@ -8,7 +8,6 @@ import es.ingenieria.prog3.proyecto.domain.TipoHabitacion;
 import es.ingenieria.prog3.proyecto.gui.util.DataStore;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 
 public class DialogReservar extends JDialog {
@@ -18,6 +17,7 @@ public class DialogReservar extends JDialog {
 	public DialogReservar() {
 		
 	}
+	
 	
 	public ArrayList<Habitacion> getHabitacionesPorTipo(ArrayList<Habitacion> habitaciones, TipoHabitacion tipo){
 		ArrayList<Habitacion> habitacionesTipo = new ArrayList<Habitacion>();
@@ -34,22 +34,29 @@ public class DialogReservar extends JDialog {
 		Date fechaSalidaSeleccionada = DataStore.getSelectedFechaFin();
 
 		for (Habitacion habitacion : habitaciones) {
+	        boolean disponible = true;
 			ArrayList<Reserva> reservas = habitacion.getReservas();
-			Collections.sort(reservas);
 			
 			for (Reserva reserva : reservas) {
 				Date fechaEntradaReserva = new Date(reserva.getFechaInicio());
 				Date fechaSalidaReserva = new Date(reserva.getFechaFin());
-				if (fechaEntradaReserva.after(fechaSalidaSeleccionada)) {
-					habitacionesDisponibles.add(habitacion);
-					break;
-				} else {
-					//if (fechaEntradaSeleccionada.)
-				}
+					// Comprobar si las fechas se solapan
+	            if (!(fechaSalidaSeleccionada.before(fechaEntradaReserva) || fechaEntradaSeleccionada.after(fechaSalidaReserva))) {
+	                disponible = false;
+	                break; // Si hay conflicto, no es necesario seguir comprobando
+	            }
 			}
-			
+			 // Si no hubo conflictos con ninguna reserva, añadir a la lista de disponibles
+	        if (disponible) {
+	            habitacionesDisponibles.add(habitacion);
+	        }
 		}
 		return habitacionesDisponibles;
-	} 
+	}
+	
+	public static void main(String[] args) {
+		DialogReservar da = new DialogReservar();
+		da.setVisible(true);
+	}
 	
 }
