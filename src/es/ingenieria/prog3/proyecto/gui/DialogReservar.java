@@ -23,9 +23,15 @@ public class DialogReservar extends JDialog {
 		JPanel panelReserva = new JPanel(new GridLayout(3,1));
 
 		JComboBox<TipoHabitacion> comboBoxTipoHabitacion = new JComboBox<TipoHabitacion>(TipoHabitacion.values());			
+		
 		habitacionesDisponibles = getHabitacionesPorFechas(getHabitacionesPorTipo(hotel.getHabitaciones(), (TipoHabitacion) comboBoxTipoHabitacion.getSelectedItem()));
 		comboBoxHabitacionesDisponibles = new JComboBox<Habitacion>(habitacionesDisponibles.toArray(new Habitacion [0]));
-		JComboBox<String> jComboHuespedes = new JComboBox<>();
+		
+		JComboBox<String> comboHuespedes = new JComboBox<>();
+		Habitacion habitacionSeleccionada = (Habitacion) comboBoxHabitacionesDisponibles.getSelectedItem();
+		for (int i = 1; i <= habitacionSeleccionada.getCapacidad(); i++) {
+			comboHuespedes.addItem("Huesped " + i);
+		}
 		
 		comboBoxTipoHabitacion.addActionListener(e -> {
 			habitacionesDisponibles.clear();
@@ -36,13 +42,17 @@ public class DialogReservar extends JDialog {
 			}
 		});
 		
+		comboBoxHabitacionesDisponibles.addActionListener(e -> {
+			
+		});
+		
 		
 		
 		
 		
 		panelReserva.add(comboBoxTipoHabitacion);
 		panelReserva.add(comboBoxHabitacionesDisponibles);
-		panelReserva.add(jComboHuespedes);
+		panelReserva.add(comboHuespedes);
 		add(panelReserva);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle(String.format("Reserva en el hotel '%s'", hotel.getNombre()));		
