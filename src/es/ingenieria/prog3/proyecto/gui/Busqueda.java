@@ -271,7 +271,12 @@ public class Busqueda extends JPanel {
 						hotelAnadirValoracion.getValoraciones().add(valoracionNueva);
 						((AbstractTableModel) tablaValoraciones.getModel()).fireTableDataChanged();
 					}
-				} 
+				} else if (e.getKeyCode() == KeyEvent.VK_R && e.isControlDown()) {
+					if (tablaHoteles.getSelectedRow() != -1) {
+						Hotel hotelSeleccionado = (Hotel) (tablaHoteles.getValueAt(tablaHoteles.getSelectedRow(), 0));
+						DialogReservar dialog = new DialogReservar(hotelSeleccionado);
+					}
+				}
 			}
 
 			@Override
