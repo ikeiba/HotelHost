@@ -6,7 +6,7 @@ public class DataStore {
 	private static String ciudad;
 	private static Date fechaInicio;
 	private static Date fechaFin;
-	private static boolean visible;
+	private static boolean confirmado = false;
 
 
     public static String getSelectedCiudad() {
@@ -22,7 +22,7 @@ public class DataStore {
     }
 
     public static boolean getVisible() {
-        return visible;
+        return confirmado;
     }
     
     public static void setSelectedCiudad(String value) {
@@ -38,6 +38,6 @@ public class DataStore {
     }
     
     public static void setVisible(boolean value) {
-    	visible = value;
+    	confirmado = value;
     }
 }

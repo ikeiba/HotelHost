@@ -235,7 +235,7 @@ public class Busqueda extends JPanel {
 		labelValoraciones.setFont(Preferences.FONT);
 		panelLabelValoraciones.add(labelValoraciones);
        
-		//Creamos el evento de teclado para añadir una valoracion
+		//Creamos el evento de teclado para añadir una valoracion y una reserva
 		KeyListener keyListener = new KeyListener() {
 
 			@Override
@@ -291,7 +291,8 @@ public class Busqueda extends JPanel {
 		};
 		
 		tablaHoteles.addKeyListener(keyListener);
-		//Fin listener añadir valoracion
+		tablaValoraciones.addKeyListener(keyListener);
+		//Fin listener añadir valoracion y reserva
 		
 		//ANUNCIOS
 		//Creamos el panel para los anuncios y añadimos la tabla al panel

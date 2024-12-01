@@ -2,6 +2,8 @@ package es.ingenieria.prog3.proyecto.gui;
 
 import javax.swing.*;
 
+import es.ingenieria.prog3.proyecto.gui.util.DataStore;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -21,13 +23,15 @@ public class DialogPago extends JDialog {
 		
         JPanel panelTemporizador = new JPanel();
 		JLabel labelTemporizador = new JLabel();
-		labelTemporizador.setFont(new Font("Verdana", Font.BOLD, 17));
+		labelTemporizador.setFont(new Font("Verdana", Font.BOLD, 14));
+		labelTemporizador.setToolTipText("Finaliza el pago antes que acabe el temporizador o tu reserva no se procesara");;
+
 		
 		Thread hiloTemporizador = new Thread(() -> {
 			for (int i = 300; i >= 0; i--) {
 				int tiempoRestante = i;
 				SwingUtilities.invokeLater( () -> {
-					labelTemporizador.setText(String.format("Quedan %02d:%02d minutos", tiempoRestante / 60, tiempoRestante % 60));
+					labelTemporizador.setText(String.format("Tiempo restante para realizar el pago %02d:%02d minutos", tiempoRestante / 60, tiempoRestante % 60));
 					if (tiempoRestante > 180){
 						labelTemporizador.setForeground(new Color(0,128,0));
 					} else if (tiempoRestante > 60) {
@@ -54,7 +58,7 @@ public class DialogPago extends JDialog {
         //Creamos todo lo relacionado con la tarjeta
         JLabel labelTarjeta = new JLabel("Introduce tu tarjeta: ");
         JPanel panelTarjeta = new JPanel();
-        panelTarjeta.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelTarjeta.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 5));
         JTextField textFieldTarjeta = new JTextField();
         textFieldTarjeta.setColumns(20);
         //Imagen de tarjeta
@@ -68,7 +72,7 @@ public class DialogPago extends JDialog {
         //Creamos todo lo relacionado con la fecha de caducidad
         JLabel labelFechaCaducidad = new JLabel("Introduce la fecha de caducidad de tu tarjeta (MM/AA): ");
         JPanel panelFechaCaducidad = new JPanel();
-        panelFechaCaducidad.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelFechaCaducidad.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 5));
         JTextField textFieldFechaCaducidad = new JTextField();
         textFieldFechaCaducidad.setColumns(10);
         //Imagen de calendario
@@ -82,7 +86,7 @@ public class DialogPago extends JDialog {
         //Creamos todo lo relacionado con el codigo de seguridad
         JLabel labelCodigoSeguridad = new JLabel("Introduce el CVC de tu tarjeta: ");
         JPanel panelCodigoSeguridad = new JPanel();
-        panelCodigoSeguridad.setLayout(new FlowLayout(FlowLayout.LEFT));
+        panelCodigoSeguridad.setLayout(new FlowLayout(FlowLayout.LEFT, 20, 5));
         JTextField textFieldCodigoSeguridad = new JTextField();
         textFieldCodigoSeguridad.setColumns(5);
         //Imagen de candado
@@ -117,9 +121,13 @@ public class DialogPago extends JDialog {
 			}
 		};
 		
-		textFieldTarjeta.addKeyListener(keyListenerTextFields);
-		textFieldFechaCaducidad.addKeyListener(keyListenerTextFields);
-		textFieldCodigoSeguridad.addKeyListener(keyListenerTextFields);
+		JTextField[] textFields = {textFieldTarjeta, textFieldFechaCaducidad, textFieldFechaCaducidad};
+		for (int i = 0; i < textFields.length; i++) {
+			textFields[i].addKeyListener(keyListenerTextFields);
+		}
+		textFieldTarjeta.setToolTipText("Introduce un numero de tarjeta valido (10 o mas caracteres");
+		textFieldFechaCaducidad.setToolTipText("Introduce la fecha de caducidad en el formato especificado (mm/aa)");
+		textFieldCodigoSeguridad.setToolTipText("Introduce el codigo de seguridad (3 digitos)");
 		
         // Panel para los botones
         JPanel panelBotones = new JPanel();
@@ -139,7 +147,8 @@ public class DialogPago extends JDialog {
             	if (textFieldTarjeta.getText().length() >= 10 && (mes > 0 && mes <= 12) && textFieldCodigoSeguridad.getText().length() == 3) {
             		//Procesar la reserva en la base de datos
             		JOptionPane.showMessageDialog(null, "Felicidades, tu reserva se ha procesado correctamente", "RESERVA REALIZADA", JOptionPane.INFORMATION_MESSAGE);
-        			dispose();
+        			DataStore.setVisible(true);
+            		dispose();
             	} else {
             		JOptionPane.showMessageDialog(null, "Cuidado, alguno de los campos es erroneo", "CAMPOS ERRONEOS", JOptionPane.ERROR_MESSAGE);
 
@@ -147,7 +156,11 @@ public class DialogPago extends JDialog {
         	}
         });
         
-        
+        //Añadimos espacio a los labels
+        labelTarjeta.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        labelFechaCaducidad.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+        labelCodigoSeguridad.setBorder(BorderFactory.createEmptyBorder(0, 20, 0, 0));
+
         //Añadir los componentes a los paneles
         panelTemporizador.add(labelTemporizador);
         

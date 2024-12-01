@@ -9,6 +9,7 @@ import es.ingenieria.prog3.proyecto.domain.TipoHabitacion;
 import es.ingenieria.prog3.proyecto.gui.util.DataStore;
 
 import java.awt.BorderLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,11 +23,13 @@ public class DialogReservar extends JDialog {
 	private Habitacion habitacionSeleccionada;
 	private JComboBox<String> comboHuespedes;
 	private int numeroHuespedes;
-	
+	long diferenciaMilisegundos;
+    long diasDiferencia;
+    
 	public DialogReservar(Hotel hotel) {
 		setLayout(new BorderLayout()); // Cambiar layout del diálogo principal
 		 
-        JPanel panelReserva = new JPanel(new GridLayout(8, 1, 5, 8));
+        JPanel panelReserva = new JPanel(new GridLayout(8, 1, 5, 11));
         
         JLabel labelTipoHabitacion = new JLabel("Selecciona el tipo de habitación:");
 		JComboBox<TipoHabitacion> comboBoxTipoHabitacion = new JComboBox<TipoHabitacion>(TipoHabitacion.values());			
@@ -45,7 +48,10 @@ public class DialogReservar extends JDialog {
 		
         JLabel labelPrecio = new JLabel("PRECIO TOTAL:");
         JLabel labelPrecioTotal = new JLabel(String.format("%.2f €", habitacionSeleccionada.getPrecio())); // Precio inicial
-
+        diferenciaMilisegundos = DataStore.getSelectedFechaFin().getTime() - DataStore.getSelectedFechaInicio().getTime();
+        diasDiferencia = diferenciaMilisegundos / (1000 * 60 * 60 * 24);
+		labelPrecioTotal.setText(String.format("Importe total (%d x %.2f €): %.2f €", diasDiferencia, habitacionSeleccionada.getPrecio(), (diasDiferencia*habitacionSeleccionada.getPrecio())));
+		
 		//Listener para el comboBox con los tipos de habitaciones 
 		comboBoxTipoHabitacion.addActionListener(e -> {
 			habitacionesDisponibles.clear();
@@ -57,19 +63,18 @@ public class DialogReservar extends JDialog {
 			if (habitacionesDisponibles.size() == 0) {
 				comboBoxHabitacionesDisponibles.setEnabled(false);
 			}
-			habitacionSeleccionada = (Habitacion) comboBoxHabitacionesDisponibles.getSelectedItem();
-			long diferenciaMilisegundos = DataStore.getSelectedFechaFin().getTime() - DataStore.getSelectedFechaInicio().getTime();
-	        long diasDiferencia = diferenciaMilisegundos / (1000 * 60 * 60 * 24);
-	        System.out.println("Días entre las fechas: " + diasDiferencia);
+			habitacionSeleccionada = (Habitacion) comboBoxHabitacionesDisponibles.getSelectedItem();			
 		});
 		
 		//Listener para el comboBox con habitaciones disponibles
 		comboBoxHabitacionesDisponibles.addActionListener(e -> {
 			if (comboBoxHabitacionesDisponibles.getSelectedItem() != null) {
 				habitacionSeleccionada = (Habitacion) comboBoxHabitacionesDisponibles.getSelectedItem();
-				labelPrecioTotal.setText(String.format("%.2f €", habitacionSeleccionada.getPrecio()));
-				int nuevoNumeroHuespedes = habitacionSeleccionada.getCapacidad();
+				long diferenciaMilisegundos = DataStore.getSelectedFechaFin().getTime() - DataStore.getSelectedFechaInicio().getTime();
+		        long diasDiferencia = diferenciaMilisegundos / (1000 * 60 * 60 * 24);
+				labelPrecioTotal.setText(String.format("Importe total (%d x %.2f €): %.2f €", diasDiferencia, habitacionSeleccionada.getPrecio(), (diasDiferencia*habitacionSeleccionada.getPrecio())));
 				
+				int nuevoNumeroHuespedes = habitacionSeleccionada.getCapacidad();	
 				if (nuevoNumeroHuespedes != numeroHuespedes) {
 					if (nuevoNumeroHuespedes > numeroHuespedes) {
 						for (int i=numeroHuespedes+1; i<=nuevoNumeroHuespedes; i++) {
@@ -140,10 +145,21 @@ public class DialogReservar extends JDialog {
         		JOptionPane.showMessageDialog(null, "Tienes que añadir al menos un huesped", "SIN HUESPEDES", JOptionPane.WARNING_MESSAGE);
         	} else {
         		new DialogPago();
-        		dispose();
+        		if (DataStore.getVisible()) {
+        			DataStore.setVisible(false);
+        			dispose();
+        		}
         	}
         	
         });
+        
+        //Añadimos espacio y fuente a los labels
+        JLabel[] labels = {labelTipoHabitacion, labelHabitaciones, labelHuespedes, labelPrecio};
+        for (int i = 0; i < labels.length; i++) {
+			labels[i].setBorder(BorderFactory.createEmptyBorder(0, 10, 0, 0));
+			labels[i].setFont(new Font("Verdana", Font.BOLD, 12));
+		}
+        labelPrecioTotal.setFont(new Font("Verdana", Font.BOLD, 11));
         
         //Añadir los componentes a los diferentes paneles
         panelBotones.add(botonCancelar);
