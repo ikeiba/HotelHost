@@ -134,9 +134,11 @@ public class DialogReservar extends JDialog {
         JButton botonProcesarPago = new JButton("Procesar Pago");
         
         botonCancelar.addActionListener(e -> dispose());
-        botonCancelar.addActionListener(e -> {
+        botonProcesarPago.addActionListener(e -> {
         	if (!comprobarHuesped()) {
-        		JOptionPane.showMessageDialog(null, "Tienes que añadir al menos un huesped", "Error", JOptionPane.WARNING_MESSAGE);
+        		JOptionPane.showMessageDialog(null, "Tienes que añadir al menos un huesped", "SIN HUESPEDES", JOptionPane.WARNING_MESSAGE);
+        	} else {
+        		System.out.println("BIEN");
         	}
         	
         });
