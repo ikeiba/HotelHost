@@ -134,6 +134,7 @@ public class DialogReservar extends JDialog {
         
         botonCancelar.addActionListener(e -> dispose());
         
+        //Añadir los componentes a los diferentes paneles
         panelBotones.add(botonCancelar);
         panelBotones.add(botonProcesarPago);
 		
@@ -146,12 +147,14 @@ public class DialogReservar extends JDialog {
         panelReserva.add(labelPrecio);
         panelReserva.add(labelPrecioTotal);
         
+        //Añadir los paneles al JDialog
 		add(panelReserva, BorderLayout.NORTH);
 		add(panelBotones, BorderLayout.SOUTH);
 		
+		//Configurar las caracteristicas del JDialog
+        setIconImage(new ImageIcon("resources/images/Hotel Host.png").getImage()); // Cambiar el Logo de la ventana y barra de tareas
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle(String.format("Reserva en el hotel '%s'", hotel.getNombre()));		
-		setIconImage(new ImageIcon("resources/images/tickets.png").getImage());		
 		setSize(500, 350);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setLocationRelativeTo(null);

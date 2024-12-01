@@ -274,7 +274,7 @@ public class Busqueda extends JPanel {
 				} else if (e.getKeyCode() == KeyEvent.VK_R && e.isControlDown()) {
 					if (tablaHoteles.getSelectedRow() != -1) {
 						Hotel hotelSeleccionado = (Hotel) (tablaHoteles.getValueAt(tablaHoteles.getSelectedRow(), 0));
-						DialogReservar dialog = new DialogReservar(hotelSeleccionado);
+						new DialogReservar(hotelSeleccionado);
 					}
 				}
 			}
