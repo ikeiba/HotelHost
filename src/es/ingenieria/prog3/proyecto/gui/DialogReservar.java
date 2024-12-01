@@ -140,6 +140,7 @@ public class DialogReservar extends JDialog {
         		JOptionPane.showMessageDialog(null, "Tienes que añadir al menos un huesped", "SIN HUESPEDES", JOptionPane.WARNING_MESSAGE);
         	} else {
         		new DialogPago();
+        		dispose();
         	}
         	
         });
