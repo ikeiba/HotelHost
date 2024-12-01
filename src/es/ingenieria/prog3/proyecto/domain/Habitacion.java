@@ -105,10 +105,10 @@ public class Habitacion {
 						numero = Integer.valueOf(String.valueOf(i) + 0 + j);
 
 					}
-					int capacidad = (int)(Math.random() * (6 - 1 + 1)) + 1; //la capacidad sera un numero entre 1-6
+					int capacidad = (int)(Math.random() * (4 - 1 + 1)) + 1; //la capacidad sera un numero entre 1-6
 					int indiceTipoHabitacion = (int)(Math.random() * TipoHabitacion.values().length);
 					TipoHabitacion tipoHabitacion = TipoHabitacion.values()[indiceTipoHabitacion];
-					double precio = (Math.random() * (200 - 50 + 1)) + 50; //el precio sera un numero aleatorio entre 50 y 150
+					double precio = (Math.random() * (400 - 50 + 1)) + 50; //el precio sera un numero aleatorio entre 30 y 400
 					Habitacion habitacion = new Habitacion(i, numero, capacidad, tipoHabitacion, precio);
 					hotel.getHabitaciones().add(habitacion);
 				}

@@ -67,6 +67,7 @@ public class DialogReservar extends JDialog {
 		comboBoxHabitacionesDisponibles.addActionListener(e -> {
 			if (comboBoxHabitacionesDisponibles.getSelectedItem() != null) {
 				habitacionSeleccionada = (Habitacion) comboBoxHabitacionesDisponibles.getSelectedItem();
+				labelPrecioTotal.setText(String.format("%.2f €", habitacionSeleccionada.getPrecio()));
 				int nuevoNumeroHuespedes = habitacionSeleccionada.getCapacidad();
 				
 				if (nuevoNumeroHuespedes != numeroHuespedes) {
