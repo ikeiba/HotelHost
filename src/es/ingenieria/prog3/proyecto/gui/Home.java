@@ -133,7 +133,15 @@ public class Home extends JPanel {
         dateChooserfinal.setDateFormatString("dd/MM/yyyy");
         //dateChooserfinal.setDate(new Date());
         dateChooserfinal.setBounds((int) (panelbuscar.getWidth() * 0.61), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
-        dateChooserfinal.setSelectableDateRange(new Date(), null);  // El primer parámetro es la fecha de inicio (hoy)
+        //Como dia inicial seleccionamos el dia siguiente a hoy
+        Calendar calendario = Calendar.getInstance();
+        calendario.setTime(dateChooserinicio.getDate());
+        // Sumar un día
+        calendario.add(Calendar.DAY_OF_MONTH, 1);
+        // Convertir de nuevo a Date
+        Date nuevaFecha = calendario.getTime();
+        dateChooserfinal.setDate(nuevaFecha);       
+        dateChooserfinal.setSelectableDateRange(nuevaFecha, null);  // El primer parámetro es el dia siguiente a la fecha de inicio (mañana)      
         panelbuscar.add(dateChooserfinal);
         
         // Impide que el calendario se pueda modificar mediante el teclado (Codigo creado con la ayuda de ChatGPT)
