@@ -14,9 +14,29 @@ public class DialogPago extends JDialog {
 	
 	public DialogPago() {
 		setLayout(new BorderLayout()); // Cambiar layout del diálogo principal
-		 
-        JPanel panelPago = new JPanel(new GridLayout(6, 1, 5, 5));
-           
+		
+        JPanel panelTemporizador = new JPanel();
+		JLabel labelTemporizador = new JLabel();
+		
+		Thread hiloTemporizador = new Thread(() -> {
+			for (int i = 10; i >= 0; i--) {
+				int tiempoRestante = i;
+				SwingUtilities.invokeLater( () -> labelTemporizador.setText(String.format("Quedan %02d:%02d minutos", tiempoRestante / 60, tiempoRestante % 60)));
+				try {
+					// Se duerme el hilo durante 1 segundo
+					Thread.sleep(1000);
+				} catch (InterruptedException e) {
+					//
+				}
+			}
+			JOptionPane.showMessageDialog(null, "Se ha acabado el tiempo", "FIN DEL TIEMPO", JOptionPane.WARNING_MESSAGE);
+			dispose();
+		});
+		
+		hiloTemporizador.start();
+		
+		JPanel panelPago = new JPanel(new GridLayout(6, 1, 20, 5));
+        
         //Creamos todo lo relacionado con la tarjeta
         JLabel labelTarjeta = new JLabel("Introduce tu tarjeta: ");
         JPanel panelTarjeta = new JPanel();
@@ -64,10 +84,15 @@ public class DialogPago extends JDialog {
         JButton botonCancelar = new JButton("Cancelar");
         JButton botonConfirmar = new JButton("Confirmar");
         
-        botonCancelar.addActionListener(e -> dispose());
+        botonCancelar.addActionListener(e -> {
+        	hiloTemporizador.interrupt();
+        	dispose();
+        });
         
         
         //Añadir los componentes a los paneles
+        panelTemporizador.add(labelTemporizador);
+        
         panelTarjeta.add(imagenTarjeta);
         panelTarjeta.add(textFieldTarjeta);
         
@@ -88,6 +113,7 @@ public class DialogPago extends JDialog {
         panelBotones.add(botonConfirmar);
 
         //Añadir los paneles al JDialog
+        add(panelTemporizador, BorderLayout.NORTH);
         add(panelPago, BorderLayout.CENTER);
 		add(panelBotones, BorderLayout.SOUTH);
 		
