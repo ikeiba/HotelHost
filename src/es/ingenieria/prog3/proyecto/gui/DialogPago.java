@@ -3,9 +3,13 @@ package es.ingenieria.prog3.proyecto.gui;
 import javax.swing.*;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
 
 public class DialogPago extends JDialog {
@@ -17,11 +21,21 @@ public class DialogPago extends JDialog {
 		
         JPanel panelTemporizador = new JPanel();
 		JLabel labelTemporizador = new JLabel();
+		labelTemporizador.setFont(new Font("Verdana", Font.BOLD, 17));
 		
 		Thread hiloTemporizador = new Thread(() -> {
-			for (int i = 10; i >= 0; i--) {
+			for (int i = 300; i >= 0; i--) {
 				int tiempoRestante = i;
-				SwingUtilities.invokeLater( () -> labelTemporizador.setText(String.format("Quedan %02d:%02d minutos", tiempoRestante / 60, tiempoRestante % 60)));
+				SwingUtilities.invokeLater( () -> {
+					labelTemporizador.setText(String.format("Quedan %02d:%02d minutos", tiempoRestante / 60, tiempoRestante % 60));
+					if (tiempoRestante > 180){
+						labelTemporizador.setForeground(new Color(0,128,0));
+					} else if (tiempoRestante > 60) {
+						labelTemporizador.setForeground(Color.ORANGE);
+					} else {
+						labelTemporizador.setForeground(Color.RED);
+					}
+				});
 				try {
 					// Se duerme el hilo durante 1 segundo
 					Thread.sleep(1000);
@@ -52,7 +66,7 @@ public class DialogPago extends JDialog {
 		imagenTarjeta.setIcon(resizedIcon);
         
         //Creamos todo lo relacionado con la fecha de caducidad
-        JLabel labelFechaCaducidad = new JLabel("Introduce la fecha de caducidad de tu tarjeta: ");
+        JLabel labelFechaCaducidad = new JLabel("Introduce la fecha de caducidad de tu tarjeta (MM/AA): ");
         JPanel panelFechaCaducidad = new JPanel();
         panelFechaCaducidad.setLayout(new FlowLayout(FlowLayout.LEFT));
         JTextField textFieldFechaCaducidad = new JTextField();
@@ -79,6 +93,34 @@ public class DialogPago extends JDialog {
 		ImageIcon resizedIcon3 = new ImageIcon(scaledImage3);
 		imagenCodigoSeguridad.setIcon(resizedIcon3);
 		
+		// Los textFields solo admitiran numeros
+		KeyListener keyListenerTextFields = new KeyListener() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				 char c = e.getKeyChar();
+	                if (!Character.isDigit(c) && c != '/') {
+	                    e.consume(); // Ignora la tecla
+	                }				
+			}
+			
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+		
+		textFieldTarjeta.addKeyListener(keyListenerTextFields);
+		textFieldFechaCaducidad.addKeyListener(keyListenerTextFields);
+		textFieldCodigoSeguridad.addKeyListener(keyListenerTextFields);
+		
         // Panel para los botones
         JPanel panelBotones = new JPanel();
         JButton botonCancelar = new JButton("Cancelar");
@@ -87,6 +129,22 @@ public class DialogPago extends JDialog {
         botonCancelar.addActionListener(e -> {
         	hiloTemporizador.interrupt();
         	dispose();
+        });
+        
+        botonConfirmar.addActionListener(e -> {
+        	if (textFieldTarjeta.getText().isEmpty() || textFieldFechaCaducidad.getText().isEmpty() || textFieldCodigoSeguridad.getText().isEmpty()) {
+        		JOptionPane.showMessageDialog(null, "Atencion, debes rellenar todos los campos", "CAMPOS VACIOS", JOptionPane.WARNING_MESSAGE);
+        	} else {
+        		int mes = Integer.valueOf(textFieldFechaCaducidad.getText().split("/")[0]);
+            	if (textFieldTarjeta.getText().length() >= 10 && (mes > 0 && mes <= 12) && textFieldCodigoSeguridad.getText().length() == 3) {
+            		//Procesar la reserva en la base de datos
+            		JOptionPane.showMessageDialog(null, "Felicidades, tu reserva se ha procesado correctamente", "RESERVA REALIZADA", JOptionPane.INFORMATION_MESSAGE);
+        			dispose();
+            	} else {
+            		JOptionPane.showMessageDialog(null, "Cuidado, alguno de los campos es erroneo", "CAMPOS ERRONEOS", JOptionPane.ERROR_MESSAGE);
+
+            	}
+        	}
         });
         
         
