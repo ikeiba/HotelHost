@@ -42,7 +42,7 @@ public class DialogPago extends JDialog {
 				});
 				try {
 					// Se duerme el hilo durante 1 segundo
-					Thread.sleep(1000);
+					Thread.sleep(100);
 				} catch (InterruptedException e) {
 					//
 				}
