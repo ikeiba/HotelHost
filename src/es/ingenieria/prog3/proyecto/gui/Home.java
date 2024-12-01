@@ -16,6 +16,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
@@ -152,9 +153,17 @@ public class Home extends JPanel {
                 Date fechaFinal = dateChooserfinal.getDate();
 
                 // Si fechaInicio no es null y es después de fechaFinal
-                if (fechaInicio != null && fechaFinal != null && fechaInicio.after(fechaFinal)) {
-                    JOptionPane.showMessageDialog(null, "La fecha de inicio no puede ser posterior a la fecha final.", "Error", JOptionPane.WARNING_MESSAGE);
-                    dateChooserinicio.setDate(fechaFinal); // Ajustar fecha de inicio
+                if (fechaInicio != null && fechaFinal != null && (fechaInicio.after(fechaFinal) || fechaInicio.equals(fechaFinal))) {
+                    JOptionPane.showMessageDialog(null, "La fecha de inicio no puede ser posterior o igual a la fecha final.", "Error", JOptionPane.WARNING_MESSAGE);
+                    
+                    Calendar calendario = Calendar.getInstance();
+                    calendario.setTime(fechaInicio);
+                    // Sumar un día
+                    calendario.add(Calendar.DAY_OF_MONTH, 1);
+                    // Convertir de nuevo a Date
+                    Date nuevaFecha = calendario.getTime();
+                    
+                    dateChooserfinal.setDate(nuevaFecha);
                 }
             }
         });
@@ -167,15 +176,22 @@ public class Home extends JPanel {
                 Date fechaFinal = dateChooserfinal.getDate();
 
                 // Si fechaFinal no es null y es antes de fechaInicio
-                if (fechaInicio != null && fechaFinal != null && fechaFinal.before(fechaInicio)) {
-                    JOptionPane.showMessageDialog(null, "La fecha final no puede ser anterior a la fecha de inicio.", "Error", JOptionPane.WARNING_MESSAGE);
-                    dateChooserfinal.setDate(fechaInicio); // Ajustar fecha final
+                if (fechaInicio != null && fechaFinal != null && (fechaFinal.before(fechaInicio) || fechaFinal.equals(fechaInicio))) {
+                    JOptionPane.showMessageDialog(null, "La fecha final no puede ser anterior o igual a la fecha de inicio.", "Error", JOptionPane.WARNING_MESSAGE);
+                    
+                    Calendar calendario = Calendar.getInstance();
+                    calendario.setTime(fechaInicio);
+                    // Sumar un día
+                    calendario.add(Calendar.DAY_OF_MONTH, 1);
+                    // Convertir de nuevo a Date
+                    Date nuevaFecha = calendario.getTime();
+                    dateChooserfinal.setDate(nuevaFecha); // Ajustar fecha final
                 }
             }
         });
 
         
-        
+    
         JButton botonBuscar = new JButton("Buscar");
         botonBuscar.setBounds((int) (panelbuscar.getWidth() * 0.81), 10, (int) (panelbuscar.getWidth() * 0.18), 50);
         botonBuscar.addActionListener(e -> {
@@ -240,8 +256,12 @@ public class Home extends JPanel {
 		ciudad.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	DataStore.setSelectedCiudad("Paris");
-            	cardLayout.show(mainPanel, "Busqueda");
+            	if (dateChooserinicio.getDate() == null || dateChooserfinal.getDate() == null) {
+            		JOptionPane.showMessageDialog(null, "Debes seleccionar fechas validas", "FECHAS NO VALIDAS", JOptionPane.ERROR_MESSAGE, null);
+            	} else {
+            		DataStore.setSelectedCiudad("Paris");
+                	cardLayout.show(mainPanel, "Busqueda");
+            	}	
             }
         });
 		panelciudad.add(ciudad);
@@ -280,8 +300,12 @@ public class Home extends JPanel {
 		ciudad2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	DataStore.setSelectedCiudad("New York");
-            	cardLayout.show(mainPanel, "Busqueda");
+            	if (dateChooserinicio.getDate() == null || dateChooserfinal.getDate() == null) {
+            		JOptionPane.showMessageDialog(null, "Debes seleccionar fechas validas", "FECHAS NO VALIDAS", JOptionPane.ERROR_MESSAGE, null);
+            	} else {
+            		DataStore.setSelectedCiudad("New York");
+                	cardLayout.show(mainPanel, "Busqueda");
+            	}	
             }
         });
 		panelciudad2.add(ciudad2);
@@ -320,8 +344,12 @@ public class Home extends JPanel {
 		ciudad3.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	DataStore.setSelectedCiudad("Roma");
-            	cardLayout.show(mainPanel, "Busqueda");
+            	if (dateChooserinicio.getDate() == null || dateChooserfinal.getDate() == null) {
+            		JOptionPane.showMessageDialog(null, "Debes seleccionar fechas validas", "FECHAS NO VALIDAS", JOptionPane.ERROR_MESSAGE, null);
+            	} else {
+            		DataStore.setSelectedCiudad("Roma");
+                	cardLayout.show(mainPanel, "Busqueda");
+            	}	
             }
         });
 		panelciudad3.add(ciudad3);
@@ -358,8 +386,12 @@ public class Home extends JPanel {
 		ciudad4.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-            	DataStore.setSelectedCiudad("Hong Kong");
-            	cardLayout.show(mainPanel, "Busqueda");
+            	if (dateChooserinicio.getDate() == null || dateChooserfinal.getDate() == null) {
+            		JOptionPane.showMessageDialog(null, "Debes seleccionar fechas validas", "FECHAS NO VALIDAS", JOptionPane.ERROR_MESSAGE, null);
+            	} else {
+            		DataStore.setSelectedCiudad("Hong Kong");
+                	cardLayout.show(mainPanel, "Busqueda");
+            	}	
             }
         });
 		panelciudad4.add(ciudad4);
