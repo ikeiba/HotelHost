@@ -246,6 +246,7 @@ public class Busqueda extends JPanel {
 
 			@Override
 			public void keyPressed(KeyEvent e) {
+				//Codigo para crear una nueva valoracion
 				if (e.getKeyCode() == KeyEvent.VK_V && e.isControlDown()) {
 			        
 					JTextField textFieldComentario = new JTextField(25);
@@ -271,6 +272,8 @@ public class Busqueda extends JPanel {
 						hotelAnadirValoracion.getValoraciones().add(valoracionNueva);
 						((AbstractTableModel) tablaValoraciones.getModel()).fireTableDataChanged();
 					}
+					
+				//Codigo para hacer una nueva reserva
 				} else if (e.getKeyCode() == KeyEvent.VK_R && e.isControlDown()) {
 					if (tablaHoteles.getSelectedRow() != -1) {
 						Hotel hotelSeleccionado = (Hotel) (tablaHoteles.getValueAt(tablaHoteles.getSelectedRow(), 0));
@@ -287,7 +290,7 @@ public class Busqueda extends JPanel {
 			
 		};
 		
-		tablaValoraciones.addKeyListener(keyListener);
+		tablaHoteles.addKeyListener(keyListener);
 		//Fin listener añadir valoracion
 		
 		//ANUNCIOS
@@ -407,9 +410,6 @@ public class Busqueda extends JPanel {
 		//No dejar que las columnas se muevan
 		tablaValoraciones.getTableHeader().setReorderingAllowed(false);
 	}
-	
-	
-	
 	
 	//Fin metodos tabla valoracion
 	
