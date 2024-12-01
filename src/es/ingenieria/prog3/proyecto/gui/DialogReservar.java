@@ -20,6 +20,7 @@ public class DialogReservar extends JDialog {
 	private ArrayList<Habitacion> habitacionesDisponibles;
 	private JComboBox<Habitacion> comboBoxHabitacionesDisponibles;
 	private Habitacion habitacionSeleccionada;
+	private JComboBox<String> comboHuespedes;
 	private int numeroHuespedes;
 	
 	public DialogReservar(Hotel hotel) {
@@ -35,7 +36,7 @@ public class DialogReservar extends JDialog {
 		comboBoxHabitacionesDisponibles = new JComboBox<Habitacion>(habitacionesDisponibles.toArray(new Habitacion [0]));
 		
         JLabel labelHuespedes = new JLabel("Incluye a los huéspedes (al menos 1):");
-		JComboBox<String> comboHuespedes = new JComboBox<>();
+		comboHuespedes = new JComboBox<>();
 		habitacionSeleccionada = (Habitacion) comboBoxHabitacionesDisponibles.getSelectedItem();
 		numeroHuespedes = habitacionSeleccionada.getCapacidad();
 		for (int i = 1; i <= numeroHuespedes; i++) {
@@ -133,6 +134,12 @@ public class DialogReservar extends JDialog {
         JButton botonProcesarPago = new JButton("Procesar Pago");
         
         botonCancelar.addActionListener(e -> dispose());
+        botonCancelar.addActionListener(e -> {
+        	if (!comprobarHuesped()) {
+        		JOptionPane.showMessageDialog(null, "Tienes que añadir al menos un huesped", "Error", JOptionPane.WARNING_MESSAGE);
+        	}
+        	
+        });
         
         //Añadir los componentes a los diferentes paneles
         panelBotones.add(botonCancelar);
@@ -195,6 +202,15 @@ public class DialogReservar extends JDialog {
 	        }
 		}
 		return habitacionesDisponibles;
+	}
+	
+	public boolean comprobarHuesped() {
+		for (int i = 0; i < comboHuespedes.getItemCount(); i++) {
+			if (!comboHuespedes.getItemAt(i).equals(String.format("Huesped - %d", i+1))) {
+				return true;
+			}
+		}	
+		return false;
 	}
 	
 }

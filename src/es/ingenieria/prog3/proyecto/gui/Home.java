@@ -268,6 +268,8 @@ public class Home extends JPanel {
             		JOptionPane.showMessageDialog(null, "Debes seleccionar fechas validas", "FECHAS NO VALIDAS", JOptionPane.ERROR_MESSAGE, null);
             	} else {
             		DataStore.setSelectedCiudad("Paris");
+            		DataStore.setSelectedFechaInicio(dateChooserinicio.getDate());
+            		DataStore.setSelectedFechaFin(dateChooserfinal.getDate());
                 	cardLayout.show(mainPanel, "Busqueda");
             	}	
             }
@@ -312,6 +314,8 @@ public class Home extends JPanel {
             		JOptionPane.showMessageDialog(null, "Debes seleccionar fechas validas", "FECHAS NO VALIDAS", JOptionPane.ERROR_MESSAGE, null);
             	} else {
             		DataStore.setSelectedCiudad("New York");
+            		DataStore.setSelectedFechaInicio(dateChooserinicio.getDate());
+            		DataStore.setSelectedFechaFin(dateChooserfinal.getDate());
                 	cardLayout.show(mainPanel, "Busqueda");
             	}	
             }
@@ -356,6 +360,8 @@ public class Home extends JPanel {
             		JOptionPane.showMessageDialog(null, "Debes seleccionar fechas validas", "FECHAS NO VALIDAS", JOptionPane.ERROR_MESSAGE, null);
             	} else {
             		DataStore.setSelectedCiudad("Roma");
+            		DataStore.setSelectedFechaInicio(dateChooserinicio.getDate());
+            		DataStore.setSelectedFechaFin(dateChooserfinal.getDate());
                 	cardLayout.show(mainPanel, "Busqueda");
             	}	
             }
@@ -398,6 +404,8 @@ public class Home extends JPanel {
             		JOptionPane.showMessageDialog(null, "Debes seleccionar fechas validas", "FECHAS NO VALIDAS", JOptionPane.ERROR_MESSAGE, null);
             	} else {
             		DataStore.setSelectedCiudad("Hong Kong");
+            		DataStore.setSelectedFechaInicio(dateChooserinicio.getDate());
+            		DataStore.setSelectedFechaFin(dateChooserfinal.getDate());
                 	cardLayout.show(mainPanel, "Busqueda");
             	}	
             }
