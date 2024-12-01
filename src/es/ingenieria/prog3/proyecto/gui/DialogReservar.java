@@ -8,6 +8,7 @@ import es.ingenieria.prog3.proyecto.domain.Reserva;
 import es.ingenieria.prog3.proyecto.domain.TipoHabitacion;
 import es.ingenieria.prog3.proyecto.gui.util.DataStore;
 
+import java.awt.BorderLayout;
 import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Date;
@@ -22,7 +23,9 @@ public class DialogReservar extends JDialog {
 	private int numeroHuespedes;
 	
 	public DialogReservar(Hotel hotel) {
-        JPanel panelReserva = new JPanel(new GridLayout(8, 1, 5, 5)); // Espaciado adicional
+		setLayout(new BorderLayout()); // Cambiar layout del diálogo principal
+		 
+        JPanel panelReserva = new JPanel(new GridLayout(8, 1, 5, 8));
         
         JLabel labelTipoHabitacion = new JLabel("Selecciona el tipo de habitación:");
 		JComboBox<TipoHabitacion> comboBoxTipoHabitacion = new JComboBox<TipoHabitacion>(TipoHabitacion.values());			
@@ -40,10 +43,9 @@ public class DialogReservar extends JDialog {
 		}
 		
         JLabel labelPrecio = new JLabel("PRECIO TOTAL:");
-        
         JLabel labelPrecioTotal = new JLabel(String.format("%.2f €", habitacionSeleccionada.getPrecio())); // Precio inicial
 
-		
+		//Listener para el comboBox con los tipos de habitaciones 
 		comboBoxTipoHabitacion.addActionListener(e -> {
 			habitacionesDisponibles.clear();
 			habitacionesDisponibles = getHabitacionesPorFechas(getHabitacionesPorTipo(hotel.getHabitaciones(), (TipoHabitacion) comboBoxTipoHabitacion.getSelectedItem()));
@@ -60,6 +62,7 @@ public class DialogReservar extends JDialog {
 	        System.out.println("Días entre las fechas: " + diasDiferencia);
 		});
 		
+		//Listener para el comboBox con habitaciones disponibles
 		comboBoxHabitacionesDisponibles.addActionListener(e -> {
 			if (comboBoxHabitacionesDisponibles.getSelectedItem() != null) {
 				habitacionSeleccionada = (Habitacion) comboBoxHabitacionesDisponibles.getSelectedItem();
@@ -80,9 +83,59 @@ public class DialogReservar extends JDialog {
 			}	
 		});
 		
+		//Listener para el comboBox con los huespedes
+		comboHuespedes.addActionListener((e) -> {
+			int position = ((JComboBox<?>) e.getSource()).getSelectedIndex();
+			String passenger = ((JComboBox<?>) e.getSource()).getSelectedItem().toString();
+			
+			//Si se ha seleccionado una persona que no tiene datos personales
+			if (passenger.contains("Huesped")) {
+				JTextField firstName = new JTextField();
+				firstName.setColumns(30);
+				JTextField lastName = new JTextField();
+				lastName.setColumns(30);
+				
+				JComponent[] inputs = new JComponent[] {
+					new JLabel("Nombre: "),
+					firstName,
+					new JLabel("Apellidos: "),
+					lastName,
+				};
+				
+				//Se muestra un cuadro de diálogo para introducir nombre y apellidos
+				int result = JOptionPane.showConfirmDialog(this, inputs, 
+									String.format("Datos de la persona - %s", passenger.substring(0, passenger.indexOf(" "))), 
+									JOptionPane.OK_CANCEL_OPTION,
+									JOptionPane.PLAIN_MESSAGE, new ImageIcon("resources/images/passenger.png"));
+				//Si se pulsa confirmar y los campos no están vacíos se actualiza el combo de personas
+				if (result == JOptionPane.OK_OPTION && 
+						(!firstName.getText().trim().isEmpty() || !lastName.getText().trim().isEmpty())) {
+					String name;
+				
+					if (firstName.getText().trim().isEmpty() || lastName.getText().trim().isEmpty()) {
+						name = String.format("%s%s", lastName.getText().trim(), firstName.getText()).trim();
+					} else {
+						name = String.format("%s, %s", lastName.getText().trim(), firstName.getText()).trim();
+					}
+					if (!name.contains("#")) {						
+						name = String.format("%d - %s", position + 1, name.toUpperCase());
+						comboHuespedes.removeItemAt(position);
+						comboHuespedes.insertItemAt(name, position);
+						comboHuespedes.setSelectedIndex(position);
+					}
+				}
+			}
+		});
 		
-		
-		
+		// Panel para los botones
+        JPanel panelBotones = new JPanel();
+        JButton botonCancelar = new JButton("Cancelar");
+        JButton botonProcesarPago = new JButton("Procesar Pago");
+        
+        botonCancelar.addActionListener(e -> dispose());
+        
+        panelBotones.add(botonCancelar);
+        panelBotones.add(botonProcesarPago);
 		
         panelReserva.add(labelTipoHabitacion);
         panelReserva.add(comboBoxTipoHabitacion);
@@ -93,7 +146,9 @@ public class DialogReservar extends JDialog {
         panelReserva.add(labelPrecio);
         panelReserva.add(labelPrecioTotal);
         
-		add(panelReserva);
+		add(panelReserva, BorderLayout.NORTH);
+		add(panelBotones, BorderLayout.SOUTH);
+		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle(String.format("Reserva en el hotel '%s'", hotel.getNombre()));		
 		setIconImage(new ImageIcon("resources/images/tickets.png").getImage());		
