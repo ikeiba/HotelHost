@@ -3,13 +3,16 @@ package es.ingenieria.prog3.proyecto.gui;
 import java.awt.BorderLayout;
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.net.URI;
 import java.util.ArrayList;
+import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
@@ -300,13 +303,73 @@ public class Busqueda extends JPanel {
 		panelAnuncios.setBounds(0, 0, (int) (Preferences.WINDOWWIDTH * 0.4), 125);
 		panelAnuncios.setBounds((int) ((Preferences.WINDOWWIDTH * 0.22) - (panelAnuncios.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.435) - (panelAnuncios.getHeight() / 2)) - 75, panelAnuncios.getWidth(), panelAnuncios.getHeight());
 		panelAnuncios.setBackground(Color.RED);
-		panelAnuncios.setLayout(null);
-		/*Thread hiloAnuncio = new Thread() {
-			@Override
-			public void run() {
-				
-			}
-		};*/
+		panelAnuncios.setLayout(new BorderLayout());
+		
+		JLabel labelAnuncio = new JLabel();
+		
+		Thread hiloAnuncio = new Thread() {
+		    @Override
+		    public void run() {
+		        String[] paths = {
+		            "resources/images/Anuncio_Booking.jpg",
+		            "resources/images/Anuncio_Emirates.jpg",
+		            "resources/images/Anuncio_Mine.png"
+		        };
+		        String[] urls = {
+		            "https://www.booking.com",
+		            "https://www.emirates.com",
+		            "https://www.minecraft.net"
+		        };
+		        Random random = new Random();
+		        int startIndex = random.nextInt(paths.length);
+		        int[] currentIndex = {startIndex};
+
+		        labelAnuncio.addMouseListener(new MouseAdapter() {
+		            @Override
+		            public void mouseClicked(MouseEvent e) {
+		                try {
+		                    switch (currentIndex[0]) {
+		                        case 0:
+		                            Desktop.getDesktop().browse(new URI(urls[0]));
+		                            break;
+		                        case 1:
+		                            Desktop.getDesktop().browse(new URI(urls[1]));
+		                            break;
+		                        case 2:
+		                            Desktop.getDesktop().browse(new URI(urls[2]));
+		                            break;
+		                    }
+		                } catch (Exception ex) {
+		                    ex.printStackTrace();
+		                }
+		            }
+		        });
+
+		        while (true) {
+		            String path = paths[currentIndex[0]];
+
+		            // Crear y configurar el icono
+		            ImageIcon originalIconAnuncio = new ImageIcon(path);
+		            Image scaledImageAnuncio = originalIconAnuncio.getImage().getScaledInstance((int) (Preferences.WINDOWWIDTH * 0.4), 125, Image.SCALE_SMOOTH);
+		            ImageIcon resizedIconAnuncio = new ImageIcon(scaledImageAnuncio);
+
+		            // Establecer el icono en el JLabel
+		            labelAnuncio.setIcon(resizedIconAnuncio);
+
+		            try {
+		                Thread.sleep(10000); // Pausa de 10 segundos
+		            } catch (InterruptedException e) {
+		            }
+
+		            // Avanzar al siguiente índice en la cola circular (Chat-GPT)
+		            currentIndex[0] = (currentIndex[0] + 1) % paths.length;
+		        }
+		    }
+		};
+
+		hiloAnuncio.start();
+		
+		panelAnuncios.add(labelAnuncio, BorderLayout.CENTER);
 		
 		
 		
