@@ -412,6 +412,7 @@ public class Busqueda extends JPanel {
 				                Thread.sleep(20000); // Pausa de 10 segundos
 				            } catch (InterruptedException e2) {
 				            }
+		            	 flagAnuncioQuitado[0] = false;
 		            	 labelAnuncio.setHorizontalAlignment(SwingConstants.LEFT);
 		            	 buttonQuitarAnuncio.setVisible(true);
 		            }
