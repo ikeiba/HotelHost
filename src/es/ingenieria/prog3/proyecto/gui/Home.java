@@ -17,6 +17,7 @@ import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Random;
@@ -26,6 +27,9 @@ public class Home extends JPanel {
 
 	private CardLayout cardLayout;
 	private JPanel mainPanel;
+	private JDateChooser dateChooserinicio;
+	private JDateChooser dateChooserfinal;
+
 
 	public Home(CardLayout cardLayout, JPanel mainPanel) {
 		
@@ -129,7 +133,7 @@ public class Home extends JPanel {
         });
         
         
-        JDateChooser dateChooserinicio = new JDateChooser();
+        dateChooserinicio = new JDateChooser();
         dateChooserinicio.setDateFormatString("dd/MM/yyyy");
         dateChooserinicio.setDate(new Date());
         dateChooserinicio.setBounds((int) (panelbuscar.getWidth() * 0.41), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
@@ -144,11 +148,19 @@ public class Home extends JPanel {
             }
         });
         
-        JDateChooser dateChooserfinal = new JDateChooser();
+        dateChooserfinal = new JDateChooser();
         dateChooserfinal.setDateFormatString("dd/MM/yyyy");
         //dateChooserfinal.setDate(new Date());
         dateChooserfinal.setBounds((int) (panelbuscar.getWidth() * 0.61), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
-        dateChooserfinal.setSelectableDateRange(new Date(), null);  // El primer parámetro es la fecha de inicio (hoy)
+        //Como dia inicial seleccionamos el dia siguiente a hoy
+        Calendar calendario = Calendar.getInstance();
+        calendario.setTime(dateChooserinicio.getDate());
+        // Sumar un día
+        calendario.add(Calendar.DAY_OF_MONTH, 1);
+        // Convertir de nuevo a Date
+        Date nuevaFecha = calendario.getTime();
+        dateChooserfinal.setDate(nuevaFecha);       
+        dateChooserfinal.setSelectableDateRange(nuevaFecha, null);  // El primer parámetro es el dia siguiente a la fecha de inicio (mañana)      
         panelbuscar.add(dateChooserfinal);
         
         // Impide que el calendario se pueda modificar mediante el teclado (Codigo creado con la ayuda de ChatGPT)
@@ -168,9 +180,17 @@ public class Home extends JPanel {
                 Date fechaFinal = dateChooserfinal.getDate();
 
                 // Si fechaInicio no es null y es después de fechaFinal
-                if (fechaInicio != null && fechaFinal != null && fechaInicio.after(fechaFinal)) {
-                    JOptionPane.showMessageDialog(null, "La fecha de inicio no puede ser posterior a la fecha final.", "Error", JOptionPane.WARNING_MESSAGE);
-                    dateChooserinicio.setDate(fechaFinal); // Ajustar fecha de inicio
+                if (fechaInicio != null && fechaFinal != null && (fechaInicio.after(fechaFinal) || fechaInicio.equals(fechaFinal))) {
+                    JOptionPane.showMessageDialog(null, "La fecha de inicio no puede ser posterior o igual a la fecha final.", "Error", JOptionPane.WARNING_MESSAGE);
+                    
+                    Calendar calendario = Calendar.getInstance();
+                    calendario.setTime(fechaInicio);
+                    // Sumar un día
+                    calendario.add(Calendar.DAY_OF_MONTH, 1);
+                    // Convertir de nuevo a Date
+                    Date nuevaFecha = calendario.getTime();
+                    
+                    dateChooserfinal.setDate(nuevaFecha);
                 }
             }
         });
@@ -183,15 +203,22 @@ public class Home extends JPanel {
                 Date fechaFinal = dateChooserfinal.getDate();
 
                 // Si fechaFinal no es null y es antes de fechaInicio
-                if (fechaInicio != null && fechaFinal != null && fechaFinal.before(fechaInicio)) {
-                    JOptionPane.showMessageDialog(null, "La fecha final no puede ser anterior a la fecha de inicio.", "Error", JOptionPane.WARNING_MESSAGE);
-                    dateChooserfinal.setDate(fechaInicio); // Ajustar fecha final
+                if (fechaInicio != null && fechaFinal != null && (fechaFinal.before(fechaInicio) || fechaFinal.equals(fechaInicio))) {
+                    JOptionPane.showMessageDialog(null, "La fecha final no puede ser anterior o igual a la fecha de inicio.", "Error", JOptionPane.WARNING_MESSAGE);
+                    
+                    Calendar calendario = Calendar.getInstance();
+                    calendario.setTime(fechaInicio);
+                    // Sumar un día
+                    calendario.add(Calendar.DAY_OF_MONTH, 1);
+                    // Convertir de nuevo a Date
+                    Date nuevaFecha = calendario.getTime();
+                    dateChooserfinal.setDate(nuevaFecha); // Ajustar fecha final
                 }
             }
         });
 
         
-        
+    
         JButton botonBuscar = new JButton("Buscar");
         botonBuscar.setBounds((int) (panelbuscar.getWidth() * 0.81), 10, (int) (panelbuscar.getWidth() * 0.18), 50);
         botonBuscar.addActionListener(e -> {
@@ -229,7 +256,6 @@ public class Home extends JPanel {
         panelciudad.setBounds(40, 420, 250, 200);
         panelciudad.setBackground(Color.WHITE);
         panelciudad.setLayout(null);
-		
 		add(panelciudad, BorderLayout.CENTER);
         
         JPanelBordesRedondos panelciudad2 = new JPanelBordesRedondos(25);
@@ -326,6 +352,7 @@ public class Home extends JPanel {
 	
         // Panel principal sur
         add(new JLabel("Hotel Host® 2024"), BorderLayout.SOUTH);
+        
     }
 	
 	private static class ImageData {
@@ -375,8 +402,14 @@ public class Home extends JPanel {
 	                        panel.addMouseListener(new MouseAdapter() {
 	                            @Override
 	                            public void mouseClicked(MouseEvent e) {
-	                            	DataStore.setSelectedCiudad(selectedImage.cityName);
-	                            	cardLayout.show(mainPanel, "Busqueda");
+	                            	if (dateChooserinicio.getDate() == null || dateChooserfinal.getDate() == null) {
+	                            		JOptionPane.showMessageDialog(null, "Debes seleccionar fechas validas", "FECHAS NO VALIDAS", JOptionPane.ERROR_MESSAGE, null);
+	                            	} else {
+	                            		DataStore.setSelectedCiudad(selectedImage.cityName);
+	                            		DataStore.setSelectedFechaInicio(dateChooserinicio.getDate());
+	                            		DataStore.setSelectedFechaFin(dateChooserfinal.getDate());
+	                                	cardLayout.show(mainPanel, "Busqueda");
+	                            	}
 	                            }
 	                        });
 	                    }
@@ -390,6 +423,7 @@ public class Home extends JPanel {
 
 	    thread.start(); 
 	}
+	
 
 	private void updateImagen(JPanel panel, ImageData imageData) {
 	    ImageIcon mainImageIcon = new ImageIcon(imageData.getImagePath());
@@ -421,5 +455,6 @@ public class Home extends JPanel {
 	    panel.revalidate();
 	    panel.repaint();
 	}
+	
 }
 
