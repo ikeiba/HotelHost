@@ -82,14 +82,28 @@ public class Home extends JPanel {
         panelbuscar.add(JComboBoxCiudades);
         
 
-        // Mapa de países y sus ciudades asociadas
         HashMap<String, String[]> ciudadesPorPais = new HashMap<>();
-        ciudadesPorPais.put("Estados Unidos", new String[]{"Las Vegas", "Los Angeles", "Miami", "New York"});
-        ciudadesPorPais.put("Francia", new String[]{"Paris"});
-        ciudadesPorPais.put("Italia", new String[]{"Roma"});
+        ciudadesPorPais.put("Estados Unidos", new String[]{"Las Vegas", "Los Angeles", "Miami", "New York", "San Francisco", "Washington DC"});
+	ciudadesPorPais.put("España", new String[]{"Madrid", "Barcelona", "Bilbao", "Donosti", "Valencia", "Granada", "Sevilla", "Málaga", "Palma de Mallorca"});
+	ciudadesPorPais.put("Alemania", new String[]{"Berlin", "Frankfurt", "Gelsenkirchen", "Hamburgo", "Munich"});
+        ciudadesPorPais.put("Francia", new String[]{"Paris", "Bayona", "Biarritz", "Lille", "Lyon", "Marsella", "Niza"});
+	ciudadesPorPais.put("Mexico", new String[]{"Cancún"});
+        ciudadesPorPais.put("Italia", new String[]{"Roma", "Bolonia", "Cori", "Florencia", "Génova", "Milán", "Nápoles", "Venecia"});
+	ciudadesPorPais.put("Reino Unido", new String[]{"Birmingham", "Liverpool", "Londres", "Manchester"});
         ciudadesPorPais.put("Tailandia", new String[]{"Bangkok", "Pattaya"});
         ciudadesPorPais.put("China", new String[]{"Hong Kong"});
         ciudadesPorPais.put("Vietnam", new String[]{"Hanoi"});
+	ciudadesPorPais.put("Paises Bajos", new String[]{"Ámsterdam", "Maastricht", "Roterdam"});
+	ciudadesPorPais.put("Grecia", new String[]{"Atenas", "Creta", "Tesalónica"});
+	ciudadesPorPais.put("Suiza", new String[]{"Basilea", "Ginebra", "Zurich"});
+	ciudadesPorPais.put("Argentina", new String[]{"Buenos Aires"});
+	ciudadesPorPais.put("Turquía", new String[]{"Estambul"});
+	ciudadesPorPais.put("Irlanda", new String[]{"Galway", "Limerick"});
+	ciudadesPorPais.put("Japón", new String[]{"Tokio", "Kioto", "Osaka", "Nara"});
+	ciudadesPorPais.put("Australia", new String[]{"Melbourne", "Sidney"});
+	ciudadesPorPais.put("India", new String[]{"Mumbai", "Nueva Delhi"});
+	ciudadesPorPais.put("Brazil", new String[]{"Rio de Janeiro"});
+	ciudadesPorPais.put("Canada", new String[]{"Toronto"});
 
         // Listener para el JComboBox de países
         JComboBoxPaises.addActionListener( e -> {
@@ -251,7 +265,53 @@ public class Home extends JPanel {
         imagenes.add(new ImageData("resources/images/Ciudades/Paris.jpg", "Paris", "resources/images/Banderas/France Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Pattaya.jpg", "Pattaya", "resources/images/Banderas/Thailand Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Rome.jpg", "Roma", "resources/images/Banderas/Italy Flag.png"));
-
+        
+        //nuevas
+        
+        imagenes.add(new ImageData("resources/images/Ciudades/San Francisco.png", "San Francisco", "resources/images/Banderas/USA Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Washington DC.jpg", "Washington DC", "resources/images/Banderas/USA Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Madrid.jpg", "Madrid", "resources/images/Banderas/Spain Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Barcelona.jpg", "Barcelona", "resources/images/Banderas/Spain Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Bilbao.jpg", "Bilbao", "resources/images/Banderas/Spain Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Donosti.jpg", "Donosti", "resources/images/Banderas/Spain Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Valencia.jpg", "Valencia", "resources/images/Banderas/Spain Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Granada.jpg", "Granada", "resources/images/Banderas/Spain Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Sevilla.jpg", "Sevilla", "resources/images/Banderas/Spain Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Malaga.jpg", "Málaga", "resources/images/Banderas/Spain Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Palma de Mallorca.jpg", "Palma de Mallorca", "resources/images/Banderas/Spain Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Berlin.jpg", "Berlin", "resources/images/Banderas/Germany Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Frankfurt.jpg", "Frankfurt", "resources/images/Banderas/Germany Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Gelsenkirchen.jpg", "Gelsenkirchen", "resources/images/Banderas/Germany Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Hamburgo.jpg", "Hamburgo", "resources/images/Banderas/Germany Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Munich.jpg", "Munich", "resources/images/Banderas/Germany Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Bayona.jpg", "Bayona", "resources/images/Banderas/France Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Biarritz.jpg", "Biarritz", "resources/images/Banderas/France Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Lille.jpg", "Lille", "resources/images/Banderas/France Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Lyon.jpg", "Lyon", "resources/images/Banderas/France Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Marsella.jpg", "Marsella", "resources/images/Banderas/France Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Niza.jpg", "Niza", "resources/images/Banderas/France Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Bolonia.jpg", "Bolonia", "resources/images/Banderas/Italy Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Corl.jpg", "Cori", "resources/images/Banderas/Italy Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Florencia.jpg", "Florencia", "resources/images/Banderas/Italy Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Genova.jpg", "Génova", "resources/images/Banderas/Italy Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Milan.jpg", "Milán", "resources/images/Banderas/Italy Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Napoles.jpg", "Nápoles", "resources/images/Banderas/Italy Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Venecia.jpg", "Venecia", "resources/images/Banderas/Italy Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Birmingham.jpg", "Birmingham", "resources/images/Banderas/UK Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Liverpool.jpg", "Liverpool", "resources/images/Banderas/UK Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Londres.jpg", "Londres", "resources/images/Banderas/UK Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Manchester.jpg", "Manchester", "resources/images/Banderas/UK Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Amsterdan.jpg", "Ámsterdam", "resources/images/Banderas/Netherlands Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Maastricht.jpg", "Maastricht", "resources/images/Banderas/Netherlands Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Rotterdam.jpg", "Roterdam", "resources/images/Banderas/Netherlands Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Atenas.jpg", "Atenas", "resources/images/Banderas/Greece Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Creta.jpg", "Creta", "resources/images/Banderas/Greece Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Tesalonica.jpg", "Tesalónica", "resources/images/Banderas/Greece Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Basilea.jpg", "Basilea", "resources/images/Banderas/Switzerland Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Ginebra.jpg", "Ginebra", "resources/images/Banderas/Switzerland Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Zurich.jpg", "Zurich", "resources/images/Banderas/Switzerland Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Rio de Janeiro.jpeg", "Rio de Janeiro", "resources/images/Banderas/Brazil Flag.png"));
+        
         JPanel[] paneles = new JPanel[4];
         paneles[0] = panelciudad;
         paneles[1] = panelciudad2;
@@ -351,9 +411,12 @@ public class Home extends JPanel {
 	    JLabel flagLabel = new JLabel(new ImageIcon(flagImage));
 	    flagLabel.setHorizontalAlignment(SwingConstants.CENTER);
 
+	    JPanel Top = new JPanel();
 	    panel.add(imageLabel, BorderLayout.CENTER);
-	    panel.add(cityLabel, BorderLayout.NORTH);
-	    panel.add(flagLabel, BorderLayout.SOUTH);
+	    Top.add(cityLabel, BorderLayout.NORTH);
+	    Top.add(flagLabel, BorderLayout.NORTH);
+	    panel.add(Top, BorderLayout.NORTH);
+	   
 
 	    panel.revalidate();
 	    panel.repaint();
