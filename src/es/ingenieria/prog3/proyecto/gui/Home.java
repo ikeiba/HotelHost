@@ -16,9 +16,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.Calendar;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Random;
 
 @SuppressWarnings("serial")
 public class Home extends JPanel {
@@ -133,15 +134,7 @@ public class Home extends JPanel {
         dateChooserfinal.setDateFormatString("dd/MM/yyyy");
         //dateChooserfinal.setDate(new Date());
         dateChooserfinal.setBounds((int) (panelbuscar.getWidth() * 0.61), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
-        //Como dia inicial seleccionamos el dia siguiente a hoy
-        Calendar calendario = Calendar.getInstance();
-        calendario.setTime(dateChooserinicio.getDate());
-        // Sumar un día
-        calendario.add(Calendar.DAY_OF_MONTH, 1);
-        // Convertir de nuevo a Date
-        Date nuevaFecha = calendario.getTime();
-        dateChooserfinal.setDate(nuevaFecha);       
-        dateChooserfinal.setSelectableDateRange(nuevaFecha, null);  // El primer parámetro es el dia siguiente a la fecha de inicio (mañana)      
+        dateChooserfinal.setSelectableDateRange(new Date(), null);  // El primer parámetro es la fecha de inicio (hoy)
         panelbuscar.add(dateChooserfinal);
         
         // Impide que el calendario se pueda modificar mediante el teclado (Codigo creado con la ayuda de ChatGPT)
@@ -161,17 +154,9 @@ public class Home extends JPanel {
                 Date fechaFinal = dateChooserfinal.getDate();
 
                 // Si fechaInicio no es null y es después de fechaFinal
-                if (fechaInicio != null && fechaFinal != null && (fechaInicio.after(fechaFinal) || fechaInicio.equals(fechaFinal))) {
-                    JOptionPane.showMessageDialog(null, "La fecha de inicio no puede ser posterior o igual a la fecha final.", "Error", JOptionPane.WARNING_MESSAGE);
-                    
-                    Calendar calendario = Calendar.getInstance();
-                    calendario.setTime(fechaInicio);
-                    // Sumar un día
-                    calendario.add(Calendar.DAY_OF_MONTH, 1);
-                    // Convertir de nuevo a Date
-                    Date nuevaFecha = calendario.getTime();
-                    
-                    dateChooserfinal.setDate(nuevaFecha);
+                if (fechaInicio != null && fechaFinal != null && fechaInicio.after(fechaFinal)) {
+                    JOptionPane.showMessageDialog(null, "La fecha de inicio no puede ser posterior a la fecha final.", "Error", JOptionPane.WARNING_MESSAGE);
+                    dateChooserinicio.setDate(fechaFinal); // Ajustar fecha de inicio
                 }
             }
         });
@@ -184,22 +169,15 @@ public class Home extends JPanel {
                 Date fechaFinal = dateChooserfinal.getDate();
 
                 // Si fechaFinal no es null y es antes de fechaInicio
-                if (fechaInicio != null && fechaFinal != null && (fechaFinal.before(fechaInicio) || fechaFinal.equals(fechaInicio))) {
-                    JOptionPane.showMessageDialog(null, "La fecha final no puede ser anterior o igual a la fecha de inicio.", "Error", JOptionPane.WARNING_MESSAGE);
-                    
-                    Calendar calendario = Calendar.getInstance();
-                    calendario.setTime(fechaInicio);
-                    // Sumar un día
-                    calendario.add(Calendar.DAY_OF_MONTH, 1);
-                    // Convertir de nuevo a Date
-                    Date nuevaFecha = calendario.getTime();
-                    dateChooserfinal.setDate(nuevaFecha); // Ajustar fecha final
+                if (fechaInicio != null && fechaFinal != null && fechaFinal.before(fechaInicio)) {
+                    JOptionPane.showMessageDialog(null, "La fecha final no puede ser anterior a la fecha de inicio.", "Error", JOptionPane.WARNING_MESSAGE);
+                    dateChooserfinal.setDate(fechaInicio); // Ajustar fecha final
                 }
             }
         });
 
         
-    
+        
         JButton botonBuscar = new JButton("Buscar");
         botonBuscar.setBounds((int) (panelbuscar.getWidth() * 0.81), 10, (int) (panelbuscar.getWidth() * 0.18), 50);
         botonBuscar.addActionListener(e -> {
@@ -237,44 +215,6 @@ public class Home extends JPanel {
         panelciudad.setBounds(40, 420, 250, 200);
         panelciudad.setBackground(Color.WHITE);
         panelciudad.setLayout(null);
-        
-        JLabel bandera = new JLabel();
-        bandera.setBounds(10, 10, 30, 20);
-        ImageIcon banderaIcon = new ImageIcon("resources/images/Banderas/France Flag.png");
-		Image banderaScaled = banderaIcon.getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
-		ImageIcon banderaResized = new ImageIcon(banderaScaled);
-		bandera.setIcon(banderaResized);
-		panelciudad.add(bandera);
-		
-        JLabel labelciudad = new JLabel("Paris");
-        labelciudad.setHorizontalAlignment(SwingConstants.LEFT);
-        labelciudad.setVerticalAlignment(SwingConstants.TOP);
-        labelciudad.setBounds(50, 10, 500, 150);
-        labelciudad.setFont(new Font("Verdana", Font.BOLD, 15));
-        labelciudad.setForeground(Color.WHITE);
-        add(labelciudad, BorderLayout.CENTER);
-		panelciudad.add(labelciudad);
-        
-        JLabel ciudad = new JLabel();
-        ciudad.setBounds(0, 0, 250, 200);
-        ImageIcon ciudadIcon = new ImageIcon("resources/images/Ciudades/Paris.jpg");
-		Image ciudadScaled = ciudadIcon.getImage().getScaledInstance((int) ciudadIcon.getIconWidth() / (ciudadIcon.getIconHeight() / 200), 200, Image.SCALE_SMOOTH);
-		ImageIcon ciudadResized = new ImageIcon(ciudadScaled);
-		ciudad.setIcon(ciudadResized);
-		ciudad.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	if (dateChooserinicio.getDate() == null || dateChooserfinal.getDate() == null) {
-            		JOptionPane.showMessageDialog(null, "Debes seleccionar fechas validas", "FECHAS NO VALIDAS", JOptionPane.ERROR_MESSAGE, null);
-            	} else {
-            		DataStore.setSelectedCiudad("Paris");
-            		DataStore.setSelectedFechaInicio(dateChooserinicio.getDate());
-            		DataStore.setSelectedFechaFin(dateChooserfinal.getDate());
-                	cardLayout.show(mainPanel, "Busqueda");
-            	}	
-            }
-        });
-		panelciudad.add(ciudad);
 		
 		add(panelciudad, BorderLayout.CENTER);
         
@@ -284,43 +224,6 @@ public class Home extends JPanel {
         panelciudad2.setLayout(null);
         add(panelciudad2, BorderLayout.CENTER);
         
-        JLabel bandera2 = new JLabel();
-        bandera2.setBounds(10, 10, 30, 20);
-        ImageIcon banderaIcon2 = new ImageIcon("resources/images/Banderas/USA Flag.png");
-		Image banderaScaled2 = banderaIcon2.getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
-		ImageIcon banderaResized2 = new ImageIcon(banderaScaled2);
-		bandera2.setIcon(banderaResized2);
-		panelciudad2.add(bandera2);
-		
-        JLabel labelciudad2 = new JLabel("Nueva York");
-        labelciudad2.setHorizontalAlignment(SwingConstants.LEFT);
-        labelciudad2.setVerticalAlignment(SwingConstants.TOP);
-        labelciudad2.setBounds(50, 10, 500, 150);
-        labelciudad2.setFont(new Font("Verdana", Font.BOLD, 15));
-        labelciudad2.setForeground(Color.WHITE);
-        add(labelciudad2, BorderLayout.CENTER);
-		panelciudad2.add(labelciudad2);
-        
-        JLabel ciudad2 = new JLabel();
-        ciudad2.setBounds(0, 0, 250, 200);
-        ImageIcon ciudadIcon2 = new ImageIcon("resources/images/Ciudades/New York.jpg");
-		Image ciudadScaled2 = ciudadIcon2.getImage().getScaledInstance((int) ciudadIcon2.getIconWidth() / (ciudadIcon2.getIconHeight() / 200), 200, Image.SCALE_SMOOTH);
-		ImageIcon ciudadResized2 = new ImageIcon(ciudadScaled2);
-		ciudad2.setIcon(ciudadResized2);
-		ciudad2.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	if (dateChooserinicio.getDate() == null || dateChooserfinal.getDate() == null) {
-            		JOptionPane.showMessageDialog(null, "Debes seleccionar fechas validas", "FECHAS NO VALIDAS", JOptionPane.ERROR_MESSAGE, null);
-            	} else {
-            		DataStore.setSelectedCiudad("New York");
-            		DataStore.setSelectedFechaInicio(dateChooserinicio.getDate());
-            		DataStore.setSelectedFechaFin(dateChooserfinal.getDate());
-                	cardLayout.show(mainPanel, "Busqueda");
-            	}	
-            }
-        });
-		panelciudad2.add(ciudad2);
 		
 		add(panelciudad2, BorderLayout.CENTER);
         
@@ -330,87 +233,32 @@ public class Home extends JPanel {
         panelciudad3.setLayout(null);
         add(panelciudad3, BorderLayout.CENTER);
         
-        JLabel bandera3 = new JLabel();
-        bandera3.setBounds(10, 10, 30, 20);
-        ImageIcon banderaIcon3 = new ImageIcon("resources/images/Banderas/Italy Flag.png");
-		Image banderaScaled3 = banderaIcon3.getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
-		ImageIcon banderaResized3 = new ImageIcon(banderaScaled3);
-		bandera3.setIcon(banderaResized3);
-		panelciudad3.add(bandera3);
-		
-        JLabel labelciudad3 = new JLabel("Roma");
-        labelciudad3.setHorizontalAlignment(SwingConstants.LEFT);
-        labelciudad3.setVerticalAlignment(SwingConstants.TOP);
-        labelciudad3.setBounds(50, 10, 500, 150);
-        labelciudad3.setFont(new Font("Verdana", Font.BOLD, 15));
-        labelciudad3.setForeground(Color.WHITE);
-        add(labelciudad3, BorderLayout.CENTER);
-		panelciudad3.add(labelciudad3);
-        
-        JLabel ciudad3 = new JLabel();
-        ciudad3.setBounds(0, 0, 250, 200);
-        ImageIcon ciudadIcon3 = new ImageIcon("resources/images/Ciudades/Rome.jpg");
-		Image ciudadScaled3 = ciudadIcon3.getImage().getScaledInstance((int) ciudadIcon3.getIconWidth() / (ciudadIcon3.getIconHeight() / 200), 200, Image.SCALE_SMOOTH);
-		ImageIcon ciudadResized3 = new ImageIcon(ciudadScaled3);
-		ciudad3.setIcon(ciudadResized3);
-		ciudad3.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	if (dateChooserinicio.getDate() == null || dateChooserfinal.getDate() == null) {
-            		JOptionPane.showMessageDialog(null, "Debes seleccionar fechas validas", "FECHAS NO VALIDAS", JOptionPane.ERROR_MESSAGE, null);
-            	} else {
-            		DataStore.setSelectedCiudad("Roma");
-            		DataStore.setSelectedFechaInicio(dateChooserinicio.getDate());
-            		DataStore.setSelectedFechaFin(dateChooserfinal.getDate());
-                	cardLayout.show(mainPanel, "Busqueda");
-            	}	
-            }
-        });
-		panelciudad3.add(ciudad3);
-        
+     
         JPanelBordesRedondos panelciudad4 = new JPanelBordesRedondos(25);
         panelciudad4.setBounds(835, 420, 250, 200);
         panelciudad4.setBackground(Color.WHITE);
         panelciudad4.setLayout(null);
         add(panelciudad4, BorderLayout.CENTER);
         
-        JLabel bandera4 = new JLabel();
-        bandera4.setBounds(10, 10, 30, 20);
-        ImageIcon banderaIcon4 = new ImageIcon("resources/images/Banderas/China Flag.png");
-		Image banderaScaled4 = banderaIcon4.getImage().getScaledInstance(30, 20, Image.SCALE_SMOOTH);
-		ImageIcon banderaResized4 = new ImageIcon(banderaScaled4);
-		bandera4.setIcon(banderaResized4);
-		panelciudad4.add(bandera4);
-		
-        JLabel labelciudad4 = new JLabel("Hong Kong");
-        labelciudad4.setHorizontalAlignment(SwingConstants.LEFT);
-        labelciudad4.setVerticalAlignment(SwingConstants.TOP);
-        labelciudad4.setBounds(50, 10, 500, 150);
-        labelciudad4.setFont(new Font("Verdana", Font.BOLD, 15));
-        labelciudad4.setForeground(Color.WHITE);
-        add(labelciudad4, BorderLayout.CENTER);
-		panelciudad4.add(labelciudad4);
+        ArrayList<ImageData> imagenes = new ArrayList<ImageData>();
+        imagenes.add(new ImageData("resources/images/Ciudades/Bangkok.jpg", "Bangkok", "resources/images/Banderas/Thailand Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Hanoi.jpg", "Hanoi", "resources/images/Banderas/Vietnam Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Hong Kong.jpg", "Hong Kong", "resources/images/Banderas/China Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Las Vegas.jpg", "Las Vegas", "resources/images/Banderas/USA Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Los Angeles.jpg", "Los Angeles", "resources/images/Banderas/USA Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Miami.jpg", "Miami", "resources/images/Banderas/USA Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/New York.jpg", "New York", "resources/images/Banderas/USA Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Paris.jpg", "Paris", "resources/images/Banderas/France Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Pattaya.jpg", "Pattaya", "resources/images/Banderas/Thailand Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Rome.jpg", "Roma", "resources/images/Banderas/Italy Flag.png"));
+
+        JPanel[] paneles = new JPanel[4];
+        paneles[0] = panelciudad;
+        paneles[1] = panelciudad2;
+        paneles[2] = panelciudad3;
+        paneles[3] = panelciudad4;
         
-        JLabel ciudad4 = new JLabel();
-        ciudad4.setBounds(0, 0, 250, 200);
-        ImageIcon ciudadIcon4 = new ImageIcon("resources/images/Ciudades/Hong Kong.jpg");
-		Image ciudadScaled4 = ciudadIcon4.getImage().getScaledInstance((int) ciudadIcon4.getIconWidth() / (ciudadIcon4.getIconHeight() / 200), 200, Image.SCALE_SMOOTH);
-		ImageIcon ciudadResized4 = new ImageIcon(ciudadScaled4);
-		ciudad4.setIcon(ciudadResized4);
-		ciudad4.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-            	if (dateChooserinicio.getDate() == null || dateChooserfinal.getDate() == null) {
-            		JOptionPane.showMessageDialog(null, "Debes seleccionar fechas validas", "FECHAS NO VALIDAS", JOptionPane.ERROR_MESSAGE, null);
-            	} else {
-            		DataStore.setSelectedCiudad("Hong Kong");
-            		DataStore.setSelectedFechaInicio(dateChooserinicio.getDate());
-            		DataStore.setSelectedFechaFin(dateChooserfinal.getDate());
-                	cardLayout.show(mainPanel, "Busqueda");
-            	}	
-            }
-        });
-		panelciudad4.add(ciudad4);
+        CarrouselImagenes(paneles, imagenes);
         
         add(panelbuscar, BorderLayout.CENTER);
         
@@ -419,4 +267,96 @@ public class Home extends JPanel {
         // Panel principal sur
         add(new JLabel("Hotel Host® 2024"), BorderLayout.SOUTH);
     }
+	
+	private static class ImageData {
+	    private final String imagePath;
+	    private final String cityName;
+	    private final String flagPath;
+
+	    public ImageData(String imagePath, String cityName, String flagPath) {
+	        this.imagePath = imagePath;
+	        this.cityName = cityName;
+	        this.flagPath = flagPath;
+	    }
+
+	    public String getImagePath() {
+	        return imagePath;
+	    }
+
+	    public String getCityName() {
+	        return cityName;
+	    }
+
+	    public String getFlagPath() {
+	        return flagPath;
+	    }
+	}
+	
+	private void CarrouselImagenes(JPanel[] panels, ArrayList<ImageData> allImages) {
+	    Thread thread = new Thread(() -> {
+	        Random random = new Random();
+	        
+	        ArrayList<ImageData> availableImages = new ArrayList<>(allImages);
+
+	        while (true) {
+	            try {
+	                synchronized (this) {
+	                    if (availableImages.isEmpty()) {
+	                        availableImages = new ArrayList<>(allImages); 
+	                    }
+	                    for (JPanel panel : panels) {
+	                        if (availableImages.isEmpty()) {
+	                            break; 
+	                        }	                        
+	                        int index = random.nextInt(availableImages.size());
+	                        ImageData selectedImage = availableImages.remove(index);
+	            
+	                        SwingUtilities.invokeLater(() -> updateImagen(panel, selectedImage));
+	                        panel.addMouseListener(new MouseAdapter() {
+	                            @Override
+	                            public void mouseClicked(MouseEvent e) {
+	                            	DataStore.setSelectedCiudad(selectedImage.cityName);
+	                            	cardLayout.show(mainPanel, "Busqueda");
+	                            }
+	                        });
+	                    }
+	                }	        
+	                Thread.sleep(5000);
+	            } catch (InterruptedException e) {
+	                e.printStackTrace();
+	            }
+	        }
+	    });
+
+	    thread.start(); 
+	}
+
+	private void updateImagen(JPanel panel, ImageData imageData) {
+	    ImageIcon mainImageIcon = new ImageIcon(imageData.getImagePath());
+	    ImageIcon flagImageIcon = new ImageIcon(imageData.getFlagPath());
+
+	    Image mainImage = mainImageIcon.getImage().getScaledInstance(panel.getWidth(), panel.getHeight() - 50, Image.SCALE_SMOOTH);
+	    Image flagImage = flagImageIcon.getImage().getScaledInstance(50, 30, Image.SCALE_SMOOTH);
+	   
+	    panel.removeAll();
+	    panel.setLayout(new BorderLayout());
+
+	    JLabel imageLabel = new JLabel(new ImageIcon(mainImage));
+	    imageLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+	    JLabel cityLabel = new JLabel(imageData.getCityName(), SwingConstants.CENTER);
+	    cityLabel.setForeground(Color.BLACK);
+	    cityLabel.setFont(new Font("Arial", Font.BOLD, 16));
+
+	    JLabel flagLabel = new JLabel(new ImageIcon(flagImage));
+	    flagLabel.setHorizontalAlignment(SwingConstants.CENTER);
+
+	    panel.add(imageLabel, BorderLayout.CENTER);
+	    panel.add(cityLabel, BorderLayout.NORTH);
+	    panel.add(flagLabel, BorderLayout.SOUTH);
+
+	    panel.revalidate();
+	    panel.repaint();
+	}
 }
+
