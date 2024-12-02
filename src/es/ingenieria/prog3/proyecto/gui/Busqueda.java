@@ -313,12 +313,27 @@ public class Busqueda extends JPanel {
 		        String[] paths = {
 		            "resources/images/Anuncio_Booking.jpg",
 		            "resources/images/Anuncio_Emirates.jpg",
-		            "resources/images/Anuncio_Mine.png"
+		            "resources/images/Anuncio_Mine.png",
+		            "resources/images/Anuncio_BambuLab.png",
+		            "resources/images/Anuncio_Apple.jpg",
+		            "resources/images/Anuncio_Aliexpress.png",
+		            "resources/images/Anuncio_Unity.jpg",
+		            "resources/images/Anuncio_Godot.jpg",
+		            "resources/images/Anuncio_GitHub.png",
+		            "resources/images/Anuncio_Nvidia.jpg"
+		            
 		        };
 		        String[] urls = {
 		            "https://www.booking.com",
 		            "https://www.emirates.com",
-		            "https://www.minecraft.net"
+		            "https://www.minecraft.net",
+		            "https://bambulab.com",
+		            "https://www.apple.com",
+		            "https://es.aliexpress.com",
+		            "https://unity.com",
+		            "https://godotengine.org",
+		            "https://github.com",
+		            "https://www.nvidia.com"
 		        };
 		        Random random = new Random();
 		        int startIndex = random.nextInt(paths.length);
@@ -329,15 +344,36 @@ public class Busqueda extends JPanel {
 		            public void mouseClicked(MouseEvent e) {
 		                try {
 		                    switch (currentIndex[0]) {
-		                        case 0:
-		                            Desktop.getDesktop().browse(new URI(urls[0]));
-		                            break;
-		                        case 1:
-		                            Desktop.getDesktop().browse(new URI(urls[1]));
-		                            break;
-		                        case 2:
-		                            Desktop.getDesktop().browse(new URI(urls[2]));
-		                            break;
+		                    case 0:
+		                        Desktop.getDesktop().browse(new URI(urls[0]));
+		                        break;
+		                    case 1:
+		                        Desktop.getDesktop().browse(new URI(urls[1]));
+		                        break;
+		                    case 2:
+		                        Desktop.getDesktop().browse(new URI(urls[2]));
+		                        break;
+		                    case 3:
+		                        Desktop.getDesktop().browse(new URI(urls[3]));
+		                        break;
+		                    case 4:
+		                        Desktop.getDesktop().browse(new URI(urls[4]));
+		                        break;
+		                    case 5:
+		                        Desktop.getDesktop().browse(new URI(urls[5]));
+		                        break;
+		                    case 6:
+		                        Desktop.getDesktop().browse(new URI(urls[6]));
+		                        break;
+		                    case 7:
+		                        Desktop.getDesktop().browse(new URI(urls[7]));
+		                        break;
+		                    case 8:
+		                        Desktop.getDesktop().browse(new URI(urls[8]));
+		                        break;
+		                    case 9:
+		                        Desktop.getDesktop().browse(new URI(urls[9]));
+		                        break;
 		                    }
 		                } catch (Exception ex) {
 		                    ex.printStackTrace();
@@ -371,8 +407,8 @@ public class Busqueda extends JPanel {
 		
 		panelAnuncios.add(labelAnuncio, BorderLayout.CENTER);
 		
-		
-		
+		// FIN DE ANUNCIOS
+	    
         //Añadimos los componentes al panelCentro y el panelCentro al centro del Panel de la clase (this)
         panelCentro.add(textFieldFiltroHotel);
         panelCentro.add(panelFiltro);
