@@ -10,6 +10,8 @@ import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
@@ -17,6 +19,7 @@ import java.awt.event.KeyListener;
 public class DialogPago extends JDialog {
     
 	private static final long serialVersionUID = 1L;
+	private Thread hiloParpadeoTarjeta;
 	
 	public DialogPago() {
 		setLayout(new BorderLayout()); // Cambiar layout del diálogo principal
@@ -48,6 +51,7 @@ public class DialogPago extends JDialog {
 				}
 			}
 			JOptionPane.showMessageDialog(null, "Se ha acabado el tiempo", "FIN DEL TIEMPO", JOptionPane.WARNING_MESSAGE);
+			Thread.currentThread().interrupt();
 			dispose();
 		});
 		
@@ -63,6 +67,7 @@ public class DialogPago extends JDialog {
         textFieldTarjeta.setColumns(20);
         //Imagen de tarjeta
         JLabel imagenTarjeta = new JLabel();
+        
         imagenTarjeta.setBounds(30, 30, 0, 0);
 		ImageIcon originalIcon = new ImageIcon("resources/images/tarjeta.png");
 		Image scaledImage = originalIcon.getImage().getScaledInstance(30, 30, Image.SCALE_SMOOTH);
@@ -97,7 +102,7 @@ public class DialogPago extends JDialog {
 		ImageIcon resizedIcon3 = new ImageIcon(scaledImage3);
 		imagenCodigoSeguridad.setIcon(resizedIcon3);
 		
-		// Los textFields solo admitiran numeros
+		// Los textFields solo admitiran numeros y el caracter '/'
 		KeyListener keyListenerTextFields = new KeyListener() {
 			
 			@Override
@@ -121,11 +126,75 @@ public class DialogPago extends JDialog {
 			}
 		};
 		
+		
 		JTextField[] textFields = {textFieldTarjeta, textFieldFechaCaducidad, textFieldFechaCaducidad};
 		for (int i = 0; i < textFields.length; i++) {
 			textFields[i].addKeyListener(keyListenerTextFields);
 		}
-		textFieldTarjeta.setToolTipText("Introduce un numero de tarjeta valido (10 o mas caracteres");
+		
+		//Creamos un listener para cada textField para que cuando este seleccionado el icono parpadee
+		textFieldTarjeta.addFocusListener(new FocusListener() {
+	            @Override
+	            public void focusGained(FocusEvent e) {
+	            	//Hilo para el parpadeo
+	            	hiloParpadeoTarjeta = new ParpadeoThread(labelTarjeta);
+	            	//Iniciamos el hilo
+	            	hiloParpadeoTarjeta.start();
+	            }
+
+	            @Override
+	            public void focusLost(FocusEvent e) {
+	            	// Interrumpir el hilo de parpadeo
+	                if (hiloParpadeoTarjeta != null && hiloParpadeoTarjeta.isAlive()) {
+	                    hiloParpadeoTarjeta.interrupt();
+	                }
+	                // Asegurarse de que el label sea visible
+	                SwingUtilities.invokeLater(() -> labelTarjeta.setVisible(true));
+	            }
+	        });
+		
+		textFieldFechaCaducidad.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+            	//Hilo para el parpadeo
+            	hiloParpadeoTarjeta = new ParpadeoThread(labelFechaCaducidad);
+            	//Iniciamos el hilo
+            	hiloParpadeoTarjeta.start();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+            	// Interrumpir el hilo de parpadeo
+                if (hiloParpadeoTarjeta != null && hiloParpadeoTarjeta.isAlive()) {
+                	hiloParpadeoTarjeta.interrupt();
+                }
+                // Asegurarse de que el label sea visible
+                SwingUtilities.invokeLater(() -> labelFechaCaducidad.setVisible(true));
+            }
+        });
+		
+		textFieldCodigoSeguridad.addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+            	//Hilo para el parpadeo
+            	hiloParpadeoTarjeta = new ParpadeoThread(labelCodigoSeguridad);
+            	//Iniciamos el hilo
+            	hiloParpadeoTarjeta.start();
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+            	// Interrumpir el hilo de parpadeo
+                if (hiloParpadeoTarjeta != null && hiloParpadeoTarjeta.isAlive()) {
+                	hiloParpadeoTarjeta.interrupt();
+                }
+                // Asegurarse de que el label sea visible
+                SwingUtilities.invokeLater(() -> labelCodigoSeguridad.setVisible(true));
+            }
+        });
+		
+		//Añadimos un toolTipText a cada textField para que el usuario vea las condiciones del input
+		textFieldTarjeta.setToolTipText("Introduce un numero de tarjeta valido (10 o mas numeros");
 		textFieldFechaCaducidad.setToolTipText("Introduce la fecha de caducidad en el formato especificado (mm/aa)");
 		textFieldCodigoSeguridad.setToolTipText("Introduce el codigo de seguridad (3 digitos)");
 		
@@ -198,5 +267,25 @@ public class DialogPago extends JDialog {
 		setVisible(true);
 	}
 	
+	class ParpadeoThread extends Thread {
+	    private JLabel label;
+
+	    public ParpadeoThread(JLabel label) {
+	        this.label = label;
+	    }
+
+	    @Override
+	    public void run() {
+	    	try {
+                while (!Thread.currentThread().isInterrupted()) {
+                    // Cambiar la visibilidad (si estaba visible a no visible y viceversa)
+                    SwingUtilities.invokeLater(() -> label.setVisible(!label.isVisible()));
+                    Thread.sleep(500); // Pausar 500 ms para el efecto de parpadeo
+                }
+            } catch (InterruptedException interruptedException) {
+                Thread.currentThread().interrupt(); // Mantener el estado de interrupción
+            }
+	    }
+	}
 	
 }
