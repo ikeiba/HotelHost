@@ -72,13 +72,13 @@ public class Home extends JPanel {
         panelbuscar.setBackground(Color.WHITE);
         panelbuscar.setLayout(null);
         
-        String[] nombrespaises = {"", "Estados Unidos", "Francia", "Italia", "Tailandia", "China", "Vietnam"};
+        String[] nombrespaises = {"", "Estados Unidos", "Francia", "Italia", "Tailandia", "China", "Vietnam", "España", "Alemania", "Mexico", "Reino Unido", "Paises Bajos", "Grecia", "Suiza", "Argentina", "Turquia", "Irlanda", "Japon", "Australia", "India", "Brasil", "Canada"};
         JComboBox<String> JComboBoxPaises = new JComboBox<>(nombrespaises);
         JComboBoxPaises.setBackground(Color.WHITE);
         JComboBoxPaises.setBounds((int) (panelbuscar.getWidth() * 0.01), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
         panelbuscar.add(JComboBoxPaises);
         
-        String[] nombresciudades = {"", "Paris", "Las Vegas", "Los Angeles", "Roma", "Bangkok", "Hanoi", "Hong Kong", "Miami", "Nueva York", "Pattaya"};
+        String[] nombresciudades = {"", "Paris", "Las Vegas", "Los Angeles", "Roma", "Bangkok", "Hanoi", "Hong Kong", "Miami", "Nueva York", "Pattaya", "Madrid", "Barcelona", "Bilbao", "Donosti", "Valencia", "Granada", "Sevilla", "Málaga", "Palma de Mallorca", "Berlin", "Frankfurt", "Gelsenkirchen", "Hamburgo", "Munich", "Cancún", "Bolonia", "Cori", "Florencia", "Génova", "Milán", "Nápoles", "Venecia", "Birmingham", "Liverpool", "Londres", "Manchester", "Ámsterdam", "Maastricht", "Roterdam", "Atenas", "Creta", "Tesalónica", "Basilea", "Ginebra", "Zurich", "Buenos Aires", "Estambul", "Galway", "Limerick", "Tokio", "Kioto", "Osaka", "Nara", "Melbourne", "Sidney", "Mumbai", "Nueva Delhi", "Rio de Janeiro", "Toronto"};
         JComboBox<String> JComboBoxCiudades = new JComboBox<>(nombresciudades);
         JComboBoxCiudades.setBackground(Color.WHITE);
         JComboBoxCiudades.setBounds((int) (panelbuscar.getWidth() * 0.21), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
@@ -88,26 +88,26 @@ public class Home extends JPanel {
 
         HashMap<String, String[]> ciudadesPorPais = new HashMap<>();
         ciudadesPorPais.put("Estados Unidos", new String[]{"Las Vegas", "Los Angeles", "Miami", "New York", "San Francisco", "Washington DC"});
-	ciudadesPorPais.put("España", new String[]{"Madrid", "Barcelona", "Bilbao", "Donosti", "Valencia", "Granada", "Sevilla", "Málaga", "Palma de Mallorca"});
-	ciudadesPorPais.put("Alemania", new String[]{"Berlin", "Frankfurt", "Gelsenkirchen", "Hamburgo", "Munich"});
+        ciudadesPorPais.put("España", new String[]{"Madrid", "Barcelona", "Bilbao", "Donosti", "Valencia", "Granada", "Sevilla", "Málaga", "Palma de Mallorca"});
+        ciudadesPorPais.put("Alemania", new String[]{"Berlin", "Frankfurt", "Gelsenkirchen", "Hamburgo", "Munich"});
         ciudadesPorPais.put("Francia", new String[]{"Paris", "Bayona", "Biarritz", "Lille", "Lyon", "Marsella", "Niza"});
-	ciudadesPorPais.put("Mexico", new String[]{"Cancún"});
+        ciudadesPorPais.put("Mexico", new String[]{"Cancún"});
         ciudadesPorPais.put("Italia", new String[]{"Roma", "Bolonia", "Cori", "Florencia", "Génova", "Milán", "Nápoles", "Venecia"});
-	ciudadesPorPais.put("Reino Unido", new String[]{"Birmingham", "Liverpool", "Londres", "Manchester"});
+        ciudadesPorPais.put("Reino Unido", new String[]{"Birmingham", "Liverpool", "Londres", "Manchester"});
         ciudadesPorPais.put("Tailandia", new String[]{"Bangkok", "Pattaya"});
         ciudadesPorPais.put("China", new String[]{"Hong Kong"});
         ciudadesPorPais.put("Vietnam", new String[]{"Hanoi"});
-	ciudadesPorPais.put("Paises Bajos", new String[]{"Ámsterdam", "Maastricht", "Roterdam"});
-	ciudadesPorPais.put("Grecia", new String[]{"Atenas", "Creta", "Tesalónica"});
-	ciudadesPorPais.put("Suiza", new String[]{"Basilea", "Ginebra", "Zurich"});
-	ciudadesPorPais.put("Argentina", new String[]{"Buenos Aires"});
-	ciudadesPorPais.put("Turquía", new String[]{"Estambul"});
-	ciudadesPorPais.put("Irlanda", new String[]{"Galway", "Limerick"});
-	ciudadesPorPais.put("Japón", new String[]{"Tokio", "Kioto", "Osaka", "Nara"});
-	ciudadesPorPais.put("Australia", new String[]{"Melbourne", "Sidney"});
-	ciudadesPorPais.put("India", new String[]{"Mumbai", "Nueva Delhi"});
-	ciudadesPorPais.put("Brazil", new String[]{"Rio de Janeiro"});
-	ciudadesPorPais.put("Canada", new String[]{"Toronto"});
+		ciudadesPorPais.put("Paises Bajos", new String[]{"Ámsterdam", "Maastricht", "Roterdam"});
+		ciudadesPorPais.put("Grecia", new String[]{"Atenas", "Creta", "Tesalónica"});
+		ciudadesPorPais.put("Suiza", new String[]{"Basilea", "Ginebra", "Zurich"});
+		ciudadesPorPais.put("Argentina", new String[]{"Buenos Aires"});
+		ciudadesPorPais.put("Turquia", new String[]{"Estambul"});
+		ciudadesPorPais.put("Irlanda", new String[]{"Galway", "Limerick"});
+		ciudadesPorPais.put("Japon", new String[]{"Tokio", "Kioto", "Osaka", "Nara"});
+		ciudadesPorPais.put("Australia", new String[]{"Melbourne", "Sidney"});
+		ciudadesPorPais.put("India", new String[]{"Mumbai", "Nueva Delhi"});
+		ciudadesPorPais.put("Brazil", new String[]{"Rio de Janeiro"});
+		ciudadesPorPais.put("Canada", new String[]{"Toronto"});
 
         // Listener para el JComboBox de países
         JComboBoxPaises.addActionListener( e -> {
