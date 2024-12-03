@@ -55,8 +55,7 @@ public class MainFrame extends JFrame {
         // Inicializar el CardLayout y mainPanel
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
-        
-        
+               
         // Añadimos una funcionalidad al panel Busqueda cuando sea el que esta visible
         Busqueda panelBusqueda = new Busqueda(cardLayout, mainPanel, hoteles);
         panelBusqueda.addComponentListener(new ComponentAdapter() {
@@ -76,7 +75,6 @@ public class MainFrame extends JFrame {
         mainPanel.add(new Home(cardLayout, mainPanel), "Home");
         mainPanel.add(panelBusqueda, "Busqueda");
         
-
         // Añadir el mainPanel al JFrame
         this.add(mainPanel);
         
@@ -88,14 +86,13 @@ public class MainFrame extends JFrame {
     	KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
     	
     	
-    	 // Parametros del JFrame
+    	// Parametros del JFrame
         setTitle("Hotel Host"); // Cambiar el título
         setIconImage(new ImageIcon("resources/images/Hotel Host.png").getImage()); // Cambiar el Logo de la ventana y barra de tareas
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(1152, 720); // El 60% de la pantalla de nuestros ordenadores
         setResizable(false); // No es posible cambiar el tamaño de la ventana
         setLocationRelativeTo(null); // Poner la ventana en el centro de la pantalla
-        // Mostrar el JFrame
-        setVisible(true);
+        setVisible(true); //Mostrar el JFrame
         }
 }
