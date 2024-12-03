@@ -56,7 +56,7 @@ public class MainFrame extends JFrame {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
         
-        // Inicializar los paneles
+        
         // Añadimos una funcionalidad al panel Busqueda cuando sea el que esta visible
         Busqueda panelBusqueda = new Busqueda(cardLayout, mainPanel, hoteles);
         panelBusqueda.addComponentListener(new ComponentAdapter() {
@@ -67,6 +67,7 @@ public class MainFrame extends JFrame {
             }
         });
         
+        // Inicializar los paneles y añadirlos al cardLayout
         mainPanel.add(new Log1(cardLayout, mainPanel), "Log1");
         mainPanel.add(new Log2(cardLayout, mainPanel), "Log2");
         mainPanel.add(new Log3(cardLayout, mainPanel), "Log3");
