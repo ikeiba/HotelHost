@@ -262,6 +262,7 @@ public class DialogPago extends JDialog {
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setTitle("Confirmar Pago");		
 		setSize(500, 350);
+		setResizable(false);
 		setModalityType(ModalityType.APPLICATION_MODAL);
 		setLocationRelativeTo(null);
 		setVisible(true);
