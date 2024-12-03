@@ -12,7 +12,7 @@ public class EmailSender {
     private static final String SMTP_SERVER = "smtp.sendgrid.net"; // SendGrid's SMTP server
     private static final String SMTP_PORT = "587"; // Use port 587 for TLS, or 465 for SSL
     private static final String USERNAME = "apikey";
-    private static final String PASSWORD = "SG.cItFsi9cQFmmIO08hcqK8g.pvPg" + "LJ7pQKJrVIsSmnV8L7n-3AJZ9b002aXz3cxB5Ls";
+    private static final String PASSWORD = "ghp_3vn2QNyZfvAaxTJw" + "B93JErk2M1qbHE0qrYhl";
     
     public static void sendEmail(String toEmail, String subject, String messageContent) {
         // Configure SMTP server settings
