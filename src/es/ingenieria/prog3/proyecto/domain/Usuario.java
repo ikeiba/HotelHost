@@ -92,4 +92,11 @@ public class Usuario {
 	public long getFechaNacimiento() {
 		return fechaNacimiento;
 	}
+
+	@Override
+	public String toString() {
+		return "Usuario [usuario=" + usuario + "]";
+	}
+	
+	
 }
