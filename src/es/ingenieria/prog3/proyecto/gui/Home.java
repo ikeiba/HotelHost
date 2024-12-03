@@ -78,7 +78,7 @@ public class Home extends JPanel {
         JComboBoxPaises.setBounds((int) (panelbuscar.getWidth() * 0.01), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
         panelbuscar.add(JComboBoxPaises);
         
-        String[] nombresciudades = {"", "Paris", "Las Vegas", "Los Angeles", "Roma", "Bangkok", "Hanoi", "Hong Kong", "Miami", "Nueva York", "Pattaya", "Madrid", "Barcelona", "Bilbao", "Donosti", "Valencia", "Granada", "Sevilla", "Málaga", "Palma de Mallorca", "Berlin", "Frankfurt", "Gelsenkirchen", "Hamburgo", "Munich", "Cancún", "Bolonia", "Cori", "Florencia", "Génova", "Milán", "Nápoles", "Venecia", "Birmingham", "Liverpool", "Londres", "Manchester", "Ámsterdam", "Maastricht", "Roterdam", "Atenas", "Creta", "Tesalónica", "Basilea", "Ginebra", "Zurich", "Buenos Aires", "Estambul", "Galway", "Limerick", "Tokio", "Kioto", "Osaka", "Nara", "Melbourne", "Sidney", "Mumbai", "Nueva Delhi", "Rio de Janeiro", "Toronto"};
+        String[] nombresciudades = {"", "Paris", "Las Vegas", "Los Angeles", "Roma", "Bangkok", "Hanoi", "Hong Kong", "Miami", "New York", "Pattaya", "Madrid", "Barcelona", "Bilbao", "Donosti", "Valencia", "Granada", "Sevilla", "Malaga", "Palma de Mallorca", "Berlin", "Frankfurt", "Gelsenkirchen", "Hamburgo", "Munich", "Cancun", "Bolonia", "Cori", "Florencia", "Genova", "Milan", "Napoles", "Venecia", "Birmingham", "Liverpool", "Londres", "Manchester", "amsterdam", "Maastricht", "Roterdam", "Atenas", "Creta", "Tesalonica", "Basilea", "Ginebra", "Zurich", "Buenos Aires", "Estambul", "Galway", "Limerick", "Tokio", "Kioto", "Osaka", "Nara", "Melbourne", "Sidney", "Mumbai", "Nueva Delhi", "Rio de Janeiro", "Toronto", "Biarritz", "Lille", "Lyon", "Marsella", "Bayona", "San Francisco", "Niza", "Washington DC"};
         JComboBox<String> JComboBoxCiudades = new JComboBox<>(nombresciudades);
         JComboBoxCiudades.setBackground(Color.WHITE);
         JComboBoxCiudades.setBounds((int) (panelbuscar.getWidth() * 0.21), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
@@ -88,17 +88,17 @@ public class Home extends JPanel {
 
         HashMap<String, String[]> ciudadesPorPais = new HashMap<>();
         ciudadesPorPais.put("Estados Unidos", new String[]{"Las Vegas", "Los Angeles", "Miami", "New York", "San Francisco", "Washington DC"});
-        ciudadesPorPais.put("España", new String[]{"Madrid", "Barcelona", "Bilbao", "Donosti", "Valencia", "Granada", "Sevilla", "Málaga", "Palma de Mallorca"});
+        ciudadesPorPais.put("España", new String[]{"Madrid", "Barcelona", "Bilbao", "Donosti", "Valencia", "Granada", "Sevilla", "Malaga", "Palma de Mallorca"});
         ciudadesPorPais.put("Alemania", new String[]{"Berlin", "Frankfurt", "Gelsenkirchen", "Hamburgo", "Munich"});
         ciudadesPorPais.put("Francia", new String[]{"Paris", "Bayona", "Biarritz", "Lille", "Lyon", "Marsella", "Niza"});
-        ciudadesPorPais.put("Mexico", new String[]{"Cancún"});
-        ciudadesPorPais.put("Italia", new String[]{"Roma", "Bolonia", "Cori", "Florencia", "Génova", "Milán", "Nápoles", "Venecia"});
+        ciudadesPorPais.put("Mexico", new String[]{"Cancun"});
+        ciudadesPorPais.put("Italia", new String[]{"Roma", "Bolonia", "Cori", "Florencia", "Genova", "Milan", "Napoles", "Venecia"});
         ciudadesPorPais.put("Reino Unido", new String[]{"Birmingham", "Liverpool", "Londres", "Manchester"});
         ciudadesPorPais.put("Tailandia", new String[]{"Bangkok", "Pattaya"});
         ciudadesPorPais.put("China", new String[]{"Hong Kong"});
         ciudadesPorPais.put("Vietnam", new String[]{"Hanoi"});
-		ciudadesPorPais.put("Paises Bajos", new String[]{"Ámsterdam", "Maastricht", "Roterdam"});
-		ciudadesPorPais.put("Grecia", new String[]{"Atenas", "Creta", "Tesalónica"});
+		ciudadesPorPais.put("Paises Bajos", new String[]{"amsterdam", "Maastricht", "Roterdam"});
+		ciudadesPorPais.put("Grecia", new String[]{"Atenas", "Creta", "Tesalonica"});
 		ciudadesPorPais.put("Suiza", new String[]{"Basilea", "Ginebra", "Zurich"});
 		ciudadesPorPais.put("Argentina", new String[]{"Buenos Aires"});
 		ciudadesPorPais.put("Turquia", new String[]{"Estambul"});
@@ -109,7 +109,7 @@ public class Home extends JPanel {
 		ciudadesPorPais.put("Brazil", new String[]{"Rio de Janeiro"});
 		ciudadesPorPais.put("Canada", new String[]{"Toronto"});
 
-        // Listener para el JComboBox de países
+        // Listener para el JComboBox de paises
         JComboBoxPaises.addActionListener( e -> {
 
         	String paisSeleccionado = (String) JComboBoxPaises.getSelectedItem();
@@ -127,7 +127,7 @@ public class Home extends JPanel {
                     }
                 }
             } else {
-                // Deshabilitar el JComboBoxCiudades si no hay país seleccionado
+                // Deshabilitar el JComboBoxCiudades si no hay pais seleccionado
                 JComboBoxCiudades.setEnabled(false);
             }
         });
@@ -137,7 +137,7 @@ public class Home extends JPanel {
         dateChooserinicio.setDateFormatString("dd/MM/yyyy");
         dateChooserinicio.setDate(new Date());
         dateChooserinicio.setBounds((int) (panelbuscar.getWidth() * 0.41), 10, (int) (panelbuscar.getWidth() * 0.19), 50);
-        dateChooserinicio.setSelectableDateRange(new Date(), null);  // El primer parámetro es la fecha de inicio (hoy)
+        dateChooserinicio.setSelectableDateRange(new Date(), null);  // El primer parametro es la fecha de inicio (hoy)
         panelbuscar.add(dateChooserinicio);
         
         // Impide que el calendario se pueda modificar mediante el teclado (Codigo creado con la ayuda de ChatGPT)
@@ -155,12 +155,12 @@ public class Home extends JPanel {
         //Como dia inicial seleccionamos el dia siguiente a hoy
         Calendar calendario = Calendar.getInstance();
         calendario.setTime(dateChooserinicio.getDate());
-        // Sumar un día
+        // Sumar un dia
         calendario.add(Calendar.DAY_OF_MONTH, 1);
         // Convertir de nuevo a Date
         Date nuevaFecha = calendario.getTime();
         dateChooserfinal.setDate(nuevaFecha);       
-        dateChooserfinal.setSelectableDateRange(nuevaFecha, null);  // El primer parámetro es el dia siguiente a la fecha de inicio (mañana)      
+        dateChooserfinal.setSelectableDateRange(nuevaFecha, null);  // El primer parametro es el dia siguiente a la fecha de inicio (mañana)      
         panelbuscar.add(dateChooserfinal);
         
         // Impide que el calendario se pueda modificar mediante el teclado (Codigo creado con la ayuda de ChatGPT)
@@ -179,13 +179,13 @@ public class Home extends JPanel {
                 Date fechaInicio = dateChooserinicio.getDate();
                 Date fechaFinal = dateChooserfinal.getDate();
 
-                // Si fechaInicio no es null y es después de fechaFinal
+                // Si fechaInicio no es null y es despues de fechaFinal
                 if (fechaInicio != null && fechaFinal != null && (fechaInicio.after(fechaFinal) || fechaInicio.equals(fechaFinal))) {
                     JOptionPane.showMessageDialog(null, "La fecha de inicio no puede ser posterior o igual a la fecha final.", "Error", JOptionPane.WARNING_MESSAGE);
                     
                     Calendar calendario = Calendar.getInstance();
                     calendario.setTime(fechaInicio);
-                    // Sumar un día
+                    // Sumar un dia
                     calendario.add(Calendar.DAY_OF_MONTH, 1);
                     // Convertir de nuevo a Date
                     Date nuevaFecha = calendario.getTime();
@@ -208,7 +208,7 @@ public class Home extends JPanel {
                     
                     Calendar calendario = Calendar.getInstance();
                     calendario.setTime(fechaInicio);
-                    // Sumar un día
+                    // Sumar un dia
                     calendario.add(Calendar.DAY_OF_MONTH, 1);
                     // Convertir de nuevo a Date
                     Date nuevaFecha = calendario.getTime();
@@ -244,7 +244,7 @@ public class Home extends JPanel {
         barraSeparadora2.setOrientation(SwingConstants.HORIZONTAL);
         add(barraSeparadora2, BorderLayout.CENTER);
         
-        JLabel labelpopular = new JLabel("Destinos más populares");
+        JLabel labelpopular = new JLabel("Destinos mas populares");
         labelpopular.setHorizontalAlignment(SwingConstants.LEFT);
         labelpopular.setVerticalAlignment(SwingConstants.TOP);
         labelpopular.setBounds(40, 340, 500, 150);
@@ -303,7 +303,7 @@ public class Home extends JPanel {
         imagenes.add(new ImageData("resources/images/Ciudades/Valencia.jpg", "Valencia", "resources/images/Banderas/Spain Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Granada.jpg", "Granada", "resources/images/Banderas/Spain Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Sevilla.jpg", "Sevilla", "resources/images/Banderas/Spain Flag.png"));
-        imagenes.add(new ImageData("resources/images/Ciudades/Malaga.jpg", "Málaga", "resources/images/Banderas/Spain Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Malaga.jpg", "Malaga", "resources/images/Banderas/Spain Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Palma de Mallorca.jpg", "Palma de Mallorca", "resources/images/Banderas/Spain Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Berlin.jpg", "Berlin", "resources/images/Banderas/Germany Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Frankfurt.jpg", "Frankfurt", "resources/images/Banderas/Germany Flag.png"));
@@ -319,20 +319,20 @@ public class Home extends JPanel {
         imagenes.add(new ImageData("resources/images/Ciudades/Bolonia.jpg", "Bolonia", "resources/images/Banderas/Italy Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Corl.jpg", "Cori", "resources/images/Banderas/Italy Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Florencia.jpg", "Florencia", "resources/images/Banderas/Italy Flag.png"));
-        imagenes.add(new ImageData("resources/images/Ciudades/Genova.jpg", "Génova", "resources/images/Banderas/Italy Flag.png"));
-        imagenes.add(new ImageData("resources/images/Ciudades/Milan.jpg", "Milán", "resources/images/Banderas/Italy Flag.png"));
-        imagenes.add(new ImageData("resources/images/Ciudades/Napoles.jpg", "Nápoles", "resources/images/Banderas/Italy Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Genova.jpg", "Genova", "resources/images/Banderas/Italy Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Milan.jpg", "Milan", "resources/images/Banderas/Italy Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Napoles.jpg", "Napoles", "resources/images/Banderas/Italy Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Venecia.jpg", "Venecia", "resources/images/Banderas/Italy Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Birmingham.jpg", "Birmingham", "resources/images/Banderas/UK Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Liverpool.jpg", "Liverpool", "resources/images/Banderas/UK Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Londres.jpg", "Londres", "resources/images/Banderas/UK Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Manchester.jpg", "Manchester", "resources/images/Banderas/UK Flag.png"));
-        imagenes.add(new ImageData("resources/images/Ciudades/Amsterdan.jpg", "Ámsterdam", "resources/images/Banderas/Netherlands Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Amsterdan.jpg", "amsterdam", "resources/images/Banderas/Netherlands Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Maastricht.jpg", "Maastricht", "resources/images/Banderas/Netherlands Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Rotterdam.jpg", "Roterdam", "resources/images/Banderas/Netherlands Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Atenas.jpg", "Atenas", "resources/images/Banderas/Greece Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Creta.jpg", "Creta", "resources/images/Banderas/Greece Flag.png"));
-        imagenes.add(new ImageData("resources/images/Ciudades/Tesalonica.jpg", "Tesalónica", "resources/images/Banderas/Greece Flag.png"));
+        imagenes.add(new ImageData("resources/images/Ciudades/Tesalonica.jpg", "Tesalonica", "resources/images/Banderas/Greece Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Basilea.jpg", "Basilea", "resources/images/Banderas/Switzerland Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Ginebra.jpg", "Ginebra", "resources/images/Banderas/Switzerland Flag.png"));
         imagenes.add(new ImageData("resources/images/Ciudades/Zurich.jpg", "Zurich", "resources/images/Banderas/Switzerland Flag.png"));
