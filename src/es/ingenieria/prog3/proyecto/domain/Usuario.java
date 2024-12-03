@@ -3,6 +3,7 @@ package es.ingenieria.prog3.proyecto.domain;
 import java.util.ArrayList;
 
 public class Usuario {
+	private int id;
 	private String usuario;
 	private String nombre;
 	private String apellido;
@@ -25,6 +26,14 @@ public class Usuario {
 		this.valoraciones = valoraciones;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public int setId() {
+		return id;
+	}
+	
 	public String getUsuario() {
 		return usuario;
 	}
