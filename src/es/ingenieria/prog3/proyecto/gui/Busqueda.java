@@ -10,12 +10,15 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -61,6 +64,8 @@ public class Busqueda extends JPanel {
 	private JScrollPane panelScrollTablaValoraciones;
 	//Panel del label valoraciones
 	private JPanelBordesRedondos panelLabelValoraciones;
+	
+	private JButton buttonQuitarAnuncio = new JButton("X");
 
 	
 	public Busqueda(CardLayout cardLayout, JPanel mainPanel, ArrayList<Hotel> hoteles) {
@@ -302,10 +307,11 @@ public class Busqueda extends JPanel {
 		JPanelBordesRedondos panelAnuncios = new JPanelBordesRedondos(25);
 		panelAnuncios.setBounds(0, 0, (int) (Preferences.WINDOWWIDTH * 0.4), 125);
 		panelAnuncios.setBounds((int) ((Preferences.WINDOWWIDTH * 0.22) - (panelAnuncios.getWidth() / 2)), (int) ((Preferences.WINDOWHEIGHT * 0.435) - (panelAnuncios.getHeight() / 2)) - 75, panelAnuncios.getWidth(), panelAnuncios.getHeight());
-		panelAnuncios.setBackground(Color.RED);
 		panelAnuncios.setLayout(new BorderLayout());
 		
-		JLabel labelAnuncio = new JLabel();
+		JLabel labelAnuncio = new JLabel("HotelHost Anuncios");
+		
+		final boolean[] flagAnuncioQuitado = {false};
 		
 		Thread hiloAnuncio = new Thread() {
 		    @Override
@@ -378,6 +384,12 @@ public class Busqueda extends JPanel {
 		                } catch (Exception ex) {
 		                    ex.printStackTrace();
 		                }
+		                if (flagAnuncioQuitado[0] == true) {
+		                	try {
+								Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=dQw4w9WgXcQ"));
+							} catch (Exception ex) {
+							}
+		                }
 		            }
 		        });
 
@@ -395,6 +407,14 @@ public class Busqueda extends JPanel {
 		            try {
 		                Thread.sleep(10000); // Pausa de 10 segundos
 		            } catch (InterruptedException e) {
+		            	labelAnuncio.setIcon(null);
+		            	 try {
+				                Thread.sleep(20000); // Pausa de 10 segundos
+				            } catch (InterruptedException e2) {
+				            }
+		            	 flagAnuncioQuitado[0] = false;
+		            	 labelAnuncio.setHorizontalAlignment(SwingConstants.LEFT);
+		            	 buttonQuitarAnuncio.setVisible(true);
 		            }
 
 		            // Avanzar al siguiente índice en la cola circular (Chat-GPT)
@@ -405,6 +425,21 @@ public class Busqueda extends JPanel {
 
 		hiloAnuncio.start();
 		
+		
+        buttonQuitarAnuncio.setBounds((int) (panelAnuncios.getWidth() * 0.95), 175, 45, 40);
+        buttonQuitarAnuncio.setHorizontalAlignment(SwingConstants.RIGHT);
+        buttonQuitarAnuncio.setBackground(Preferences.COLORBACKGROUND);
+        buttonQuitarAnuncio.setBorderPainted(false);
+
+        // Cambia el color del texto o ícono si es necesario (opcional)
+        buttonQuitarAnuncio.setForeground(Color.DARK_GRAY);
+        buttonQuitarAnuncio.addActionListener(e -> {
+        	flagAnuncioQuitado[0] = true;
+        	buttonQuitarAnuncio.setVisible(false);
+        	labelAnuncio.setHorizontalAlignment(SwingConstants.CENTER);
+        	hiloAnuncio.interrupt();
+        });
+        panelAnuncios.add(buttonQuitarAnuncio, BorderLayout.NORTH);
 		panelAnuncios.add(labelAnuncio, BorderLayout.CENTER);
 		
 		// FIN DE ANUNCIOS
@@ -417,6 +452,8 @@ public class Busqueda extends JPanel {
         panelCentro.add(panelScrollTablaValoraciones);
         panelCentro.add(panelLabelValoraciones);
         panelCentro.add(panelAnuncios);
+        //panelCentro.add(buttonQuitarAnuncio);
+        
         
         //Añadimos el panel panelCentro al BorderLayout.CENTER del Panel de la clase (this)
 		this.add(panelCentro, BorderLayout.CENTER); 
