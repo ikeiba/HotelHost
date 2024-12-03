@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import es.ingenieria.prog3.proyecto.persistence.GestorBD;
 import es.ingenieria.prog3.proyecto.domain.Habitacion;
 import es.ingenieria.prog3.proyecto.domain.Hotel;
 import es.ingenieria.prog3.proyecto.domain.Valoracion;
@@ -22,17 +23,10 @@ public class MainFrame extends JFrame {
     private JPanel mainPanel;
 
     public MainFrame() {
-    	// Parametros del JFrame
-        setTitle("Hotel Host"); // Cambiar el título
-        setIconImage(new ImageIcon("resources/images/Hotel Host.png").getImage()); // Cambiar el Logo de la ventana y barra de tareas
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1152, 720); // El 60% de la pantalla de nuestros ordenadores
-        setResizable(false); // No es posible cambiar el tamaño de la ventana
-        setLocationRelativeTo(null); // Poner la ventana en el centro de la pantalla
+    	GestorBD gestorBD = new GestorBD();
 
-        // Inicializar el CardLayout y mainPanel
-        cardLayout = new CardLayout();
-        mainPanel = new JPanel(cardLayout);
+    	
+        
         
         //CARGAR DATOS
         
@@ -59,15 +53,11 @@ public class MainFrame extends JFrame {
         //FIN CARGA DATOS
         
         
-        // Inicializar los paneles
-        mainPanel.add(new Log1(cardLayout, mainPanel), "Log1");
-        mainPanel.add(new Log2(cardLayout, mainPanel), "Log2");
-        mainPanel.add(new Log3(cardLayout, mainPanel), "Log3");
-        mainPanel.add(new Log4(cardLayout, mainPanel), "Log4");
-        mainPanel.add(new Log5(cardLayout, mainPanel), "Log5");
-        mainPanel.add(new Home(cardLayout, mainPanel), "Home");
-        
-        // Añadimos una funcionalidad al hotel cuando sea el que esta visible
+        // Inicializar el CardLayout y mainPanel
+        cardLayout = new CardLayout();
+        mainPanel = new JPanel(cardLayout);
+               
+        // Añadimos una funcionalidad al panel Busqueda cuando sea el que esta visible
         Busqueda panelBusqueda = new Busqueda(cardLayout, mainPanel, hoteles);
         panelBusqueda.addComponentListener(new ComponentAdapter() {
             @Override
@@ -76,19 +66,34 @@ public class MainFrame extends JFrame {
             	panelBusqueda.filtrarHoteles("", 0, 100000);
             }
         });
-        // Añadimos el panel de busqueda al cardLayout
+        
+        // Inicializar los paneles y añadirlos al cardLayout
+        mainPanel.add(new Log1(cardLayout, mainPanel), "Log1");
+        mainPanel.add(new Log2(cardLayout, mainPanel), "Log2");
+        mainPanel.add(new Log3(cardLayout, mainPanel), "Log3");
+        mainPanel.add(new Log4(cardLayout, mainPanel), "Log4");
+        mainPanel.add(new Log5(cardLayout, mainPanel), "Log5");
+        mainPanel.add(new Home(cardLayout, mainPanel), "Home");
         mainPanel.add(panelBusqueda, "Busqueda");
-
+        
         // Añadir el mainPanel al JFrame
         this.add(mainPanel);
         
-        // Mostrar el JFrame
-        setVisible(true);
 
         // Cambiar el focus para no centrarse en nada
         // IAG: CHATGPT (Próximas 2 líneas)
         // Modificación: Si
     	this.getRootPane().requestFocusInWindow();
     	KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
+    	
+    	
+    	// Parametros del JFrame
+        setTitle("Hotel Host"); // Cambiar el título
+        setIconImage(new ImageIcon("resources/images/Hotel Host.png").getImage()); // Cambiar el Logo de la ventana y barra de tareas
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1152, 720); // El 60% de la pantalla de nuestros ordenadores
+        setResizable(false); // No es posible cambiar el tamaño de la ventana
+        setLocationRelativeTo(null); // Poner la ventana en el centro de la pantalla
+        setVisible(true); //Mostrar el JFrame
         }
 }
