@@ -80,9 +80,9 @@ public class HotelsRenderer implements TableCellRenderer {
 		    case "Bolonia":
 		    case "Cori":
 		    case "Florencia":
-		    case "Génova":
-		    case "Milán":
-		    case "Nápoles":
+		    case "Genova":
+		    case "Milan":
+		    case "Napoles":
 		    case "Venecia":
 		        originalIcon = new ImageIcon("resources/images/Banderas/Italy Flag.png");
 		        break;
@@ -94,12 +94,12 @@ public class HotelsRenderer implements TableCellRenderer {
 		    case "Valencia":
 		    case "Granada":
 		    case "Sevilla":
-		    case "Málaga":
+		    case "Malaga":
 		    case "Palma de Mallorca":
 		        originalIcon = new ImageIcon("resources/images/Banderas/Spain Flag.jpg");
 		        break;
-		    // México
-		    case "Cancún":
+		    // Mexico
+		    case "Cancun":
 		        originalIcon = new ImageIcon("resources/images/Banderas/Mexico Flag.png");
 		        break;
 		    // Alemania
@@ -117,8 +117,8 @@ public class HotelsRenderer implements TableCellRenderer {
 		    case "Manchester":
 		        originalIcon = new ImageIcon("resources/images/Banderas/UK Flag.png");
 		        break;
-		    // Países Bajos
-		    case "Ámsterdam":
+		    // Paises Bajos
+		    case "amsterdam":
 		    case "Maastricht":
 		    case "Roterdam":
 		        originalIcon = new ImageIcon("resources/images/Banderas/Netherlands Flag.png");
@@ -126,7 +126,7 @@ public class HotelsRenderer implements TableCellRenderer {
 		    // Grecia
 		    case "Atenas":
 		    case "Creta":
-		    case "Tesalónica":
+		    case "Tesalonica":
 		        originalIcon = new ImageIcon("resources/images/Banderas/Greece Flag.png");
 		        break;
 		    // Suiza
@@ -139,7 +139,7 @@ public class HotelsRenderer implements TableCellRenderer {
 		    case "Buenos Aires":
 		        originalIcon = new ImageIcon("resources/images/Banderas/Argentina Flag.png");
 		        break;
-		    // Turquía
+		    // Turquia
 		    case "Estambul":
 		        originalIcon = new ImageIcon("resources/images/Banderas/Turkey Flag.png");
 		        break;
@@ -148,7 +148,7 @@ public class HotelsRenderer implements TableCellRenderer {
 		    case "Limerick":
 		        originalIcon = new ImageIcon("resources/images/Banderas/Ireland Flag.png");
 		        break;
-		    // Japón
+		    // Japon
 		    case "Tokio":
 		    case "Kioto":
 		    case "Osaka":
@@ -169,7 +169,7 @@ public class HotelsRenderer implements TableCellRenderer {
 		    case "Rio de Janeiro":
 		        originalIcon = new ImageIcon("resources/images/Banderas/Brazil Flag.png");
 		        break;
-		    // Canadá
+		    // Canada
 		    case "Toronto":
 		        originalIcon = new ImageIcon("resources/images/Banderas/Canada Flag.png");
 		        break;
@@ -206,7 +206,7 @@ public class HotelsRenderer implements TableCellRenderer {
 
 		//RENDERIZACIONES ADICIONALES
 		
-		//Si la celda está seleccionada se usa el color por defecto de selección de la tabla
+		//Si la celda está seleccionada se usa el color por defecto de seleccion de la tabla
 		if (isSelected) {
 			label.setBackground(table.getSelectionBackground());
 			label.setForeground(table.getSelectionForeground());

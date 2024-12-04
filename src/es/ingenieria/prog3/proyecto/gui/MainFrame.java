@@ -29,29 +29,32 @@ public class MainFrame extends JFrame {
     	gestorBD.borrarDatos();
     	gestorBD.initilizeFromCSV();
     	
+        ArrayList<Hotel> hoteles = gestorBD.getHoteles();
         
         
+        System.out.println(hoteles.get(0).getHabitaciones());
+        System.out.println(hoteles.get(0).getValoraciones());
         //CARGAR DATOS
         
         //Carga de hoteles (con habitaciones)
-        ArrayList<Hotel> hoteles = Hotel.cargarHoteles("resources/data/hoteles.csv");
-        Habitacion.crearHabitaciones(hoteles);
-
-        //Carga de valoraciones
-        ArrayList<Valoracion> valoraciones = Valoracion.cargarValoraciones("resources/data/valoraciones.csv");
-        
-        // Asignamos secuencialmente las primeras valoraciones a los hoteles
-        for (int i = 0; i < hoteles.size(); i++) {
-            // Asignamos la valoración i al hotel i
-            hoteles.get(i).getValoraciones().add(valoraciones.get(i));
-        }
-
-        //Asignamos el resto de valoraciones aleatoriamente
-        for (int i = hoteles.size(); i < valoraciones.size(); i++) {
-            // Asignamos las valoraciones restantes aleatoriamente
-            int posicionHotel = (int) (Math.random() * hoteles.size());
-            hoteles.get(posicionHotel).getValoraciones().add(valoraciones.get(i));
-        }
+//        ArrayList<Hotel> hoteles = Hotel.cargarHoteles("resources/data/hoteles.csv");
+//        Habitacion.crearHabitaciones(hoteles);
+//
+//        //Carga de valoraciones
+//        ArrayList<Valoracion> valoraciones = Valoracion.cargarValoraciones("resources/data/valoraciones.csv");
+//        
+//        // Asignamos secuencialmente las primeras valoraciones a los hoteles
+//        for (int i = 0; i < hoteles.size(); i++) {
+//            // Asignamos la valoración i al hotel i
+//            hoteles.get(i).getValoraciones().add(valoraciones.get(i));
+//        }
+//
+//        //Asignamos el resto de valoraciones aleatoriamente
+//        for (int i = hoteles.size(); i < valoraciones.size(); i++) {
+//            // Asignamos las valoraciones restantes aleatoriamente
+//            int posicionHotel = (int) (Math.random() * hoteles.size());
+//            hoteles.get(posicionHotel).getValoraciones().add(valoraciones.get(i));
+//        }
         
         //FIN CARGA DATOS
         

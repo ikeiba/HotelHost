@@ -371,7 +371,6 @@ public class GestorBD {
             // Asignamos la valoración i al hotel i
         	valoraciones.get(i).setIdHotel(hoteles.get(i).getId());
             hoteles.get(i).getValoraciones().add(valoraciones.get(i));
-            System.out.println(valoraciones.get(i).getIdHotel());
         }
         //Asignamos el resto de valoraciones aleatoriamente
         for (int i = hoteles.size(); i < valoraciones.size(); i++) {
@@ -398,6 +397,11 @@ public class GestorBD {
 			while (rs.next()) {
 				hotel = new Hotel(rs.getInt("id"), rs.getInt("estrellas"), rs.getString("nombre"), rs.getString("ciudad"), rs.getString("descripcion"), null);
 				
+				ArrayList<Habitacion> habitaciones = this.getHabitacionByHotel(hotel);
+				ArrayList<Valoracion> valoraciones = this.getValoracionByHotel(hotel);
+				
+				hotel.setHabitaciones(habitaciones);
+				hotel.setValoraciones(valoraciones);
 				//Se inserta cada nuevo cliente en la lista de clientes
 				hoteles.add(hotel);
 			}
@@ -538,7 +542,7 @@ public class GestorBD {
                         try {
                             planes.add(Plan.valueOf(plan.trim().toUpperCase()));
                         } catch (IllegalArgumentException e) {
-                            System.out.println(plan);
+                        	
                         }
                     }
 
@@ -589,8 +593,8 @@ public class GestorBD {
 	public ArrayList<Habitacion> crearHabitaciones(List<Hotel> hoteles) {
 		ArrayList<Habitacion> habitaciones = new ArrayList<Habitacion>();
 		for (Hotel hotel : hoteles) {
-			int numeroPlantas = (int)(Math.random() * (9 - 1 + 1)) + 1; //el numero de planta sera un numero aleatorio entre 1-9
-			int numeroHabitaciones = (int)(Math.random() * (20 - 5 + 1)) + 5; //el numero de habitaciones que habra en cada planta ser un numero aleatorio entre 5-20 (todas las plantas mismo numero de habitaciones
+			int numeroPlantas = (int)(Math.random() * (3 - 1 + 1)) + 1; //el numero de planta sera un numero aleatorio entre 1-9
+			int numeroHabitaciones = (int)(Math.random() * (7 - 5 + 1)) + 5; //el numero de habitaciones que habra en cada planta ser un numero aleatorio entre 5-20 (todas las plantas mismo numero de habitaciones
 			for (int i = 1; i <= numeroPlantas; i++) { 	
 				for (int j = 1; j <= numeroHabitaciones; j++) {
 					int numero;
