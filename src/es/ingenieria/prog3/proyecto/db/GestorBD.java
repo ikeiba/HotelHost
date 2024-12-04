@@ -376,7 +376,7 @@ public class GestorBD {
         for (int i = hoteles.size(); i < valoraciones.size(); i++) {
             // Asignamos las valoraciones restantes aleatoriamente
             int posicionHotel = (int) (Math.random() * hoteles.size());
-        	valoraciones.get(i).setId(hoteles.get(posicionHotel).getId());
+        	valoraciones.get(i).setIdHotel(hoteles.get(posicionHotel).getId());
             hoteles.get(posicionHotel).getValoraciones().add(valoraciones.get(i));
         }		
 	}
