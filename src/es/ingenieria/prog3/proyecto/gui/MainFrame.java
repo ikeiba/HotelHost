@@ -10,7 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import es.ingenieria.prog3.proyecto.persistence.GestorBD;
+import es.ingenieria.prog3.proyecto.db.GestorBD;
 import es.ingenieria.prog3.proyecto.domain.Habitacion;
 import es.ingenieria.prog3.proyecto.domain.Hotel;
 import es.ingenieria.prog3.proyecto.domain.Valoracion;
