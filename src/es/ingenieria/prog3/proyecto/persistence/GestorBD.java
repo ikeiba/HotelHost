@@ -18,8 +18,10 @@ import java.util.Properties;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
 
+import es.ingenieria.prog3.proyecto.domain.Habitacion;
 import es.ingenieria.prog3.proyecto.domain.Hotel;
 import es.ingenieria.prog3.proyecto.domain.Plan;
+import es.ingenieria.prog3.proyecto.domain.TipoHabitacion;
 import es.ingenieria.prog3.proyecto.domain.Valoracion;
 
 
@@ -81,18 +83,20 @@ public class GestorBD {
 			//Se borran los datos, si existía alguno
 			this.borrarDatos();
 			
-			//Se leen los personajes del CSV
+			//Se leen los hoteles del CSV
 			List<Hotel> hoteles = this.cargarHoteles(CSV_HOTELES);
-			//Se insertan los personajes en la BBDD
-			//this.insertarPesonaje(personajes.toArray(new Personaje[personajes.size()]));
+			//Se insertan los hoteles en la BBDD
+			//this.insertarHotel(hoteles.toArray(new Hotel[hoteles.size()]));
 			
-			//Se leen los comics del CSV
+			//Se leen las valoraciones del CSV
 			List<Valoracion> valoraciones = this.cargarValoraciones(CSV_VALORACIONES);				
 			//lambda expression: enlaza los personajes con los comics porque al leer los
 			//comics sólo se recuperan los nombres de los personajes y faltan el resto de
 			//datos.
 			//comics.forEach(c -> updatePersonajes(c, personajes));
 			
+			//Se crean y añaden las habitacion a los hoteles
+			List<Habitacion> habitaciones = crearHabitaciones(hoteles);
 			//Se insertan los comics en la BBDD
 			//this.insertarComic(comics.toArray(new Comic[comics.size()]));				
 		}
@@ -243,22 +247,22 @@ public class GestorBD {
 	}
 //	
 //	/**
-//	 * Inserta Personajes en la BBDD
+//	 * Inserta Hoteles en la BBDD
 //	 */
-//	public void insertarPesonaje(Personaje... personajes) {
+//	public void insertarHoteles(Hotel... hoteles) {
 //		//Se define la plantilla de la sentencia SQL
-//		String sql = "INSERT INTO Personaje (editorial, nombre, email) VALUES (?, ?, ?);";
+//		String sql = "INSERT INTO Hotel (editorial, nombre, email) VALUES (?, ?, ?);";
 //		
 //		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
 //		try (Connection con = DriverManager.getConnection(connectionString);
 //			 PreparedStatement pStmt = con.prepareStatement(sql)) {
 //									
 //			//Se recorren los clientes y se insertan uno a uno
-//			for (Personaje p : personajes) {
+//			for (Hotel h : hoteles) {
 //				//Se añaden los parámetros al PreparedStatement
-//				pStmt.setString(1, p.getEditorial().toString());
-//				pStmt.setString(2, p.getNombre());
-//				pStmt.setString(3, p.getEmail());
+//				pStmt.setString(1, h.getEditorial().toString());
+//				pStmt.setString(2, h.getNombre());
+//				pStmt.setString(3, h.getEmail());
 //				
 //				if (pStmt.executeUpdate() != 1) {					
 //					logger.warning(String.format("No se ha insertado el Personaje: %s", p));
@@ -638,75 +642,7 @@ public class GestorBD {
 //		}		
 //	}
 //	
-//	private List<Personaje> loadCSVPersonajes() {
-//		List<Personaje> personajes = new ArrayList<>();
-//		
-//		try (BufferedReader in = new BufferedReader(new FileReader(CSV_PERSONAJES))) {
-//			String linea = null;
-//			Personaje p = null;
-//			//Omitir la cabecera
-//			in.readLine();		
-//			
-//			while ((linea = in.readLine()) != null) {
-//				p = Personaje.parseCSV(linea);
-//				
-//				if (p != null) {
-//					personajes.add(p);
-//				}
-//			}			
-//			
-//		} catch (Exception ex) {
-//			logger.warning(String.format("Error leyendo personajes del CSV: %s", ex.getMessage()));
-//		}
-//		
-//		return personajes;
-//	}
-//	
-//	private List<Comic> loadCVSComics() {
-//		List<Comic> comics = new ArrayList<>();
-//		
-//		try (BufferedReader in = new BufferedReader(new FileReader(CSV_COMICS))) {
-//			String linea = null;
-//			
-//			//Omitir la cabecera
-//			in.readLine();			
-//			
-//			while ((linea = in.readLine()) != null) {
-//				comics.add(Comic.parseCSV(linea));
-//			}			
-//			
-//		} catch (Exception ex) {
-//			logger.warning(String.format("Error leyendo comics del CSV: %s", ex.getMessage()));
-//		}
-//		
-//		return comics;
-//	}
-//	
-//	//MODIFICACIÓN 4: Guarda una lista de comics en un CSV
-//	public void storeCSVComics(List<Comic> comics) {
-//		if (comics != null) {
-//			try (PrintWriter out = new PrintWriter(new File(CSV_COMICS))) {
-//				out.println("EDITORIAL;TITULO;PERSONAJES");
-//				comics.forEach(c -> out.println(Comic.toCSV(c)));			
-//				logger.info("Se han guardado los comics en un CSV.");
-//			} catch (Exception ex) {
-//				logger.warning(String.format("Error guardando comics en el CSV: %s", ex.getMessage()));
-//			}
-//		}
-//	}
-//	
-//	//MODIFICACIÓN 4: Guarda una lista de personajes en un CSV
-//	public void storeCSVPersonajes(List<Personaje> personajes) {
-//		if (personajes != null) {
-//			try (PrintWriter out = new PrintWriter(new File(CSV_PERSONAJES))) {
-//				out.println("EDITORIAL;NOMBRE;EMAIL");
-//				personajes.forEach(p -> out.println(Personaje.toCSV(p)));
-//				logger.info("Se han guardado los personajes en un CSV.");
-//			} catch (Exception ex) {
-//				logger.warning(String.format("Error guardando personajes en el CSV: %s", ex.getMessage()));
-//			}			
-//		}
-//	}
+
 	
 	public ArrayList<Hotel> cargarHoteles(String filePath) {
         ArrayList<Hotel> hoteles = new ArrayList<>();
@@ -775,4 +711,32 @@ public class GestorBD {
 
         return valoraciones;
     }
+	
+	public ArrayList<Habitacion> crearHabitaciones(List<Hotel> hoteles) {
+		ArrayList<Habitacion> habitaciones = new ArrayList<Habitacion>();
+		for (Hotel hotel : hoteles) {
+			int numeroPlantas = (int)(Math.random() * (9 - 1 + 1)) + 1; //el numero de planta sera un numero aleatorio entre 1-9
+			int numeroHabitaciones = (int)(Math.random() * (20 - 5 + 1)) + 5; //el numero de habitaciones que habra en cada planta ser un numero aleatorio entre 5-20 (todas las plantas mismo numero de habitaciones
+			for (int i = 1; i <= numeroPlantas; i++) { 	
+				for (int j = 1; j <= numeroHabitaciones; j++) {
+					int numero;
+					if (j > 9) {
+						numero = Integer.valueOf(String.valueOf(i) + j);
+					}else {
+						numero = Integer.valueOf(String.valueOf(i) + 0 + j);
+
+					}
+					int capacidad = (int)(Math.random() * (4 - 1 + 1)) + 1; //la capacidad sera un numero entre 1-6
+					int indiceTipoHabitacion = (int)(Math.random() * TipoHabitacion.values().length);
+					TipoHabitacion tipoHabitacion = TipoHabitacion.values()[indiceTipoHabitacion];
+					double precio = (Math.random() * (400 - 50 + 1)) + 50; //el precio sera un numero aleatorio entre 30 y 400
+					Habitacion habitacion = new Habitacion(null, i, numero, capacidad, tipoHabitacion, precio);
+					hotel.getHabitaciones().add(habitacion);
+					habitaciones.add(habitacion);
+				}
+			}
+		}
+		return habitaciones;
+	}
+	
 }
