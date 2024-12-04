@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -16,6 +17,10 @@ import java.util.List;
 import java.util.Properties;
 import java.util.logging.LogManager;
 import java.util.logging.Logger;
+
+import es.ingenieria.prog3.proyecto.domain.Hotel;
+import es.ingenieria.prog3.proyecto.domain.Plan;
+import es.ingenieria.prog3.proyecto.domain.Valoracion;
 
 
 public class GestorBD {
@@ -70,29 +75,29 @@ public class GestorBD {
 	 * Inicializa la BBDD leyendo los datos de los ficheros CSV 
 	 */
 	
-//	public void initilizeFromCSV() {
-//		//Sólo se inicializa la BBDD si la propiedad initBBDD es true.
-//		if (properties.get("loadCSV").equals("true")) {
-//			//Se borran los datos, si existía alguno
-//			this.borrarDatos();
-//			
-//			//Se leen los personajes del CSV
-//			List<Personaje> personajes = this.loadCSVPersonajes();
-//			//Se insertan los personajes en la BBDD
-//			this.insertarPesonaje(personajes.toArray(new Personaje[personajes.size()]));
-//			
-//			//Se leen los comics del CSV
-//			List<Comic> comics = this.loadCVSComics();				
-//			//lambda expression: enlaza los personajes con los comics porque al leer los
-//			//comics sólo se recuperan los nombres de los personajes y faltan el resto de
-//			//datos.
-//			comics.forEach(c -> updatePersonajes(c, personajes));
-//			
-//			//Se insertan los comics en la BBDD
-//			this.insertarComic(comics.toArray(new Comic[comics.size()]));				
-//		}
-//	}
-//
+	public void initilizeFromCSV() {
+		//Sólo se inicializa la BBDD si la propiedad initBBDD es true.
+		if (properties.get("loadCSV").equals("true")) {
+			//Se borran los datos, si existía alguno
+			this.borrarDatos();
+			
+			//Se leen los personajes del CSV
+			List<Hotel> hoteles = this.cargarHoteles(CSV_HOTELES);
+			//Se insertan los personajes en la BBDD
+			//this.insertarPesonaje(personajes.toArray(new Personaje[personajes.size()]));
+			
+			//Se leen los comics del CSV
+			List<Valoracion> valoraciones = this.cargarValoraciones(CSV_VALORACIONES);				
+			//lambda expression: enlaza los personajes con los comics porque al leer los
+			//comics sólo se recuperan los nombres de los personajes y faltan el resto de
+			//datos.
+			//comics.forEach(c -> updatePersonajes(c, personajes));
+			
+			//Se insertan los comics en la BBDD
+			//this.insertarComic(comics.toArray(new Comic[comics.size()]));				
+		}
+	}
+
 	public void crearBBDD() {
 		//Sólo se crea la BBDD si la propiedad initBBDD es true.
 		if (properties.get("createBBDD").equals("true")) {
@@ -702,4 +707,72 @@ public class GestorBD {
 //			}			
 //		}
 //	}
+	
+	public ArrayList<Hotel> cargarHoteles(String filePath) {
+        ArrayList<Hotel> hoteles = new ArrayList<>();
+        
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String linea;
+            
+            while ((linea = br.readLine()) != null) {
+                String[] valores = linea.split(",", 5); // Dividir en cinco partes: nombre, estrellas, ciudad, descripcion, planes
+                if (valores.length == 5) {
+                    String nombre = valores[0].trim();
+                    int estrellas = Integer.parseInt(valores[1].trim());
+                    String ciudad = valores[2].trim();
+                    String descripcion = valores[3].trim();
+                    
+                    // Convertir la lista de planes en enum Plan
+                    ArrayList<Plan> planes = new ArrayList<>();
+                    for (String plan : valores[4].split(";")) {
+                        try {
+                            planes.add(Plan.valueOf(plan.trim().toUpperCase()));
+                        } catch (IllegalArgumentException e) {
+                            System.out.println(plan);
+                        }
+                    }
+
+                    
+                    Hotel hotel = new Hotel(estrellas, nombre, ciudad, descripcion, planes);
+                    hoteles.add(hotel);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return hoteles;
+    }
+	
+	
+	public ArrayList<Valoracion> cargarValoraciones(String archivoCSV) {
+        ArrayList<Valoracion> valoraciones = new ArrayList<>();
+        String linea;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(archivoCSV))) {
+            // Saltar la primera línea de encabezado
+            br.readLine();
+            
+            // Leer cada línea del archivo
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+
+                // Asignar valores de cada columna a las variables correspondientes
+                String autor = datos[0].trim();
+                int puntuacion = Integer.parseInt(datos[1].trim());
+                String comentario = datos[2].trim();
+                long fecha = Long.parseLong(datos[3].trim());
+
+                // Crear una instancia de Valoracion y agregarla a la lista
+                Valoracion valoracion = new Valoracion(fecha, comentario, puntuacion, autor);
+                valoraciones.add(valoracion);
+            }
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo CSV: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Error en el formato de datos: " + e.getMessage());
+        }
+
+        return valoraciones;
+    }
 }
