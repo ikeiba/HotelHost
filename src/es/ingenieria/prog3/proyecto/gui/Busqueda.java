@@ -270,12 +270,12 @@ public class Busqueda extends JPanel {
 					
 					if (respuesta == 0) {
 						// Crear nueva valoracion
-						Valoracion valoracionNueva = new Valoracion(System.currentTimeMillis(), textFieldComentario.getText(), (int) spinnerPuntuacion.getValue(), textFieldAutor.getText());
+						//Valoracion valoracionNueva = new Valoracion(System.currentTimeMillis(), textFieldComentario.getText(), (int) spinnerPuntuacion.getValue(), textFieldAutor.getText());
 						
 						// Anadir a la lista de comics
 						Hotel hotelAnadirValoracion = (Hotel) tablaHoteles.getValueAt(tablaHoteles.getSelectedRow(), 0);
 						//Cargar la tabla de comics
-						hotelAnadirValoracion.getValoraciones().add(valoracionNueva);
+						//hotelAnadirValoracion.getValoraciones().add(valoracionNueva);
 						((AbstractTableModel) tablaValoraciones.getModel()).fireTableDataChanged();
 					}
 					

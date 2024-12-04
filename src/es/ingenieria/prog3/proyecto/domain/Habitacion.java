@@ -4,27 +4,38 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Habitacion {
-	private Hotel hotel;
-	private int planta, numero, capacidad;
+	private int planta, numero, capacidad, id, id_hotel;
 	private TipoHabitacion tipo;
 	private double precio;
 	private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 
 
-	public Habitacion(Hotel hotel, int planta, int numero, int capacidad, TipoHabitacion tipo, double precio) {
+	public Habitacion(int planta, int numero, int capacidad, TipoHabitacion tipo, double precio, int id_hotel) {
 		super();
-		this.hotel = hotel;
+		this.id_hotel = id_hotel;
 		this.planta = planta;
 		this.numero = numero;
 		this.capacidad = capacidad;
 		this.tipo = tipo;
-		this.precio = Math.round((precio + calculoSuplemento(tipo, precio)) * 100.0) / 100.0;
-	}
-	
-	public Hotel getHotel() {
-		return hotel;
+		this.precio = Math.round((precio + calculoSuplemento(tipo, precio)) * 100.0) / 100.0;;
 	}
 
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		 this.id = id;
+	}
+	
+	public int getIdHotel() {
+		return id_hotel;
+	}
+
+	public void setIdHotel(int id_hotel) {
+		this.id_hotel = id_hotel;
+	}
+	
 	public int getPlanta() {
 		return planta;
 	}
@@ -115,8 +126,8 @@ public class Habitacion {
 					int indiceTipoHabitacion = (int)(Math.random() * TipoHabitacion.values().length);
 					TipoHabitacion tipoHabitacion = TipoHabitacion.values()[indiceTipoHabitacion];
 					double precio = (Math.random() * (400 - 50 + 1)) + 50; //el precio sera un numero aleatorio entre 30 y 400
-					Habitacion habitacion = new Habitacion(null, i, numero, capacidad, tipoHabitacion, precio);
-					hotel.getHabitaciones().add(habitacion);
+					//Habitacion habitacion = new Habitacion(i, numero, capacidad, tipoHabitacion, precio);
+					//hotel.getHabitaciones().add(habitacion);
 				}
 			}
 		}

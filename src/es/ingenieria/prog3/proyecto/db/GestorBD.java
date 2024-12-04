@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Connection;
@@ -86,19 +85,20 @@ public class GestorBD {
 			//Se leen los hoteles del CSV
 			List<Hotel> hoteles = this.cargarHoteles(CSV_HOTELES);
 			//Se insertan los hoteles en la BBDD
-			//this.insertarHotel(hoteles.toArray(new Hotel[hoteles.size()]));
+			this.insertarHoteles(hoteles.toArray(new Hotel[hoteles.size()]));
 			
 			//Se leen las valoraciones del CSV
-			List<Valoracion> valoraciones = this.cargarValoraciones(CSV_VALORACIONES);				
-			//lambda expression: enlaza los personajes con los comics porque al leer los
-			//comics sólo se recuperan los nombres de los personajes y faltan el resto de
-			//datos.
-			//comics.forEach(c -> updatePersonajes(c, personajes));
+			List<Valoracion> valoraciones = this.cargarValoraciones(CSV_VALORACIONES);	
 			
-			//Se crean y añaden las habitacion a los hoteles
+			//Se enlazan los hoteles con sus valoraciones		
+			enlazarHotelesValoraciones(hoteles, valoraciones); 
+			//Se insertan las valoraciones en la BBDD
+			this.insertarValoracion(valoraciones.toArray(new Valoracion[valoraciones.size()]));
+			
+			//Se crean y enlazan las habitaciones a los hoteles
 			List<Habitacion> habitaciones = crearHabitaciones(hoteles);
-			//Se insertan los comics en la BBDD
-			//this.insertarComic(comics.toArray(new Comic[comics.size()]));				
+			//Se insertan las habitaciones en la BBDD
+			this.insertarHabitacion(habitaciones.toArray(new Habitacion[habitaciones.size()]));				
 		}
 	}
 
@@ -120,8 +120,8 @@ public class GestorBD {
 			        + " comentario TEXT NOT NULL,\n"
 			        + " puntuacion INTEGER NOT NULL,\n"
 			        + " id_hotel INTEGER NOT NULL,\n"
-			        + " id_usuario INTEGER NOT NULL,\n"
 			        + " fecha INTEGER NOT NULL,\n"
+			        + " id_usuario INTEGER,\n"   
 			        + " FOREIGN KEY (id_hotel) REFERENCES Hotel(id) ON DELETE CASCADE\n"
 			        + " FOREIGN KEY (id_usuario) REFERENCES Usuario(id) ON DELETE CASCADE\n"
 			        + ");";
@@ -131,7 +131,7 @@ public class GestorBD {
 			        + " fechaInicio INTEGER NOT NULL,\n"
 			        + " fechaFin INTEGER NOT NULL,\n"
 			        + " id_habitacion INTEGER NOT NULL,\n"
-			        + " id_usuario INTEGER NOT NULL,\n"
+			        + " id_usuario INTEGER,\n"
 			        + " FOREIGN KEY (id_habitacion) REFERENCES Habitacion(id) ON DELETE CASCADE\n"
 			        + " FOREIGN KEY (id_usuario) REFERENCES Usuario(id) ON DELETE CASCADE\n"
 			        + ");";
@@ -142,7 +142,7 @@ public class GestorBD {
 			        + " numero INTEGER NOT NULL,\n"
 			        + " capacidad INTEGER NOT NULL CHECK (capacidad > 0),\n"
 			        + " precio DOUBLE NOT NULL CHECK (precio >= 0),\n"
-			        + " tipoHabitacion TEXT NOT NULL CHECK (tipoHabitacion IN ('Sencilla', 'Doble', 'Suite')),\n"
+			        + " tipoHabitacion TEXT NOT NULL,\n"
 			        + " id_hotel INTEGER NOT NULL,\n"
 			        + " FOREIGN KEY (id_hotel) REFERENCES Hotel(id) ON DELETE CASCADE\n"
 			        + ");";
@@ -155,7 +155,7 @@ public class GestorBD {
 			        + " email TEXT NOT NULL,\n"
 			        + " contraseña TEXT NOT NULL,\n"
 			        + " fechaNacimiento INTEGER NOT NULL,\n"
-			        + " genero INTEGER NOT NULL,\n"
+			        + " genero INTEGER NOT NULL\n"
 			        + ");";
 
 			
@@ -163,13 +163,13 @@ public class GestorBD {
 			//Al abrir la conexión, si no existía el fichero por defecto, se crea.
 			try (Connection con = DriverManager.getConnection(connectionString);
 			     PreparedStatement pStmt1 = con.prepareStatement(sql1);
+				 PreparedStatement pStmt5 = con.prepareStatement(sql5);
 				 PreparedStatement pStmt2 = con.prepareStatement(sql2);
 				 PreparedStatement pStmt3 = con.prepareStatement(sql3);
-				 PreparedStatement pStmt4 = con.prepareStatement(sql4);
-				 PreparedStatement pStmt5 = con.prepareStatement(sql5)) {
+				 PreparedStatement pStmt4 = con.prepareStatement(sql4)) {
 				
 				//Se ejecutan las sentencias de creación de las tablas
-		        if (!pStmt1.execute() && !pStmt2.execute() && !pStmt3.execute() && !pStmt4.execute() && !pStmt5.execute()) {
+		        if (!pStmt1.execute() && !pStmt5.execute() && !pStmt2.execute() && !pStmt3.execute() && !pStmt4.execute()) {
 		        	logger.info("Se han creado las tablas");
 		        }
 			} catch (Exception ex) {
@@ -245,405 +245,278 @@ public class GestorBD {
 			}
 		}
 	}
-//	
-//	/**
-//	 * Inserta Hoteles en la BBDD
-//	 */
-//	public void insertarHoteles(Hotel... hoteles) {
-//		//Se define la plantilla de la sentencia SQL
-//		String sql = "INSERT INTO Hotel (editorial, nombre, email) VALUES (?, ?, ?);";
-//		
-//		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
-//		try (Connection con = DriverManager.getConnection(connectionString);
-//			 PreparedStatement pStmt = con.prepareStatement(sql)) {
-//									
-//			//Se recorren los clientes y se insertan uno a uno
-//			for (Hotel h : hoteles) {
-//				//Se añaden los parámetros al PreparedStatement
-//				pStmt.setString(1, h.getEditorial().toString());
-//				pStmt.setString(2, h.getNombre());
-//				pStmt.setString(3, h.getEmail());
-//				
-//				if (pStmt.executeUpdate() != 1) {					
-//					logger.warning(String.format("No se ha insertado el Hotel: %s", p));
-//				} else {
-//					//IMPORTANTE: El valor del ID del personaje se establece automáticamente al
-//					//insertarlo en la BBDD. Por lo tanto, después de insertar un personaje, 
-//					//se recupera de la BBDD para establecer el campo ID en el objeto que está
-//					//en memoria.
-//					h.setId(this.getPersonajeByNombre(p.getNombre()).getId());					
-//					logger.info(String.format("Se ha insertado el Hotel: %s", p));
-//				}
-//			}
-//			
-//			logger.info(String.format("%d Personajes insertados en la BBDD", personajes.length));
-//		} catch (Exception ex) {
-//			logger.warning(String.format("Error al insertar personajes: %s", ex.getMessage()));
-//		}			
-//	}
-//	
-//	/**
-//	 * Inserta Comics en la BBDD
-//	 */
-//	public void insertarValoracion(Valoracion... valoraciones) {
-//		//Se define la plantilla de la sentencia SQL			
-//		String sql = "INSERT INTO Valoracion (editorial, titulo) VALUES (?, ?);";
-//		
-//		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
-//		try (Connection con = DriverManager.getConnection(connectionString);
-//			 PreparedStatement pStmt = con.prepareStatement(sql)) {
-//			
-//			//Se recorren los clientes y se insertan uno a uno
-//			for (Valoracion v : valoraciones) {
-//				//Se definen los parámetros de la sentencia SQL
-//				pStmt.setString(1, v.getEditorial().toString());
-//				pStmt.setString(2, v.getTitulo());
-//				
-//				if (pStmt.executeUpdate() != 1) {					
-//					logger.warning(String.format("No se ha insertado la Valoracion: %s", c));
-//				} else {
-//					//IMPORTANTE: El valor del ID del comic se establece automáticamente al
-//					//insertarlo en la BBDD. Por lo tanto, después de insertar un comic, 
-//					//se recupera de la BBDD para establecer el campo ID en el objeto que está
-//					//en memoria.
-//					c.setId(this.getComicByTitulo(c.getTitulo()).getId());					
-//					
-//					//Se guarda la relación entre personajes y comics en la BBDD.
-//					for (Personaje p : c.getPersonajes()) {
-//						this.insertarPersonajeComic(c.getId(), p.getId());
-//					}
-//					
-//					logger.info(String.format("Se ha insertado la Valoracion: %s", c));
-//				}
-//			}
-//			
-//			logger.info(String.format("%d Valoraciones insertadas en la BBDD", valoraciones.length));
-//		} catch (Exception ex) {
-//			logger.warning(String.format("Error al insertar valoracion: %s", ex.getMessage()));
-//		}				
-//	}
-//		
-//
-//	
-//	/**
-//	 * Almacena la relación entre un pesonaje y un comic en la BBDD. 
-//	 */
-//	public void insertarPersonajeComic(int idComic, int idPersonaje) {
-//		String sql = "INSERT INTO Personajes_Comic (id_comic, id_personaje) VALUES (?, ?);";
-//		
-//		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
-//		try (Connection con = DriverManager.getConnection(connectionString);
-//			 PreparedStatement pStmt = con.prepareStatement(sql)) {
-//				
-//			//Se añaden los parámetros al PreparedStatement
-//			pStmt.setInt(1, idComic);
-//			pStmt.setInt(2, idPersonaje);
-//				
-//			if (pStmt.executeUpdate() != 1) {					
-//				logger.warning(String.format("No se ha insertado el personaje %d del comic %d.", idComic, idPersonaje));
-//			} else {
-//				logger.info(String.format("Se ha insertado el personaje %d del comic %d.", idComic, idPersonaje));
-//			}
-//		} catch (Exception ex) {
-//			logger.warning(String.format("Error al insertar personaje del comic: %s", ex.getMessage()));
-//		}				
-//	}
-//	
-//	/**
-//	 * Borra la relación entre un pesonaje y un comic en la BBDD. 
-//	 */
-//	public void borrarPersonajeComic(int idComic, int idPersonaje) {
-//		String sql = "DELETE FROM Personajes_Comic WHERE id_comic = ? AND id_personaje = ?;";
-//		
-//		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
-//		try (Connection con = DriverManager.getConnection(connectionString);
-//			 PreparedStatement pStmt = con.prepareStatement(sql)) {
-//				
-//			//Se añaden los parámetros al PreparedStatement
-//			pStmt.setInt(1, idComic);
-//			pStmt.setInt(2, idPersonaje);
-//				
-//			if (pStmt.executeUpdate() != 1) {					
-//				logger.warning(String.format("No se ha borrado el personaje %d del comic %d.", idComic, idPersonaje));
-//			} else {
-//				logger.info(String.format("Se ha borrado el personaje %d del comic %d.", idComic, idPersonaje));
-//			}
-//		} catch (Exception ex) {
-//			logger.warning(String.format("Error al borrar personaje de un comic: %s", ex.getMessage()));
-//		}				
-//	}
-//	
-//	/**
-//	 * Recupera los Personajes de la BBDD.
-//	 */
-//	public List<Personaje> getPersonajes() {
-//		List<Personaje> personajes = new ArrayList<>();
-//		String sql = "SELECT * FROM Personaje";
-//		
-//		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
-//		try (Connection con = DriverManager.getConnection(connectionString);
-//		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
-//			
-//			//Se ejecuta la sentencia y se obtiene el ResultSet
-//			ResultSet rs = pStmt.executeQuery();			
-//			Personaje personaje;
-//			
-//			//Se recorre el ResultSet y se crean objetos
-//			while (rs.next()) {
-//				personaje = new Personaje(rs.getInt("id"), 
-//						rs.getString("nombre"), 
-//						rs.getString("email"), 
-//						Editorial.valueOf(rs.getString("editorial")));
-//				
-//				//Se inserta cada nuevo cliente en la lista de clientes
-//				personajes.add(personaje);
-//			}
-//			
-//			//Se cierra el ResultSet
-//			rs.close();
-//			
-//			logger.info(String.format("Se han recuperado %d personajes.", personajes.size()));			
-//		} catch (Exception ex) {
-//			logger.warning(String.format("Error recuperar los personajes: %s", ex.getMessage()));						
-//		}		
-//		
-//		return personajes;
-//	}
-//	
-//	/**
-//	 * Recupera de la BBDD un Personaje a partir de su ID 
-//	 */
-//	public Personaje getPersonajeById(int id) {
-//		Personaje personaje = null;
-//		String sql = "SELECT * FROM Personaje WHERE id = ? LIMIT 1";
-//		
-//		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
-//		try (Connection con = DriverManager.getConnection(connectionString);
-//		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
-//			
-//			//Se definen los parámetros de la sentencia SQL
-//			pStmt.setInt(1, id);
-//			
-//			//Se ejecuta la sentencia y se obtiene el ResultSet
-//			ResultSet rs = pStmt.executeQuery();			
-//
-//			//Se procesa el único resultado
-//			if (rs.next()) {
-//				personaje = new Personaje(rs.getInt("id"), 
-//						rs.getString("nombre"), 
-//						rs.getString("email"), 
-//						Editorial.valueOf(rs.getString("editorial")));
-//			}
-//			
-//			//Se cierra el ResultSet
-//			rs.close();
-//			
-//			logger.info(String.format("Se ha recuperado el personaje %s", personaje));			
-//		} catch (Exception ex) {
-//			logger.warning(String.format("Error recuperar los personajes con id %d: %s", id, ex.getMessage()));						
-//		}		
-//		
-//		return personaje;
-//	}
-//	
-//	/**
-//	 * Recupera de la BBDD un Personaje a partir de su nombre. 
-//	 */
-//	public Personaje getPersonajeByNombre(String nombre) {
-//		Personaje personaje = null;
-//		String sql = "SELECT * FROM Personaje WHERE nombre = ? LIMIT 1";
-//		
-//		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
-//		try (Connection con = DriverManager.getConnection(connectionString);
-//		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
-//			
-//			//Se definen los parámetros de la sentencia SQL
-//			pStmt.setString(1, nombre);
-//			
-//			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
-//			ResultSet rs = pStmt.executeQuery();			
-//
-//			//Se procesa el único resultado
-//			if (rs.next()) {
-//				personaje = new Personaje(rs.getInt("id"), 
-//						rs.getString("nombre"), 
-//						rs.getString("email"), 
-//						Editorial.valueOf(rs.getString("editorial")));
-//			}
-//			
-//			//Se cierra el ResultSet
-//			rs.close();
-//			
-//			logger.info(String.format("Se ha recuperado el personaje %s", personaje));			
-//		} catch (Exception ex) {
-//			logger.warning(String.format("Error recuperar el personaje con nombre %s: %s", nombre, ex.getMessage()));						
-//		}		
-//		
-//		return personaje;
-//	}
-//	
-//	/**
-//	 * Recupera los Comics de la BBDD. 
-//	 */
-//	public List<Comic> getComics() {
-//		List<Comic> comics = new ArrayList<>();
-//		String sql = "SELECT * FROM Comic";
-//		
-//		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
-//		try (Connection con = DriverManager.getConnection(connectionString);
-//		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
-//			
-//			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
-//			ResultSet rs = pStmt.executeQuery();			
-//			Comic comic;
-//			
-//			//Se recorre el ResultSet y se crean los Comics
-//			while (rs.next()) {
-//				comic = new Comic(rs.getInt("id"), 
-//							Editorial.valueOf(rs.getString("editorial")),
-//							rs.getString("titulo"));
-//				
-//				//Se recuperan los IDs de los personajes del Comic
-//				List<Integer> idsPersonaje = this.getIdsPersonajesComic(comic);
-//				
-//				//A partir de los IDs, se van recuperando los personajes de la BBDD
-//				//y se añaden al comic.
-//				for(int id : idsPersonaje) {
-//					comic.addPersonaje(this.getPersonajeById(id));
-//				}
-//				
-//				//Se inserta cada nuevo cliente en la lista de clientes
-//				comics.add(comic);
-//			}
-//			
-//			//Se cierra el ResultSet
-//			rs.close();
-//			
-//			logger.info(String.format("Se han recuperado %d comics", comics.size()));			
-//		} catch (Exception ex) {
-//			logger.warning(String.format("Error recuperar los comics: %s", ex.getMessage()));						
-//		}		
-//		
-//		return comics;
-//	}
-//	
-//	public Comic getComicByTitulo(String titulo) {
-//		Comic comic = null;
-//		String sql = "SELECT * FROM Comic WHERE titulo = ? LIMIT 1";
-//		
-//		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
-//		try (Connection con = DriverManager.getConnection(connectionString);
-//		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
-//			
-//			//Se definen los parámetros de la sentencia SQL
-//			pStmt.setString(1, titulo);
-//			
-//			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
-//			ResultSet rs = pStmt.executeQuery();			
-//
-//			//Se procesa el único resultado
-//			if (rs.next()) {
-//				comic = new Comic(rs.getInt("id"), 
-//						Editorial.valueOf(rs.getString("editorial")),
-//						rs.getString("titulo"));
-//
-//				//Se recuperan los personajes del comic
-//				List<Integer> idsPersonaje = this.getIdsPersonajesComic(comic);
-//				
-//				//Se recuperan los personajes de la BBDD
-//				for(int id : idsPersonaje) {
-//					comic.addPersonaje(this.getPersonajeById(id));
-//				}
-//			}
-//			
-//			//Se cierra el ResultSet
-//			rs.close();
-//			
-//			logger.info(String.format("Se ha recuperado el comic %s", comic));			
-//		} catch (Exception ex) {
-//			logger.warning(String.format("Error recuperar el comic con nombre %s: %s", titulo, ex.getMessage()));						
-//		}		
-//		
-//		return comic;
-//	}
-//	
-//	public List<Integer> getIdsPersonajesComic(Comic comic) {
-//		List<Integer> idsPersonaje = new ArrayList<>();		
-//		String sql = "SELECT id_personaje FROM Personajes_Comic WHERE id_comic = ?";
-//		
-//		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
-//		try (Connection con = DriverManager.getConnection(connectionString);
-//		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
-//			
-//			//Se definen los parámetros de la sentencia SQL
-//			pStmt.setInt(1, comic.getId());
-//			
-//			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
-//			ResultSet rs = pStmt.executeQuery();			
-//
-//			//Se procesa el único resultado
-//			while (rs.next()) {
-//				idsPersonaje.add(rs.getInt("id_personaje"));
-//			}
-//			
-//			//Se cierra el ResultSet
-//			rs.close();
-//			
-//			logger.info(String.format("Se han recuperado %d ids de los personajes del comic %s", 
-//					idsPersonaje.size(), comic.getTitulo()));			
-//		} catch (Exception ex) {
-//			logger.warning(String.format("Error recuperar los ids de los personajes del comic %d: %s",
-//					comic.getTitulo(), ex.getMessage()));						
-//		}		
-//		
-//		return idsPersonaje;
-//	}
-//	
-//	/**
-//	 * IMPORTANTE: La información del CSV de los comics sólo trae el nombre de los personajes.
-//	 * Este método procesa cada comic y reemplaza cada personaje leído desde el CSV (que sólo tiene el nombre)
-//	 * por el objeto personaje con todos los datos.
-//	 * @param comic Comic cuyos personajes va a procesarse.
-//	 * @param personajes List<Personaje> con los personajes que tienen todos los datos.
-//	 */
-//	private void updatePersonajes(Comic comic, List<Personaje> personajes) {		
-//		for (int i=0; i<comic.getPersonajes().size();i++) {
-//			
-//			for (Personaje p : personajes) {
-//				if (comic.getPersonajes().get(i).getNombre().equals(p.getNombre())) {
-//					comic.getPersonajes().set(i, p);
-//				}
-//			}
-//		}		
-//	}
-//	
-//	//MODIFICACIÓN 1: Método para actualizar la información de un Comic en la BBDD
-//	/**
-//	 * Actualiza un Comic
-//	 */
-//	public void actualizarComic(Comic comic) {
-//		//Se define la plantilla de la sentencia SQL			
-//		String sql = "UPDATE Comic SET editorial = ?, titulo = ? WHERE id = ?;";
-//		
-//		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
-//		try (Connection con = DriverManager.getConnection(connectionString);
-//			 PreparedStatement pStmt = con.prepareStatement(sql)) {
-//			
-//			//Se definen los parámetros de la sentencia SQL
-//			pStmt.setString(1, comic.getEditorial().toString());
-//			pStmt.setString(2, comic.getTitulo());
-//			pStmt.setInt(3, comic.getId());
-//				
-//			if (pStmt.executeUpdate() != 1) {					
-//				logger.warning(String.format("No se ha actualizado el Comic: %s", comic.getTitulo()));
-//			} else {					
-//				logger.info(String.format("Se ha actualizado el Comic: %s", comic.getTitulo()));
-//			}			
-//		} catch (Exception ex) {
-//			logger.warning(String.format("Error al actualizar comic: %s", ex.getMessage()));
-//		}				
-//	}
 
+	public void insertarHoteles(Hotel... hoteles) {
+		//Se define la plantilla de la sentencia SQL
+		String sql = "INSERT INTO Hotel (nombre, ciudad, descripcion, estrellas) VALUES (?, ?, ?, ?);";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+			 PreparedStatement pStmt = con.prepareStatement(sql)) {
+									
+			//Se recorren los clientes y se insertan uno a uno
+			for (Hotel h : hoteles) {
+				//Se añaden los parámetros al PreparedStatement
+				pStmt.setString(1, h.getNombre());
+				pStmt.setString(2, h.getCiudad());
+				pStmt.setString(3, h.getDescripcion());
+				pStmt.setInt(4, h.getEstrellas());
+				
+				if (pStmt.executeUpdate() != 1) {					
+					logger.warning(String.format("No se ha insertado el Hotel: %s", h.getNombre()));
+				} else {
+					//IMPORTANTE: El valor del ID del personaje se establece automáticamente al
+					//insertarlo en la BBDD. Por lo tanto, después de insertar un personaje, 
+					//se recupera de la BBDD para establecer el campo ID en el objeto que está
+					//en memoria.
+					h.setId(this.getHotelByNombre(h.getNombre()).getId());					
+					logger.info(String.format("Se ha insertado el Hotel: %s", h.getNombre()));
+				}
+			}
+			
+			logger.info(String.format("%d Personajes insertados en la BBDD", hoteles.length));
+		} catch (Exception ex) {
+			logger.warning(String.format("Error al insertar personajes: %s", ex.getMessage()));
+		}			
+	}
+	
+	/**
+	 * Inserta Comics en la BBDD
+	 */
+	public void insertarValoracion(Valoracion... valoraciones) {
+		//Se define la plantilla de la sentencia SQL			
+		String sql = "INSERT INTO Valoracion (autor, comentario, puntuacion, id_hotel, id_usuario, fecha) VALUES (?, ?, ?, ?, ?, ?);";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+			 PreparedStatement pStmt = con.prepareStatement(sql)) {
+			
+			//Se recorren los clientes y se insertan uno a uno
+			for (Valoracion v : valoraciones) {
+				//Se definen los parámetros de la sentencia SQL
+				pStmt.setString(1, v.getAutor().toString());
+				pStmt.setString(2, v.getComentario());
+				pStmt.setInt(3, v.getPuntuacion());
+				pStmt.setInt(4, v.getIdHotel());
+				pStmt.setInt(5, -1);
+				pStmt.setLong(6, v.getFecha());
+				
+
+
+				
+				if (pStmt.executeUpdate() != 1) {					
+					logger.warning(String.format("No se ha insertado la Valoracion: %s", v.getAutor()));
+				} else {
+					//IMPORTANTE: El valor del ID del comic se establece automáticamente al
+					//insertarlo en la BBDD. Por lo tanto, después de insertar un comic, 
+					//se recupera de la BBDD para establecer el campo ID en el objeto que está
+					//en memoria.
+					//c.setId(this.getComicByTitulo(c.getTitulo()).getId());										
+					
+					logger.info(String.format("Se ha insertado la Valoracion: %s", v.getAutor()));
+				}
+			}
+			
+			logger.info(String.format("%d Valoraciones insertadas en la BBDD", valoraciones.length));
+		} catch (Exception ex) {
+			logger.warning(String.format("Error al insertar valoracion: %s", ex.getMessage()));
+		}				
+	}
+		
+
+	public void insertarHabitacion(Habitacion... habitaciones) {
+		//Se define la plantilla de la sentencia SQL			
+		String sql = "INSERT INTO Habitacion (planta, numero, capacidad, precio, tipoHabitacion, id_hotel) VALUES (?, ?, ?, ?, ?, ?);";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+			 PreparedStatement pStmt = con.prepareStatement(sql)) {
+			
+			//Se recorren los clientes y se insertan uno a uno
+			for (Habitacion h : habitaciones) {
+				//Se definen los parámetros de la sentencia SQL
+				pStmt.setInt(1, h.getPlanta());
+				pStmt.setInt(2, h.getNumero());
+				pStmt.setInt(3, h.getCapacidad());
+				pStmt.setDouble(4, h.getPrecio());
+				pStmt.setString(5, h.getTipo().toString());
+				pStmt.setInt(6, h.getIdHotel());
+				
+
+
+				
+				if (pStmt.executeUpdate() != 1) {					
+					logger.warning(String.format("No se ha insertado la Valoracion: %s", h.getNumero()));
+				} else {
+					//IMPORTANTE: El valor del ID del comic se establece automáticamente al
+					//insertarlo en la BBDD. Por lo tanto, después de insertar un comic, 
+					//se recupera de la BBDD para establecer el campo ID en el objeto que está
+					//en memoria.
+					//c.setId(this.getComicByTitulo(c.getTitulo()).getId());										
+					
+					logger.info(String.format("Se ha insertado la Valoracion: %s", h.getNumero()));
+				}
+			}
+			
+			logger.info(String.format("%d Valoraciones insertadas en la BBDD", habitaciones.length));
+		} catch (Exception ex) {
+			logger.warning(String.format("Error al insertar valoracion: %s", ex.getMessage()));
+		}				
+	}
+	
+	
+	private void enlazarHotelesValoraciones(List<Hotel> hoteles, List<Valoracion> valoraciones) {		
+		// Asignamos secuencialmente las primeras valoraciones a los hoteles
+        for (int i = 0; i < hoteles.size(); i++) {
+            // Asignamos la valoración i al hotel i
+        	valoraciones.get(i).setIdHotel(hoteles.get(i).getId());
+            hoteles.get(i).getValoraciones().add(valoraciones.get(i));
+            System.out.println(valoraciones.get(i).getIdHotel());
+        }
+        //Asignamos el resto de valoraciones aleatoriamente
+        for (int i = hoteles.size(); i < valoraciones.size(); i++) {
+            // Asignamos las valoraciones restantes aleatoriamente
+            int posicionHotel = (int) (Math.random() * hoteles.size());
+        	valoraciones.get(i).setId(hoteles.get(posicionHotel).getId());
+            hoteles.get(posicionHotel).getValoraciones().add(valoraciones.get(i));
+        }		
+	}
+
+	public ArrayList<Hotel> getHoteles() {
+		ArrayList<Hotel> hoteles = new ArrayList<>();
+		String sql = "SELECT * FROM Hotel";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
+			
+			//Se ejecuta la sentencia y se obtiene el ResultSet
+			ResultSet rs = pStmt.executeQuery();			
+			Hotel hotel;
+			
+			//Se recorre el ResultSet y se crean objetos
+			while (rs.next()) {
+				hotel = new Hotel(rs.getInt("id"), rs.getInt("estrellas"), rs.getString("nombre"), rs.getString("ciudad"), rs.getString("descripcion"), null);
+				
+				//Se inserta cada nuevo cliente en la lista de clientes
+				hoteles.add(hotel);
+			}
+			
+			//Se cierra el ResultSet
+			rs.close();
+			
+			logger.info(String.format("Se han recuperado %d personajes.", hoteles.size()));			
+		} catch (Exception ex) {
+			logger.warning(String.format("Error recuperar los personajes: %s", ex.getMessage()));						
+		}		
+		
+		return hoteles;
+	}
+	
+	public Hotel getHotelByNombre(String nombre) {
+		Hotel hotel = null;
+		String sql = "SELECT * FROM Hotel WHERE nombre = ? LIMIT 1";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
+			
+			//Se definen los parámetros de la sentencia SQL
+			pStmt.setString(1, nombre);
+			
+			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
+			ResultSet rs = pStmt.executeQuery();			
+
+			//Se procesa el único resultado
+			if (rs.next()) {
+				hotel = new Hotel(rs.getInt("id"), rs.getInt("estrellas"), (rs.getString("nombre")), rs.getString("ciudad"), rs.getString("descripcion"), null);
+
+				//Se recuperan las valoraciones del hotel
+				ArrayList<Valoracion> valoraciones = this.getValoracionByHotel(hotel);
+				hotel.setValoraciones(valoraciones);
+				
+				//Se recuperan las habitaciones del hotel
+				
+			}
+			
+			//Se cierra el ResultSet
+			rs.close();
+			
+			logger.info(String.format("Se ha recuperado el hotel %s", hotel.getNombre()));			
+		} catch (Exception ex) {
+			logger.warning(String.format("Error recuperar el comic con nombre %s: %s", hotel.getNombre(), ex.getMessage()));						
+		}		
+
+		return hotel;
+	}
+
+	
+	
+	public ArrayList<Valoracion> getValoracionByHotel(Hotel hotel) {
+		ArrayList<Valoracion> valoraciones = new ArrayList<Valoracion>();
+		String sql = "SELECT * FROM Valoracion WHERE id_hotel = ?";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
+			
+			//Se definen los parámetros de la sentencia SQL
+			pStmt.setInt(1, hotel.getId());
+			
+			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
+			ResultSet rs = pStmt.executeQuery();			
+
+			while (rs.next()) {
+			Valoracion valoracion = new Valoracion(rs.getInt("id_usuario"), rs.getInt("fecha"), rs.getString("comentario"), rs.getInt("puntuacion"), rs.getString("autor"), rs.getInt("id_hotel"));
+			
+			
+			valoraciones.add(valoracion);
+			}
+			
+			//Se cierra el ResultSet
+			rs.close();
+			
+			logger.info(String.format("Se ha recuperado el hotel %s", hotel.getNombre()));			
+		} catch (Exception ex) {
+			logger.warning(String.format("Error recuperar el comic con nombre %s: %s", hotel.getNombre(), ex.getMessage()));						
+		}		
+		
+		return valoraciones;
+	}
+	
+	
+	public ArrayList<Habitacion> getHabitacionByHotel(Hotel hotel) {
+		ArrayList<Habitacion> habitaciones = new ArrayList<Habitacion>();
+		String sql = "SELECT * FROM Habitacion WHERE id_hotel = ?";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
+			
+			//Se definen los parámetros de la sentencia SQL
+			pStmt.setInt(1, hotel.getId());
+			
+			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
+			ResultSet rs = pStmt.executeQuery();			
+
+			while (rs.next()) {
+			Habitacion habitacion = new Habitacion(rs.getInt("planta"), rs.getInt("numero"), rs.getInt("capacidad"), TipoHabitacion.valueOf(rs.getString("tipoHabitacion")), rs.getDouble("precio"), rs.getInt("id_hotel"));
+			
+			
+			habitaciones.add(habitacion);
+			}
+			
+			//Se cierra el ResultSet
+			rs.close();
+			
+			logger.info(String.format("Se ha recuperado el hotel %s", hotel.getNombre()));			
+		} catch (Exception ex) {
+			logger.warning(String.format("Error recuperar el comic con nombre %s: %s", hotel.getNombre(), ex.getMessage()));						
+		}		
+		
+		return habitaciones;
+	}
+	
 	
 	public ArrayList<Hotel> cargarHoteles(String filePath) {
         ArrayList<Hotel> hoteles = new ArrayList<>();
@@ -670,7 +543,7 @@ public class GestorBD {
                     }
 
                     
-                    Hotel hotel = new Hotel(estrellas, nombre, ciudad, descripcion, planes);
+                    Hotel hotel = new Hotel(-1, estrellas, nombre, ciudad, descripcion, planes);
                     hoteles.add(hotel);
                 }
             }
@@ -681,7 +554,7 @@ public class GestorBD {
         return hoteles;
     }
 	
-	
+
 	public ArrayList<Valoracion> cargarValoraciones(String archivoCSV) {
         ArrayList<Valoracion> valoraciones = new ArrayList<>();
         String linea;
@@ -701,7 +574,7 @@ public class GestorBD {
                 long fecha = Long.parseLong(datos[3].trim());
 
                 // Crear una instancia de Valoracion y agregarla a la lista
-                Valoracion valoracion = new Valoracion(fecha, comentario, puntuacion, autor);
+                Valoracion valoracion = new Valoracion(-1, fecha, comentario, puntuacion, autor, -1);
                 valoraciones.add(valoracion);
             }
         } catch (IOException e) {
@@ -731,7 +604,7 @@ public class GestorBD {
 					int indiceTipoHabitacion = (int)(Math.random() * TipoHabitacion.values().length);
 					TipoHabitacion tipoHabitacion = TipoHabitacion.values()[indiceTipoHabitacion];
 					double precio = (Math.random() * (400 - 50 + 1)) + 50; //el precio sera un numero aleatorio entre 30 y 400
-					Habitacion habitacion = new Habitacion(null, i, numero, capacidad, tipoHabitacion, precio);
+					Habitacion habitacion = new Habitacion(i, numero, capacidad, tipoHabitacion, precio, hotel.getId());
 					hotel.getHabitaciones().add(habitacion);
 					habitaciones.add(habitacion);
 				}

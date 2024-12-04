@@ -9,20 +9,19 @@ import java.util.Objects;
 
 public class Hotel {
     
-	private static int contador = 1;
 	private int id, estrellas;
+	private static int contador = 1;
 	private String nombre, ciudad, descripcion;
 	private ArrayList<Habitacion> habitaciones = new ArrayList<Habitacion>();
 	private ArrayList<Valoracion> valoraciones = new ArrayList<Valoracion>();
 	private ArrayList<Plan> planes;
 	
 	
-	public Hotel(int estrellas, String nombre, String ciudad, String descripcion,
+	public Hotel(int id, int estrellas, String nombre, String ciudad, String descripcion,
 			ArrayList<Plan> planes) {
 		
 		super();
-		this.id = contador;
-		Hotel.contador ++;
+		this.id = id;
 		this.estrellas = estrellas;
 		this.nombre = nombre;
 		this.ciudad = ciudad;
@@ -35,6 +34,9 @@ public class Hotel {
 		return id;
 	}
 
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public int getEstrellas() {
 		return estrellas;
@@ -151,8 +153,8 @@ public class Hotel {
                     }
 
                     
-                    Hotel hotel = new Hotel(estrellas, nombre, ciudad, descripcion, planes);
-                    hoteles.add(hotel);
+                    //Hotel hotel = new Hotel(estrellas, nombre, ciudad, descripcion, planes);
+                    //hoteles.add(hotel);
                 }
             }
         } catch (IOException e) {

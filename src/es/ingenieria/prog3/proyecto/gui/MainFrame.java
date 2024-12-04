@@ -24,7 +24,10 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
     	GestorBD gestorBD = new GestorBD();
-
+    	//gestorBD.borrarBBDD();
+    	gestorBD.crearBBDD();
+    	gestorBD.borrarDatos();
+    	gestorBD.initilizeFromCSV();
     	
         
         

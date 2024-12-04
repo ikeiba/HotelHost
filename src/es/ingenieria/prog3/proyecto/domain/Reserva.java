@@ -5,28 +5,48 @@ import java.util.Objects;
 
 public class Reserva implements Comparable<Reserva> {
 	
-	private static int contador = 1;
 	private int id;
 	private ArrayList<String> huespedes;
 	private long fechaInicio;
 	private long fechaFin;
-	private Habitacion habitacion;
+	private int id_habitacion;
+	private int id_usuario;
+
 	
 	
-	
-	public Reserva(ArrayList<String> huespedes, long fechaInicio, long fechaFin, Habitacion habitacion) {
+	public Reserva(int id_usuario, ArrayList<String> huespedes, long fechaInicio, long fechaFin, int id_habitacion) {
 		super();
 		
-		this.id = contador;
-		Reserva.contador ++;
 		this.huespedes = huespedes;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
-		this.habitacion = habitacion;
+		this.id_habitacion = id_habitacion;
+		this.id_usuario = id_usuario;
+
 	}
 
 	public int getId() {
 		return id;
+	}
+
+	public void setId(int id) {
+		 this.id = id;
+	}
+	
+	public int getId_habitacion() {
+		return id_habitacion;
+	}
+
+	public void setId_habitacion(int id_habitacion) {
+		this.id_habitacion = id_habitacion;
+	}
+	
+	public int getId_Usuario() {
+		return id_usuario;
+	}
+	
+	public void setId_Usuario(int id_usuario) {
+		this.id_usuario = id_usuario;
 	}
 	
 	public ArrayList<String> getHuespedes() {
@@ -50,12 +70,6 @@ public class Reserva implements Comparable<Reserva> {
 	public void setFechaFin(long fechaFin) {
 		this.fechaFin = fechaFin;
 	}
-	public Habitacion getHabitacion() {
-		return habitacion;
-	}
-	public void setHabitacion(Habitacion habitacion) {
-		this.habitacion = habitacion;
-	}
 
 
 	@Override
@@ -77,7 +91,7 @@ public class Reserva implements Comparable<Reserva> {
 
 	@Override
 	public String toString() {
-		return String.valueOf(this.getHabitacion().getNumero());
+		return String.valueOf(id_habitacion);
 	}
 	
     @Override

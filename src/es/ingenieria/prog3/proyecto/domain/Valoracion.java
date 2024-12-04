@@ -11,15 +11,46 @@ public class Valoracion {
 	private String comentario;
 	private int puntuacion;
 	private String autor;
+	private int id;
+	private int id_hotel;
+	private int id_usuario;
 	
 	
-	public Valoracion(long fecha, String comentario, int puntuacion,  String autor) {
+	public Valoracion(int id_usuario, long fecha, String comentario, int puntuacion,  String autor, int id_hotel) {
 		super();
+		
+		this.id_usuario = id_usuario;
+		this.id_hotel = id_hotel;
 		this.fecha = fecha;
 		this.comentario = comentario;
 		this.puntuacion = puntuacion;
 		this.autor = autor;
 	}
+	
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		 this.id = id;
+	}
+	
+	public int getIdHotel() {
+		return id_hotel;
+	}
+
+	public void setIdHotel(int id_hotel) {
+		this.id_hotel = id_hotel;
+	}
+	
+	public int getId_Usuario() {
+		return id_usuario;
+	}
+	
+	public void setId_Usuario(int id_usuario) {
+		this.id_usuario = id_usuario;
+	}
+	
 	public long getFecha() {
 		return fecha;
 	}
@@ -48,9 +79,10 @@ public class Valoracion {
 		return Objects.equals(autor, other.autor) && Objects.equals(comentario, other.comentario)
 				&& fecha == other.fecha && puntuacion == other.puntuacion;
 	}
+	
 	@Override
 	public String toString() {
-		return this.autor;
+		return this.autor.toString();
 	}
 	
 	public static ArrayList<Valoracion> cargarValoraciones(String archivoCSV) {
@@ -72,8 +104,8 @@ public class Valoracion {
                 long fecha = Long.parseLong(datos[3].trim());
 
                 // Crear una instancia de Valoracion y agregarla a la lista
-                Valoracion valoracion = new Valoracion(fecha, comentario, puntuacion, autor);
-                valoraciones.add(valoracion);
+                //Valoracion valoracion = new Valoracion(fecha, comentario, puntuacion, autor);
+                //valoraciones.add(valoracion);
             }
         } catch (IOException e) {
             System.out.println("Error al leer el archivo CSV: " + e.getMessage());
