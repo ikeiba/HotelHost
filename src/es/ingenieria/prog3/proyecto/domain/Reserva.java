@@ -8,18 +8,20 @@ public class Reserva implements Comparable<Reserva> {
 	private static int contador = 1;
 	private int id;
 	private ArrayList<String> huespedes;
+	private Hotel hotel;
 	private long fechaInicio;
 	private long fechaFin;
 	private Habitacion habitacion;
 	
 	
 	
-	public Reserva(ArrayList<String> huespedes, long fechaInicio, long fechaFin, Habitacion habitacion) {
+	public Reserva(ArrayList<String> huespedes, Hotel hotel, long fechaInicio, long fechaFin, Habitacion habitacion) {
 		super();
 		
 		this.id = contador;
 		Reserva.contador ++;
 		this.huespedes = huespedes;
+		this.hotel = hotel;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
 		this.habitacion = habitacion;
@@ -57,6 +59,9 @@ public class Reserva implements Comparable<Reserva> {
 		this.habitacion = habitacion;
 	}
 
+	public Hotel getHotel() {
+		return hotel;
+	}
 
 	@Override
 	public int hashCode() {
