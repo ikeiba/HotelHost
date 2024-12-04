@@ -265,14 +265,14 @@ public class GestorBD {
 //				pStmt.setString(3, h.getEmail());
 //				
 //				if (pStmt.executeUpdate() != 1) {					
-//					logger.warning(String.format("No se ha insertado el Personaje: %s", p));
+//					logger.warning(String.format("No se ha insertado el Hotel: %s", p));
 //				} else {
 //					//IMPORTANTE: El valor del ID del personaje se establece automáticamente al
 //					//insertarlo en la BBDD. Por lo tanto, después de insertar un personaje, 
 //					//se recupera de la BBDD para establecer el campo ID en el objeto que está
 //					//en memoria.
-//					p.setId(this.getPersonajeByNombre(p.getNombre()).getId());					
-//					logger.info(String.format("Se ha insertado el Personaje: %s", p));
+//					h.setId(this.getPersonajeByNombre(p.getNombre()).getId());					
+//					logger.info(String.format("Se ha insertado el Hotel: %s", p));
 //				}
 //			}
 //			
@@ -285,22 +285,22 @@ public class GestorBD {
 //	/**
 //	 * Inserta Comics en la BBDD
 //	 */
-//	public void insertarComic(Comic... comics) {
+//	public void insertarValoracion(Valoracion... valoraciones) {
 //		//Se define la plantilla de la sentencia SQL			
-//		String sql = "INSERT INTO Comic (editorial, titulo) VALUES (?, ?);";
+//		String sql = "INSERT INTO Valoracion (editorial, titulo) VALUES (?, ?);";
 //		
 //		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
 //		try (Connection con = DriverManager.getConnection(connectionString);
 //			 PreparedStatement pStmt = con.prepareStatement(sql)) {
 //			
 //			//Se recorren los clientes y se insertan uno a uno
-//			for (Comic c : comics) {
+//			for (Valoracion v : valoraciones) {
 //				//Se definen los parámetros de la sentencia SQL
-//				pStmt.setString(1, c.getEditorial().toString());
-//				pStmt.setString(2, c.getTitulo());
+//				pStmt.setString(1, v.getEditorial().toString());
+//				pStmt.setString(2, v.getTitulo());
 //				
 //				if (pStmt.executeUpdate() != 1) {					
-//					logger.warning(String.format("No se ha insertado el Comic: %s", c));
+//					logger.warning(String.format("No se ha insertado la Valoracion: %s", c));
 //				} else {
 //					//IMPORTANTE: El valor del ID del comic se establece automáticamente al
 //					//insertarlo en la BBDD. Por lo tanto, después de insertar un comic, 
@@ -313,42 +313,17 @@ public class GestorBD {
 //						this.insertarPersonajeComic(c.getId(), p.getId());
 //					}
 //					
-//					logger.info(String.format("Se ha insertado el Comic: %s", c));
+//					logger.info(String.format("Se ha insertado la Valoracion: %s", c));
 //				}
 //			}
 //			
-//			logger.info(String.format("%d Comics insertados en la BBDD", comics.length));
+//			logger.info(String.format("%d Valoraciones insertadas en la BBDD", valoraciones.length));
 //		} catch (Exception ex) {
-//			logger.warning(String.format("Error al insertar comics: %s", ex.getMessage()));
+//			logger.warning(String.format("Error al insertar valoracion: %s", ex.getMessage()));
 //		}				
 //	}
 //		
-//	//MODIFICACIÓN 1: Método para actualizar la información de un Comic en la BBDD
-//	/**
-//	 * Actualiza un Comic
-//	 */
-//	public void actualizarComic(Comic comic) {
-//		//Se define la plantilla de la sentencia SQL			
-//		String sql = "UPDATE Comic SET editorial = ?, titulo = ? WHERE id = ?;";
-//		
-//		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
-//		try (Connection con = DriverManager.getConnection(connectionString);
-//			 PreparedStatement pStmt = con.prepareStatement(sql)) {
-//			
-//			//Se definen los parámetros de la sentencia SQL
-//			pStmt.setString(1, comic.getEditorial().toString());
-//			pStmt.setString(2, comic.getTitulo());
-//			pStmt.setInt(3, comic.getId());
-//				
-//			if (pStmt.executeUpdate() != 1) {					
-//				logger.warning(String.format("No se ha actualizado el Comic: %s", comic.getTitulo()));
-//			} else {					
-//				logger.info(String.format("Se ha actualizado el Comic: %s", comic.getTitulo()));
-//			}			
-//		} catch (Exception ex) {
-//			logger.warning(String.format("Error al actualizar comic: %s", ex.getMessage()));
-//		}				
-//	}
+//
 //	
 //	/**
 //	 * Almacena la relación entre un pesonaje y un comic en la BBDD. 
@@ -642,6 +617,32 @@ public class GestorBD {
 //		}		
 //	}
 //	
+//	//MODIFICACIÓN 1: Método para actualizar la información de un Comic en la BBDD
+//	/**
+//	 * Actualiza un Comic
+//	 */
+//	public void actualizarComic(Comic comic) {
+//		//Se define la plantilla de la sentencia SQL			
+//		String sql = "UPDATE Comic SET editorial = ?, titulo = ? WHERE id = ?;";
+//		
+//		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+//		try (Connection con = DriverManager.getConnection(connectionString);
+//			 PreparedStatement pStmt = con.prepareStatement(sql)) {
+//			
+//			//Se definen los parámetros de la sentencia SQL
+//			pStmt.setString(1, comic.getEditorial().toString());
+//			pStmt.setString(2, comic.getTitulo());
+//			pStmt.setInt(3, comic.getId());
+//				
+//			if (pStmt.executeUpdate() != 1) {					
+//				logger.warning(String.format("No se ha actualizado el Comic: %s", comic.getTitulo()));
+//			} else {					
+//				logger.info(String.format("Se ha actualizado el Comic: %s", comic.getTitulo()));
+//			}			
+//		} catch (Exception ex) {
+//			logger.warning(String.format("Error al actualizar comic: %s", ex.getMessage()));
+//		}				
+//	}
 
 	
 	public ArrayList<Hotel> cargarHoteles(String filePath) {
