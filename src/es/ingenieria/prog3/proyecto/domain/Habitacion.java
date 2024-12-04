@@ -16,7 +16,7 @@ public class Habitacion {
 		this.numero = numero;
 		this.capacidad = capacidad;
 		this.tipo = tipo;
-		this.precio = Math.round((precio + calculoSuplemento(tipo, precio)) * 100.0) / 100.0;;
+		this.precio = Math.round((precio + calculoSuplemento(tipo, precio)) * 100.0) / 100.0;
 	}
 
 	public int getPlanta() {
