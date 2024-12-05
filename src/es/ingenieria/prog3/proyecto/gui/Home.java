@@ -5,6 +5,7 @@ import javax.swing.*;
 import com.toedter.calendar.JDateChooser;
 
 import es.ingenieria.prog3.proyecto.gui.util.DataStore;
+import es.ingenieria.prog3.proyecto.gui.util.JCirculoDrop;
 import es.ingenieria.prog3.proyecto.gui.util.JPanelBordesRedondos;
 import es.ingenieria.prog3.proyecto.gui.util.JSeparatorPunteada;
 import es.ingenieria.prog3.proyecto.gui.util.Preferences;
@@ -51,6 +52,11 @@ public class Home extends JPanel {
 		ImageIcon resizedIcon = new ImageIcon(scaledImage);
         logo.setIcon(resizedIcon);
         add(logo, BorderLayout.CENTER);
+        
+        JCirculoDrop perfil = new JCirculoDrop(50, new String[] {"Perfil", "Valoraciones", "Reservas"});
+		logo.setBounds(0, 0, 55, 55);
+        perfil.setBounds(Preferences.WINDOWWIDTH - 80, 10, logo.getWidth(), logo.getHeight());
+        add(perfil, BorderLayout.CENTER);
         
         JSeparatorPunteada barraSeparadora = new JSeparatorPunteada();
         barraSeparadora.setBackground(Color.BLACK);
