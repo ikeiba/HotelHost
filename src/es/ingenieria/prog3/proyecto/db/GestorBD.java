@@ -363,6 +363,44 @@ public class GestorBD {
 			logger.warning(String.format("Error al insertar valoracion: %s", ex.getMessage()));
 		}				
 	}
+
+	public void insertarUsuario(Usuario... usuarios) {
+		//Se define la plantilla de la sentencia SQL			
+		String sql = "INSERT INTO Usuario (usuario, nombre, apellido, email, contraseña, fechaNacimiento, genero) VALUES (?, ?, ?, ?, ?, ?, ?);";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+			 PreparedStatement pStmt = con.prepareStatement(sql)) {
+			
+			//Se recorren los clientes y se insertan uno a uno
+			for (Usuario u : usuarios) {
+				//Se definen los parámetros de la sentencia SQL
+				pStmt.setString(1, u.getUsuario());
+				pStmt.setString(2, u.getNombre());
+				pStmt.setString(3, u.getApellido());
+				pStmt.setString(4, u.getEmail());
+				pStmt.setString(5, u.getContrasena());
+				pStmt.setInt(6, u.getFechaNacimiento());
+				pStmt.setInt(7, u.getGenero());
+
+				if (pStmt.executeUpdate() != 1) {					
+					logger.warning(String.format("No se ha insertado el Usuario: %s", u.getUsuario()));
+				} else {
+					//IMPORTANTE: El valor del ID del comic se establece automáticamente al
+					//insertarlo en la BBDD. Por lo tanto, después de insertar un comic, 
+					//se recupera de la BBDD para establecer el campo ID en el objeto que está
+					//en memoria.
+					//c.setId(this.getComicByTitulo(c.getTitulo()).getId());										
+					
+					logger.info(String.format("Se ha insertado el Usuario: %s", u.getUsuario()));
+				}
+			}
+			
+			logger.info(String.format("%d Usuarios insertados en la BBDD", usuarios.length));
+		} catch (Exception ex) {
+			logger.warning(String.format("Error al insertar usuario: %s", ex.getMessage()));
+		}				
+	}
 	
 	
 	private void enlazarHotelesValoraciones(List<Hotel> hoteles, List<Valoracion> valoraciones) {		
