@@ -21,6 +21,7 @@ import es.ingenieria.prog3.proyecto.domain.Habitacion;
 import es.ingenieria.prog3.proyecto.domain.Hotel;
 import es.ingenieria.prog3.proyecto.domain.Plan;
 import es.ingenieria.prog3.proyecto.domain.TipoHabitacion;
+import es.ingenieria.prog3.proyecto.domain.Usuario;
 import es.ingenieria.prog3.proyecto.domain.Valoracion;
 
 
@@ -380,7 +381,7 @@ public class GestorBD {
 				pStmt.setString(3, u.getApellido());
 				pStmt.setString(4, u.getEmail());
 				pStmt.setString(5, u.getContrasena());
-				pStmt.setInt(6, u.getFechaNacimiento());
+				pStmt.setFloat(6, u.getFechaNacimiento());
 				pStmt.setInt(7, u.getGenero());
 
 				if (pStmt.executeUpdate() != 1) {					
