@@ -1,6 +1,7 @@
 package es.ingenieria.prog3.proyecto.gui.util;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
@@ -30,6 +31,15 @@ public class DateString {
             return dateTime.format(formatter);
         } catch (IllegalArgumentException | DateTimeParseException e) {
             throw new IllegalArgumentException("Invalid date-time pattern: " + pattern, e);
+        }
+    }
+    
+    public static long convertDateToLong(String dateString) {
+        try {
+            LocalDate date = LocalDate.parse(dateString);
+            return date.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
+        } catch (Exception e) {
+            throw new IllegalArgumentException("Invalid date format. Please use 'year-month-day' format.", e);
         }
     }
 }
