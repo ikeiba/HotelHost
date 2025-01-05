@@ -5,15 +5,15 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import es.ingenieria.prog3.proyecto.db.GestorBD;
-import es.ingenieria.prog3.proyecto.domain.Habitacion;
 import es.ingenieria.prog3.proyecto.domain.Hotel;
-import es.ingenieria.prog3.proyecto.domain.Valoracion;
+import es.ingenieria.prog3.proyecto.domain.Usuario;
 
 public class MainFrame extends JFrame {
 	   
@@ -24,16 +24,19 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
     	GestorBD gestorBD = new GestorBD();
-    	//gestorBD.borrarBBDD();
+    	gestorBD.borrarBBDD();
     	gestorBD.crearBBDD();
     	gestorBD.borrarDatos();
     	gestorBD.initilizeFromCSV();
     	
         ArrayList<Hotel> hoteles = gestorBD.getHoteles();
-        
-        
+        ArrayList<Usuario> usuarios = gestorBD.getUsuarios();
+                
         System.out.println(hoteles.get(0).getHabitaciones());
         System.out.println(hoteles.get(0).getValoraciones());
+        
+        
+        
         //CARGAR DATOS
         
         //Carga de hoteles (con habitaciones)
@@ -64,7 +67,7 @@ public class MainFrame extends JFrame {
         mainPanel = new JPanel(cardLayout);
                
         // Añadimos una funcionalidad al panel Busqueda cuando sea el que esta visible
-        Busqueda panelBusqueda = new Busqueda(cardLayout, mainPanel, hoteles);
+        Busqueda panelBusqueda = new Busqueda(cardLayout, mainPanel, hoteles, gestorBD);
         panelBusqueda.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
@@ -74,7 +77,7 @@ public class MainFrame extends JFrame {
         });
         
         // Inicializar los paneles y añadirlos al cardLayout
-        mainPanel.add(new Log1(cardLayout, mainPanel), "Log1");
+        mainPanel.add(new Log1(cardLayout, mainPanel, usuarios), "Log1");
         mainPanel.add(new Log2(cardLayout, mainPanel), "Log2");
         mainPanel.add(new Log3(cardLayout, mainPanel), "Log3");
         mainPanel.add(new Log4(cardLayout, mainPanel), "Log4");

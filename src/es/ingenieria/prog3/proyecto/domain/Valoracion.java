@@ -13,10 +13,10 @@ public class Valoracion {
 	private String autor;
 	private int id;
 	private int id_hotel;
-	private int id_usuario;
+	private String id_usuario;
 	
 	
-	public Valoracion(int id_usuario, long fecha, String comentario, int puntuacion,  String autor, int id_hotel) {
+	public Valoracion(String id_usuario, long fecha, String comentario, int puntuacion,  String autor, int id_hotel) {
 		super();
 		
 		this.id_usuario = id_usuario;
@@ -43,11 +43,11 @@ public class Valoracion {
 		this.id_hotel = id_hotel;
 	}
 	
-	public int getId_Usuario() {
+	public String getId_Usuario() {
 		return id_usuario;
 	}
 	
-	public void setId_Usuario(int id_usuario) {
+	public void setId_Usuario(String id_usuario) {
 		this.id_usuario = id_usuario;
 	}
 	

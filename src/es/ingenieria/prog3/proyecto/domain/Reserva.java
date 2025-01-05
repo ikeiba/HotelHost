@@ -10,11 +10,11 @@ public class Reserva implements Comparable<Reserva> {
 	private long fechaInicio;
 	private long fechaFin;
 	private int id_habitacion;
-	private int id_usuario;
+	private String id_usuario;
 
 	
 	
-	public Reserva(int id_usuario, ArrayList<String> huespedes, long fechaInicio, long fechaFin, int id_habitacion) {
+	public Reserva(String id_usuario, ArrayList<String> huespedes, long fechaInicio, long fechaFin, int id_habitacion) {
 		super();
 		
 		this.huespedes = huespedes;
@@ -41,11 +41,11 @@ public class Reserva implements Comparable<Reserva> {
 		this.id_habitacion = id_habitacion;
 	}
 	
-	public int getId_Usuario() {
+	public String getId_Usuario() {
 		return id_usuario;
 	}
 	
-	public void setId_Usuario(int id_usuario) {
+	public void setId_Usuario(String id_usuario) {
 		this.id_usuario = id_usuario;
 	}
 	

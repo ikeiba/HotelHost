@@ -1,8 +1,13 @@
 package es.ingenieria.prog3.proyecto.gui;
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import javax.swing.*;
 
+import es.ingenieria.prog3.proyecto.domain.Usuario;
+import es.ingenieria.prog3.proyecto.gui.util.DataStore;
 import es.ingenieria.prog3.proyecto.gui.util.JPanelBordesRedondos;
 import es.ingenieria.prog3.proyecto.gui.util.JPasswordFieldDefaultText;
 import es.ingenieria.prog3.proyecto.gui.util.JTextFieldDefaultText;
@@ -16,12 +21,18 @@ public class Log1 extends JPanel {
 	private CardLayout cardLayout;
     private JPanel mainPanel;
 
-	public Log1(CardLayout cardLayout, JPanel mainPanel) {
-		
-		
+	public Log1(CardLayout cardLayout, JPanel mainPanel, ArrayList<Usuario> usuarios) {
+			
 		this.cardLayout = cardLayout;
 		this.mainPanel = mainPanel;
 		
+        //Creamos un mapa que enlace nombres de usuario con sus respectivas contraseñas
+        HashMap<String, String> usuario_contrasena = new HashMap<String, String>();
+        for (Usuario usuario : usuarios) {
+			usuario_contrasena.put(usuario.getUsuario(), usuario.getContrasena());
+		}
+        
+        
 		//Ponemos el fondo del panel blanco y le asignamos el border layout como layoutManager
 		this.setBackground(Color.WHITE);
 		this.setLayout(new BorderLayout());  
@@ -103,17 +114,26 @@ public class Log1 extends JPanel {
         botonLogin.setBounds((int) (panelnuevousuario.getWidth() * 0.06), 270, (int) (panelnuevousuario.getWidth() * 0.42), 50);
         panelnuevousuario.add(botonLogin);
         
-        //Anadimos el listener para que si se pulsa el boton vaya a la pantalla de modificar contrasena
+        //Anadimos el listener para que si se pulsa el boton compruebe si hay un usuario con esa contraseña
         botonLogin.addActionListener(e -> {
         	String inputUsuario = textFieldEmail.getText();
         	String inputContrasena = String.valueOf(textFieldContrasena.getPassword());
-        	if (inputUsuario.equals("Email") && inputContrasena.equals("123")) {
-        		this.cardLayout.show(this.mainPanel, "Home");
+        	
+        	if (usuario_contrasena.containsKey(inputUsuario)) {
+        		if (usuario_contrasena.get(inputUsuario).equals(inputContrasena)) {
+        			Usuario usuarioActivo = Usuario.getUsuarioByNick(usuarios, inputUsuario);
+        			DataStore.setUsuarioActivo(usuarioActivo);
+        			System.out.println(DataStore.getUsuarioActivo().toString());
+            		this.cardLayout.show(this.mainPanel, "Home");
+        		} else {
+            		JOptionPane.showMessageDialog(null, "La contraseña o el usuario es incorrecto", "CREDENCIALES INCORRECTAS", JOptionPane.ERROR_MESSAGE, null);
+            	}
         	} else {
-        		JOptionPane.showMessageDialog(null, "La contraseña es incorrecta", "CONTRASEÑA INCORRECTA", JOptionPane.ERROR_MESSAGE, null);
+        		JOptionPane.showMessageDialog(null, "La contraseña o el usuario es incorrecto", "CREDENCIALES INCORRECTAS", JOptionPane.ERROR_MESSAGE, null);
         	}
         });
         
+        //Creamos el boton de olvidar contraseña
         JButton botonOlvidarContrasena = new JButton("Recuperar Contraseña");
         botonOlvidarContrasena.setBounds((int) (panelnuevousuario.getWidth() * 0.52), 270, (int) (panelnuevousuario.getWidth() * 0.42), 50);
         panelnuevousuario.add(botonOlvidarContrasena);

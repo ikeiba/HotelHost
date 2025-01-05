@@ -107,5 +107,15 @@ public class Usuario {
 		return "Usuario [usuario=" + usuario + "]";
 	}
 	
+	public static Usuario getUsuarioByNick(ArrayList<Usuario> usuarios, String nick) {
+		Usuario usuarioFinal = usuarios.get(0);
+		for (Usuario usuario : usuarios) {
+			if (usuario.getUsuario().equals(nick)) {
+				usuarioFinal = usuario;
+				return usuarioFinal;
+			}
+		}
+		return usuarioFinal;
+	}
 	
 }

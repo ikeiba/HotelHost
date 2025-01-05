@@ -32,6 +32,7 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
+import es.ingenieria.prog3.proyecto.db.GestorBD;
 import es.ingenieria.prog3.proyecto.domain.Hotel;
 import es.ingenieria.prog3.proyecto.domain.Valoracion;
 import es.ingenieria.prog3.proyecto.gui.util.DataStore;
@@ -66,7 +67,7 @@ public class Busqueda extends JPanel {
 	private JButton buttonQuitarAnuncio = new JButton("X");
 
 	
-	public Busqueda(CardLayout cardLayout, JPanel mainPanel, ArrayList<Hotel> hoteles) {
+	public Busqueda(CardLayout cardLayout, JPanel mainPanel, ArrayList<Hotel> hoteles, GestorBD gestorBD) {
 		
 		this.cardLayout = cardLayout;
 		this.mainPanel = mainPanel;
@@ -258,6 +259,9 @@ public class Busqueda extends JPanel {
 					JTextField textFieldComentario = new JTextField(25);
 					JSpinner spinnerPuntuacion = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
 					JTextField textFieldAutor = new JTextField(15);
+					textFieldAutor.setText(DataStore.getUsuarioActivo().getUsuario());
+					//textFieldAutor.setEditable(false);
+					textFieldAutor.setEnabled(false);
 					
 			        JLabel labelComentario = new JLabel("Comentario:");
 			        JLabel labelPuntuacion = new JLabel("Puntuacion:");
@@ -270,13 +274,14 @@ public class Busqueda extends JPanel {
 					
 					if (respuesta == 0) {
 						// Crear nueva valoracion
-						//Valoracion valoracionNueva = new Valoracion(System.currentTimeMillis(), textFieldComentario.getText(), (int) spinnerPuntuacion.getValue(), textFieldAutor.getText());
-						
-						// Anadir a la lista de comics
+						// Obtener el hotel seleccionado
 						Hotel hotelAnadirValoracion = (Hotel) tablaHoteles.getValueAt(tablaHoteles.getSelectedRow(), 0);
-						//Cargar la tabla de comics
-						//hotelAnadirValoracion.getValoraciones().add(valoracionNueva);
+						Valoracion valoracionNueva = new Valoracion(DataStore.getUsuarioActivo().getUsuario(), System.currentTimeMillis(), textFieldComentario.getText(), (int) spinnerPuntuacion.getValue(), textFieldAutor.getText(), hotelAnadirValoracion.getId());
+						hotelAnadirValoracion.getValoraciones().add(valoracionNueva);
 						((AbstractTableModel) tablaValoraciones.getModel()).fireTableDataChanged();
+						
+						//Se añade la nueva valoracion a la base de datos
+						gestorBD.insertarValoracion(valoracionNueva);
 					}
 					
 				//Codigo para hacer una nueva reserva
