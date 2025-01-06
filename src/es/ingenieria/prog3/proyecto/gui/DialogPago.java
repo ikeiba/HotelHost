@@ -50,7 +50,7 @@ public class DialogPago extends JDialog {
 				});
 				try {
 					// Se duerme el hilo durante 1 segundo
-					Thread.sleep(100);
+					Thread.sleep(50);
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
 				}

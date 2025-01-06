@@ -29,15 +29,29 @@ public class DialogReservar extends JDialog {
     
 	public DialogReservar(Hotel hotel) {
 		setLayout(new BorderLayout()); // Cambiar layout del diálogo principal
-		 
+		
+		// Panel para los botones
+        JPanel panelBotones = new JPanel();
+        JButton botonCancelar = new JButton("Cancelar");
+        JButton botonProcesarPago = new JButton("Procesar Pago");
+        
         JPanel panelReserva = new JPanel(new GridLayout(8, 1, 5, 11));
         
         JLabel labelTipoHabitacion = new JLabel("Selecciona el tipo de habitación:");
 		JComboBox<TipoHabitacion> comboBoxTipoHabitacion = new JComboBox<TipoHabitacion>(TipoHabitacion.values());			
         
 		JLabel labelHabitaciones = new JLabel("Selecciona la habitación:");
-		habitacionesDisponibles = getHabitacionesPorFechas(getHabitacionesPorTipo(hotel.getHabitaciones(), (TipoHabitacion) comboBoxTipoHabitacion.getSelectedItem()));
-		comboBoxHabitacionesDisponibles = new JComboBox<Habitacion>(habitacionesDisponibles.toArray(new Habitacion [0]));
+		
+		//Logica para asegurarnos que la primera habitacion que seleccionamos existe
+		for (int i = 0; i < TipoHabitacion.values().length; i++) {
+			comboBoxTipoHabitacion.setSelectedItem(TipoHabitacion.values()[i]);
+			habitacionesDisponibles = getHabitacionesPorFechas(getHabitacionesPorTipo(hotel.getHabitaciones(), (TipoHabitacion) comboBoxTipoHabitacion.getSelectedItem()));
+			if (habitacionesDisponibles.size() > 0) {
+				comboBoxHabitacionesDisponibles = new JComboBox<Habitacion>(habitacionesDisponibles.toArray(new Habitacion [0]));
+				break;
+			}
+		}
+		
 		
         JLabel labelHuespedes = new JLabel("Incluye a los huéspedes (al menos 1):");
 		comboHuespedes = new JComboBox<>();
@@ -63,6 +77,8 @@ public class DialogReservar extends JDialog {
 			}
 			if (habitacionesDisponibles.size() == 0) {
 				comboBoxHabitacionesDisponibles.setEnabled(false);
+			} else {
+				comboBoxHabitacionesDisponibles.setEnabled(true);
 			}
 			habitacionSeleccionada = (Habitacion) comboBoxHabitacionesDisponibles.getSelectedItem();			
 		});
@@ -70,6 +86,8 @@ public class DialogReservar extends JDialog {
 		//Listener para el comboBox con habitaciones disponibles
 		comboBoxHabitacionesDisponibles.addActionListener(e -> {
 			if (comboBoxHabitacionesDisponibles.getSelectedItem() != null) {
+				comboHuespedes.setEnabled(true);
+				botonProcesarPago.setEnabled(true);
 				habitacionSeleccionada = (Habitacion) comboBoxHabitacionesDisponibles.getSelectedItem();
 				long diferenciaMilisegundos = DataStore.getSelectedFechaFin().getTime() - DataStore.getSelectedFechaInicio().getTime();
 		        long diasDiferencia = diferenciaMilisegundos / (1000 * 60 * 60 * 24);
@@ -88,7 +106,10 @@ public class DialogReservar extends JDialog {
 					}
 				}
 				numeroHuespedes = comboHuespedes.getItemCount();
-			}	
+			} else {
+				comboHuespedes.setEnabled(false);
+				botonProcesarPago.setEnabled(false);
+			}
 		});
 		
 		//Listener para el comboBox con los huespedes
@@ -135,11 +156,7 @@ public class DialogReservar extends JDialog {
 			}
 		});
 		
-		// Panel para los botones
-        JPanel panelBotones = new JPanel();
-        JButton botonCancelar = new JButton("Cancelar");
-        JButton botonProcesarPago = new JButton("Procesar Pago");
-        
+        //Listeners para los botones
         botonCancelar.addActionListener(e -> dispose());
         
         botonProcesarPago.addActionListener(e -> {
