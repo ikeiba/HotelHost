@@ -1,9 +1,5 @@
 package es.ingenieria.prog3.proyecto.domain;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class Valoracion {
@@ -85,6 +81,7 @@ public class Valoracion {
 		return this.autor.toString();
 	}
 	
+	/*
 	public static ArrayList<Valoracion> cargarValoraciones(String archivoCSV) {
         ArrayList<Valoracion> valoraciones = new ArrayList<>();
         String linea;
@@ -115,5 +112,6 @@ public class Valoracion {
 
         return valoraciones;
     }
+	*/
 	
 }

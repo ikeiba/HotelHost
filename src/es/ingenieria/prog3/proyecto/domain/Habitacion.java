@@ -109,6 +109,7 @@ public class Habitacion {
 	
 	//int planta, int numero, int capacidad, TipoHabitacion tipo, double precio)
 	//Cargar habitaciones a cada hotel
+	/*
 	public static void crearHabitaciones(ArrayList<Hotel> hoteles) {
 		for (Hotel hotel : hoteles) {
 			int numeroPlantas = (int)(Math.random() * (9 - 1 + 1)) + 1; //el numero de planta sera un numero aleatorio entre 1-9
@@ -132,5 +133,6 @@ public class Habitacion {
 			}
 		}
 	}
+	*/
 	
 }

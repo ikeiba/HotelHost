@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import es.ingenieria.prog3.proyecto.domain.Habitacion;
 import es.ingenieria.prog3.proyecto.domain.Hotel;
+import es.ingenieria.prog3.proyecto.domain.Huesped;
 import es.ingenieria.prog3.proyecto.domain.Reserva;
 import es.ingenieria.prog3.proyecto.domain.TipoHabitacion;
 import es.ingenieria.prog3.proyecto.gui.util.DataStore;
@@ -120,7 +121,7 @@ public class DialogReservar extends JDialog {
 					String name;
 				
 					if (firstName.getText().trim().isEmpty() || lastName.getText().trim().isEmpty()) {
-						name = String.format("%s%s", lastName.getText().trim(), firstName.getText()).trim();
+						name = String.format("%s, %s", lastName.getText().trim(), firstName.getText()).trim();
 					} else {
 						name = String.format("%s, %s", lastName.getText().trim(), firstName.getText()).trim();
 					}
@@ -140,11 +141,27 @@ public class DialogReservar extends JDialog {
         JButton botonProcesarPago = new JButton("Procesar Pago");
         
         botonCancelar.addActionListener(e -> dispose());
+        
         botonProcesarPago.addActionListener(e -> {
         	if (!comprobarHuesped()) {
         		JOptionPane.showMessageDialog(null, "Tienes que añadir al menos un huesped", "SIN HUESPEDES", JOptionPane.WARNING_MESSAGE);
         	} else {
-        		new DialogPago();
+        		//Guardamos los huespedes seleccionados para poder usarlos en el dialog de pago
+        		ArrayList<Huesped> huespedesReserva = new ArrayList<Huesped>();
+        		for (int i = 0; i < comboHuespedes.getItemCount(); i++) {
+        			String datosHuesped = comboHuespedes.getItemAt(i);
+					String[] campos = datosHuesped.split(" ");
+					
+					//Comprobamos que haya informacion sobre el huesped seleccionado
+					if (!campos[0].equals("Huesped")) {
+						String apellido = campos[2];
+						Huesped huesped = new Huesped(campos[3], apellido.substring(0, apellido.length()-1), -1);
+						huespedesReserva.add(huesped);
+					}	
+					
+				}
+        		System.out.println(habitacionSeleccionada.getReservas());
+        		new DialogPago(habitacionSeleccionada, huespedesReserva);
         		if (DataStore.getVisible()) {
         			DataStore.setVisible(false);
         			dispose();

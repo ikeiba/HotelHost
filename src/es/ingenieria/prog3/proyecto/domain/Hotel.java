@@ -1,8 +1,5 @@
 package es.ingenieria.prog3.proyecto.domain;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import java.util.Objects;
@@ -10,7 +7,6 @@ import java.util.Objects;
 public class Hotel {
     
 	private int id, estrellas;
-	private static int contador = 1;
 	private String nombre, ciudad, descripcion;
 	private ArrayList<Habitacion> habitaciones = new ArrayList<Habitacion>();
 	private ArrayList<Valoracion> valoraciones = new ArrayList<Valoracion>();
@@ -128,6 +124,8 @@ public class Hotel {
 		return precioMax;
 	}
 	
+	
+	/*
 	public static ArrayList<Hotel> cargarHoteles(String filePath) {
         ArrayList<Hotel> hoteles = new ArrayList<>();
         
@@ -163,6 +161,8 @@ public class Hotel {
 
         return hoteles;
     }
+	*/
+	
 	
 	public static double precioMaximoHoteles(ArrayList<Hotel> hoteles) {
 		double precioMaximo = -9999999;

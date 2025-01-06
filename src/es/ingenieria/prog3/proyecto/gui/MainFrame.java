@@ -5,7 +5,6 @@ import java.awt.KeyboardFocusManager;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -14,6 +13,7 @@ import javax.swing.JPanel;
 import es.ingenieria.prog3.proyecto.db.GestorBD;
 import es.ingenieria.prog3.proyecto.domain.Hotel;
 import es.ingenieria.prog3.proyecto.domain.Usuario;
+import es.ingenieria.prog3.proyecto.gui.util.DataStore;
 
 public class MainFrame extends JFrame {
 	   
@@ -29,6 +29,7 @@ public class MainFrame extends JFrame {
     	gestorBD.borrarDatos();
     	gestorBD.initilizeFromCSV();
     	
+    	DataStore.setGestorBD(gestorBD);
         ArrayList<Hotel> hoteles = gestorBD.getHoteles();
         ArrayList<Usuario> usuarios = gestorBD.getUsuarios();
                 
@@ -67,7 +68,7 @@ public class MainFrame extends JFrame {
         mainPanel = new JPanel(cardLayout);
                
         // Añadimos una funcionalidad al panel Busqueda cuando sea el que esta visible
-        Busqueda panelBusqueda = new Busqueda(cardLayout, mainPanel, hoteles, gestorBD);
+        Busqueda panelBusqueda = new Busqueda(cardLayout, mainPanel, hoteles);
         panelBusqueda.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {

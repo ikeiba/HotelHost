@@ -32,7 +32,6 @@ import javax.swing.table.TableColumnModel;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 
-import es.ingenieria.prog3.proyecto.db.GestorBD;
 import es.ingenieria.prog3.proyecto.domain.Hotel;
 import es.ingenieria.prog3.proyecto.domain.Valoracion;
 import es.ingenieria.prog3.proyecto.gui.util.DataStore;
@@ -67,7 +66,7 @@ public class Busqueda extends JPanel {
 	private JButton buttonQuitarAnuncio = new JButton("X");
 
 	
-	public Busqueda(CardLayout cardLayout, JPanel mainPanel, ArrayList<Hotel> hoteles, GestorBD gestorBD) {
+	public Busqueda(CardLayout cardLayout, JPanel mainPanel, ArrayList<Hotel> hoteles) {
 		
 		this.cardLayout = cardLayout;
 		this.mainPanel = mainPanel;
@@ -281,13 +280,14 @@ public class Busqueda extends JPanel {
 						((AbstractTableModel) tablaValoraciones.getModel()).fireTableDataChanged();
 						
 						//Se añade la nueva valoracion a la base de datos
-						gestorBD.insertarValoracion(valoracionNueva);
+						DataStore.getGestorBD().insertarValoracion(valoracionNueva);
 					}
 					
 				//Codigo para hacer una nueva reserva
 				} else if (e.getKeyCode() == KeyEvent.VK_R && e.isControlDown()) {
 					if (tablaHoteles.getSelectedRow() != -1) {
 						Hotel hotelSeleccionado = (Hotel) (tablaHoteles.getValueAt(tablaHoteles.getSelectedRow(), 0));
+						DataStore.setHotelReserva(hotelSeleccionado);
 						new DialogReservar(hotelSeleccionado);
 					}
 				}

@@ -8,6 +8,9 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 public class JCirculoDrop extends JComponent {
+	
+    private static final long serialVersionUID = 1L;
+	
     private final int diameter;
     private final JPopupMenu popupMenu;
 
