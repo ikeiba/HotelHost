@@ -125,45 +125,6 @@ public class Hotel {
 	}
 	
 	
-	/*
-	public static ArrayList<Hotel> cargarHoteles(String filePath) {
-        ArrayList<Hotel> hoteles = new ArrayList<>();
-        
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String linea;
-            
-            while ((linea = br.readLine()) != null) {
-                String[] valores = linea.split(",", 5); // Dividir en cinco partes: nombre, estrellas, ciudad, descripcion, planes
-                if (valores.length == 5) {
-                    String nombre = valores[0].trim();
-                    int estrellas = Integer.parseInt(valores[1].trim());
-                    String ciudad = valores[2].trim();
-                    String descripcion = valores[3].trim();
-                    
-                    // Convertir la lista de planes en enum Plan
-                    ArrayList<Plan> planes = new ArrayList<>();
-                    for (String plan : valores[4].split(";")) {
-                        try {
-                            planes.add(Plan.valueOf(plan.trim().toUpperCase()));
-                        } catch (IllegalArgumentException e) {
-                            System.out.println(plan);
-                        }
-                    }
-
-                    
-                    //Hotel hotel = new Hotel(estrellas, nombre, ciudad, descripcion, planes);
-                    //hoteles.add(hotel);
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return hoteles;
-    }
-	*/
-	
-	
 	public static double precioMaximoHoteles(ArrayList<Hotel> hoteles) {
 		double precioMaximo = -9999999;
 		for (Hotel hotel : hoteles) {
