@@ -892,6 +892,9 @@ public class GestorBD {
 		return reservaRecuperada;
 	}
 	
+	//COMENTARIO PARA LOS TRES METODOS DE CARGA
+	//IAG (herramienta: ChatGPT)
+	//ADAPTADO (la conversion de tipos no la hacia correctamente, los mensajes de error han sido añadidos y la inicializacion de los ids)
 	
 	public ArrayList<Hotel> cargarHoteles(String filePath) {
         ArrayList<Hotel> hoteles = new ArrayList<>();
