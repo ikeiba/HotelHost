@@ -27,6 +27,8 @@ import es.ingenieria.prog3.proyecto.domain.Usuario;
 import es.ingenieria.prog3.proyecto.domain.Valoracion;
 
 
+//Para realizar esta clase se ha tomado como base la clase de la practica 2 de jdbc
+//Practicamente todos los metodos han sido modificados para adaptarlos a nuestro esquema
 public class GestorBD {
 
 	private final String PROPERTIES_FILE = "resources/config/app.properties";
