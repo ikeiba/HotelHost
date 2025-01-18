@@ -4,7 +4,8 @@ import java.awt.Graphics;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSliderUI;
 
-//Esta clase ha sido generada por CHATGPT
+//IAG (herramienta: ChatGPT)
+//SIN CAMBIOS
 public class RangeSliderUI extends BasicSliderUI {
 
     public RangeSliderUI(JSlider slider) {

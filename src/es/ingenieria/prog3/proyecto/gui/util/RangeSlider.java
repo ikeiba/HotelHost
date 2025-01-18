@@ -3,10 +3,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-//Esta clase ha sido generada con CHATGPT
-//Ha sido modificada para cambiar el color y la forma de los circulos
-//de las esquinas del slider, asi como el color de la linea que 
-//une el trazado seleccionado
+//IAG (herramienta: ChatGPT)
+//ADAPTADO (ha sido modificada para cambiar el color y la forma de los circulos, de las esquinas del slider, 
+//asi como el color de la linea que une el trazado seleccionado)
 public class RangeSlider extends JSlider {
  
 	private static final long serialVersionUID = 1L;

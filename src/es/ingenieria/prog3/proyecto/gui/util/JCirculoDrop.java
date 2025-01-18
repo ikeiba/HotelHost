@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+//IAG: CHATGPT (Toda la clase)
+//SIN CAMBIOS
 public class JCirculoDrop extends JComponent {
 	
     private static final long serialVersionUID = 1L;
