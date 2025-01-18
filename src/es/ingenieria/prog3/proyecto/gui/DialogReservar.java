@@ -15,6 +15,8 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Date;
 
+//Para realizar esta clase, se ha tomado como referencia el sistema de reservas que aparece en los examenes 
+//de ordinaria/extraordinaria del 2023
 public class DialogReservar extends JDialog {
     
 	private static final long serialVersionUID = 1L;

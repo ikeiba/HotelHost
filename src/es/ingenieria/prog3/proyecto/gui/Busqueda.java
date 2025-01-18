@@ -116,6 +116,9 @@ public class Busqueda extends JPanel {
         // Queria crear un JSlider con dos "cabezas", y al no encontrar una clase así 
         // pregunte a chatGPT si existia. Me dio la opcion de utilizar una libreria externa como
         // SwingX o aplicar dos sliders. Con su ayuda, implemente la segunda opcion:
+        //IAG (herramienta: ChatGPT)
+        //ADAPTADO (he tenido que cambiar varios de los componentes graphics ya que no se visualizaban correctamente.
+        //Ademas, he cambiado el color de la parte seleccionada y de las "cabezas" del slider (asi como su forma)).
         RangeSlider sliderPrecio = new RangeSlider((int) Hotel.precioMinimoHoteles(hoteles) - 1,(int) Hotel.precioMaximoHoteles(hoteles) + 1);
         sliderPrecio.setBounds(0, 0, (int) (panelFiltro.getWidth()*0.2), 20);
         sliderPrecio.setBounds((int) (panelFiltro.getWidth()*0.25 - (sliderPrecio.getWidth() / 2)), 30, sliderPrecio.getWidth(), sliderPrecio.getHeight());
