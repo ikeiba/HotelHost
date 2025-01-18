@@ -32,47 +32,20 @@ public class MainFrame extends JFrame {
     	DataStore.setGestorBD(gestorBD);
         ArrayList<Hotel> hoteles = gestorBD.getHoteles();
         ArrayList<Usuario> usuarios = gestorBD.getUsuarios();
-                
-        System.out.println(hoteles.get(0).getHabitaciones());
-        System.out.println(hoteles.get(0).getValoraciones());
-        
-        
-        
-        //CARGAR DATOS
-        
-        //Carga de hoteles (con habitaciones)
-//        ArrayList<Hotel> hoteles = Hotel.cargarHoteles("resources/data/hoteles.csv");
-//        Habitacion.crearHabitaciones(hoteles);
-//
-//        //Carga de valoraciones
-//        ArrayList<Valoracion> valoraciones = Valoracion.cargarValoraciones("resources/data/valoraciones.csv");
-//        
-//        // Asignamos secuencialmente las primeras valoraciones a los hoteles
-//        for (int i = 0; i < hoteles.size(); i++) {
-//            // Asignamos la valoración i al hotel i
-//            hoteles.get(i).getValoraciones().add(valoraciones.get(i));
-//        }
-//
-//        //Asignamos el resto de valoraciones aleatoriamente
-//        for (int i = hoteles.size(); i < valoraciones.size(); i++) {
-//            // Asignamos las valoraciones restantes aleatoriamente
-//            int posicionHotel = (int) (Math.random() * hoteles.size());
-//            hoteles.get(posicionHotel).getValoraciones().add(valoraciones.get(i));
-//        }
-        
-        //FIN CARGA DATOS
-        
+       
         
         // Inicializar el CardLayout y mainPanel
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
                
         // Añadimos una funcionalidad al panel Busqueda cuando sea el que esta visible
+        //IAG (herramienta: ChatGPT)
+        //SIN CAMBIOS
         Busqueda panelBusqueda = new Busqueda(cardLayout, mainPanel, hoteles);
         panelBusqueda.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
-                // Modificar atributo de panel3, como el color de fondo
+            	//Inicializa el filtro de manera que todos los hoteles esten dentro
             	panelBusqueda.filtrarHoteles("", 0, 100000);
             }
         });
@@ -92,7 +65,7 @@ public class MainFrame extends JFrame {
 
         // Cambiar el focus para no centrarse en nada
         // IAG: CHATGPT (Próximas 2 líneas)
-        // Modificación: Si
+        // SIN CAMBIOS
     	this.getRootPane().requestFocusInWindow();
     	KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
     	

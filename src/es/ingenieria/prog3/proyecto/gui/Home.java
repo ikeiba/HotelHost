@@ -179,8 +179,11 @@ public class Home extends JPanel {
             }
         });
         
+        
         // Listeners para asegurar que la seleccion de fechas es correcta (logica)
         // Codigo creado con la ayuda de ChatGPT
+        //IAG (herramienta: ChatGPT)
+        //ADAPTADO (se ha añadido el JOptionPane para mostrar el mensaje de error, y se ha guardado la fecha en la clase contenedor)
         dateChooserinicio.addPropertyChangeListener("date", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {
