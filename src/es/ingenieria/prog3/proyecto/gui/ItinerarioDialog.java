@@ -211,6 +211,8 @@ public class ItinerarioDialog extends JDialog{
 	        }
 	    }
 	}
+	
+	//METODO GENERARO POR IA A MODO DE CORRECION MAS PRECISA
 	private boolean containsItinerary(List<List<Hotel>> itinerarios, List<Hotel> aux) {
 	    for (List<Hotel> itinerario : itinerarios) {
 	        if (itinerario.size() == aux.size() && itinerario.containsAll(aux)) {
