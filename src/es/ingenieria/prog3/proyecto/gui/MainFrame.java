@@ -32,7 +32,6 @@ public class MainFrame extends JFrame {
     	DataStore.setGestorBD(gestorBD);
         ArrayList<Hotel> hoteles = gestorBD.getHoteles();
         ArrayList<Usuario> usuarios = gestorBD.getUsuarios();
-       
         
         // Inicializar el CardLayout y mainPanel
         cardLayout = new CardLayout();
