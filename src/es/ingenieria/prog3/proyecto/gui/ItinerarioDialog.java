@@ -161,11 +161,11 @@ public class ItinerarioDialog extends JDialog{
         List<List<Hotel>> result = new ArrayList<>();		
         ItinerarioRecursivoAux(result, new ArrayList<>(), pais, Ciudad, credit, num, 0, allHotels, new ArrayList<>());
         
-        System.out.println("Itinerarios generados: " + result.size());
+        /*System.out.println("Itinerarios generados: " + result.size());
         result.forEach(itinerario -> {
             System.out.println("Itinerario:");
             itinerario.forEach(hotel -> System.out.println(hotel));
-        });
+        });*/
         
 		return result;
 	}
@@ -175,7 +175,7 @@ public class ItinerarioDialog extends JDialog{
 	private void ItinerarioRecursivoAux(List<List<Hotel>> result, List<Hotel> aux, String Pais, String Ciudad, double credit, int limite, int numciudad, List<Hotel> allHotels, ArrayList<String> ciudadesHechas) {
 	    // CASO BASE 1: Se ha superado el presupuesto disponible o el número de ciudades visitadas es mayor al límite -> ITINERARIO NO VALIDO
 	    if (credit < 0 || numciudad > limite) {
-	        System.out.println("Caso base: Fin recursión. Presupuesto: " + credit + ", Ciudades visitadas: " + numciudad);
+	        //System.out.println("Caso base: Fin recursión. Presupuesto: " + credit + ", Ciudades visitadas: " + numciudad);
 	        return;
 	    }
 	    
@@ -188,8 +188,16 @@ public class ItinerarioDialog extends JDialog{
 	    } else {
 	        // Se recorren los hoteles disponibles
 	        for (Hotel hotel : allHotels) {
-	            // Si el hotel está en la ciudad deseada, no se ha visitado esa ciudad y está en el país correcto
-	            if (hotel.getCiudad().equalsIgnoreCase(Ciudad.trim()) && !ciudadesHechas.contains(hotel.getCiudad().trim()) &&
+	        	if(aux.isEmpty() && hotel.getCiudad().equalsIgnoreCase(Ciudad.trim())){
+	        		aux.add(hotel);
+	                ciudadesHechas.add(hotel.getCiudad().trim());
+	                ItinerarioRecursivoAux(result, aux, Pais, Ciudad, credit - hotel.getPrecioMinimo(), limite, numciudad + 1, allHotels, ciudadesHechas);
+	                aux.remove(aux.size() - 1);
+	                ciudadesHechas.remove(ciudadesHechas.size() - 1);
+	                // Se realiza la invocación recursiva: se red
+	        	}
+	            // Si no se ha visitado esa ciudad y está en el país correcto
+	            if (!ciudadesHechas.contains(hotel.getCiudad().trim()) &&
 	                    obtenerPaisDeCiudad(hotel.getCiudad().trim(), ciudadesPorPais).equalsIgnoreCase(Pais.trim())) {
 	                // Se añade el hotel a aux
 	                aux.add(hotel);
