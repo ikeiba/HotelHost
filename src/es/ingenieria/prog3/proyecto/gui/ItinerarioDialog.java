@@ -148,7 +148,6 @@ public class ItinerarioDialog extends JDialog{
 	//FUNCION RECURSIVA HECHA POR INFIZA (Iñigo Infante)
 	
 	//Metodo para generar itinerarios recursivos segun un presupuesto y un pais
-	@SuppressWarnings("unused")
 	public List<List<Hotel>> ItinerarioRecursivo(String Ciudad, double credit, int num) {
 		//Se recuperan todos los vuelos 
 		List<Hotel> allHotels = new ArrayList<>();
