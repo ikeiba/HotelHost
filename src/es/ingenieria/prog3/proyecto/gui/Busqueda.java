@@ -586,21 +586,21 @@ public class Busqueda extends JPanel {
 			result.add(new ArrayList<>(aux));			
 		//CASO RECURSIVO: Se van añadiendo itinerarios al itinerario aux  
 		} else {
-			//Se recorren los vuelos disponbles
+			//Se recorren los hoteles disponbles
 			for (Hotel hotel : allHotels) {
-				//Si aux está vacío y el vuelo actual sale de 'origin' OR
+				//Si el hotel esta en el pais deseado AND Esa ciudad no este ya abarcada en el itinerario
 				if (hotel.getPais(hotel).equals(Pais) && !ciudadesHechas.contains(hotel.getCiudad())) {
-					//Se añade el vuelo a aux
+					//Se añade el hotel a aux
 					aux.add(hotel);
 					ciudadesHechas.add(hotel.getCiudad());
-					//Se realiza la invocación recursiva: se reduce credit
+					//Se realiza la invocación recursiva: se reduce credit y se añade la ciudad ya visitada
 					ItinerarioRecursivoAux(result, 
 									   	  aux,
 									      Pais,
 									      credit - hotel.getPrecioMinimo(),
 									      allHotels,
 									      ciudadesHechas);
-					//Se elimina de aux el último vuelo añadido
+					//Se elimina de aux el último hotel añadido y la ultima ciudad visitada de ciudadesHechas
 					aux.remove(aux.size()-1);
 					ciudadesHechas.remove(ciudadesHechas.size() -1);
 				}
