@@ -100,7 +100,7 @@ public class ItinerarioDialog extends JDialog{
 		        } else {
 		            itinerarios.forEach(itinerario -> {
 		                System.out.println("Itinerario:");
-		                itinerario.forEach(hotel -> System.out.println(hotel.toString()));
+		                itinerario.forEach(hotel -> System.out.println(hotel.getCiudad() + " --> " + hotel.toString()));
 		                System.out.println("-----------------");
 		            });
 		        }
