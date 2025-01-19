@@ -111,7 +111,6 @@ public class GestorBD {
 			
 			//Se leen los usuarios del CSV
 			List<Usuario> usuarios = this.cargarUsuarios(CSV_USUARIOS);
-			
 			//Se insertan los usuarios en la BBDD
 			this.insertarUsuario(usuarios.toArray(new Usuario[usuarios.size()]));
 		}
