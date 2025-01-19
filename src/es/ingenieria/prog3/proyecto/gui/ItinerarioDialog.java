@@ -181,7 +181,7 @@ public class ItinerarioDialog extends JDialog{
 	    // CASO BASE 2: aux no está vacío Y el itinerario no está repetido Y se ha alcanzado el límite de ciudades
 	    if (!aux.isEmpty() &&
 	            !containsItinerary(result, aux) && 
-	            numciudad == limite) {
+	            numciudad == limite && aux.get(0).getCiudad().equals(Ciudad)) {
 	        result.add(new ArrayList<>(aux));
 	    // CASO RECURSIVO: Se van añadiendo itinerarios al itinerario aux
 	    } else {
