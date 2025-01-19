@@ -4,7 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Hotel {
@@ -184,5 +184,42 @@ public class Hotel {
 		return precioMinimo;
 	}
 	
+	public String getPais(Hotel hotel) {
+	HashMap<String, String[]> ciudadesPorPais = new HashMap<>();
+	        ciudadesPorPais.put("Estados Unidos", new String[]{"Las Vegas", "Los Angeles", "Miami", "New York", "San Francisco", "Washington DC"});
+	        ciudadesPorPais.put("España", new String[]{"Madrid", "Barcelona", "Bilbao", "Donosti", "Valencia", "Granada", "Sevilla", "Malaga", "Palma de Mallorca"});
+	        ciudadesPorPais.put("Alemania", new String[]{"Berlin", "Frankfurt", "Gelsenkirchen", "Hamburgo", "Munich"});
+	        ciudadesPorPais.put("Francia", new String[]{"Paris", "Bayona", "Biarritz", "Lille", "Lyon", "Marsella", "Niza"});
+	        ciudadesPorPais.put("Mexico", new String[]{"Cancun"});
+	        ciudadesPorPais.put("Italia", new String[]{"Roma", "Bolonia", "Cori", "Florencia", "Genova", "Milan", "Napoles", "Venecia"});
+	        ciudadesPorPais.put("Reino Unido", new String[]{"Birmingham", "Liverpool", "Londres", "Manchester"});
+	        ciudadesPorPais.put("Tailandia", new String[]{"Bangkok", "Pattaya"});
+	        ciudadesPorPais.put("China", new String[]{"Hong Kong"});
+	        ciudadesPorPais.put("Vietnam", new String[]{"Hanoi"});
+			ciudadesPorPais.put("Paises Bajos", new String[]{"amsterdam", "Maastricht", "Roterdam"});
+			ciudadesPorPais.put("Grecia", new String[]{"Atenas", "Creta", "Tesalonica"});
+			ciudadesPorPais.put("Suiza", new String[]{"Basilea", "Ginebra", "Zurich"});
+			ciudadesPorPais.put("Argentina", new String[]{"Buenos Aires"});
+			ciudadesPorPais.put("Turquia", new String[]{"Estambul"});
+			ciudadesPorPais.put("Irlanda", new String[]{"Galway", "Limerick"});
+			ciudadesPorPais.put("Japon", new String[]{"Tokio", "Kioto", "Osaka", "Nara"});
+			ciudadesPorPais.put("Australia", new String[]{"Melbourne", "Sidney"});
+			ciudadesPorPais.put("India", new String[]{"Mumbai", "Nueva Delhi"});
+			ciudadesPorPais.put("Brazil", new String[]{"Rio de Janeiro"});
+			ciudadesPorPais.put("Canada", new String[]{"Toronto"});
+			
+			
+		    for (String pais : ciudadesPorPais.keySet()) {
+		         String[] ciudades = ciudadesPorPais.get(pais);
+		         for (String c : ciudades) {
+		            if (c.equalsIgnoreCase(ciudad)) { // Compara ignorando mayúsculas/minúsculas
+		                 return pais;
+		            }
+		        }
+		 }
+	return null;
+				
+	}
 }
+
 
