@@ -597,7 +597,7 @@ public class Busqueda extends JPanel {
 			//Se recorren los hoteles disponbles
 			for (Hotel hotel : allHotels) {
 				//Si el hotel esta en el pais deseado AND Esa ciudad no este ya abarcada en el itinerario
-				if (hotel.getPais(hotel).equals(Pais) && !ciudadesHechas.contains(hotel.getCiudad())) {
+				if (hotel.getPais().equals(Pais) && !ciudadesHechas.contains(hotel.getCiudad())) {
 					//Se añade el hotel a aux
 					aux.add(hotel);
 					ciudadesHechas.add(hotel.getCiudad());

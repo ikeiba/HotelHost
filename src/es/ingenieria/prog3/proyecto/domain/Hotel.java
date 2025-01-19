@@ -145,7 +145,7 @@ public class Hotel {
 		return precioMinimo;
 	}
 	
-	public String getPais(Hotel hotel) {
+	public String getPais() {
 	HashMap<String, String[]> ciudadesPorPais = new HashMap<>();
 	        ciudadesPorPais.put("Estados Unidos", new String[]{"Las Vegas", "Los Angeles", "Miami", "New York", "San Francisco", "Washington DC"});
 	        ciudadesPorPais.put("España", new String[]{"Madrid", "Barcelona", "Bilbao", "Donosti", "Valencia", "Granada", "Sevilla", "Malaga", "Palma de Mallorca"});
