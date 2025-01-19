@@ -188,7 +188,7 @@ public class ItinerarioDialog extends JDialog{
 	    } else {
 	        // Se recorren los hoteles disponibles
 	        for (Hotel hotel : allHotels) {
-	        	//Se mira si aun no se ha añadido la ciudad de origen
+	        	//Se mira si aun no se ha añadido la ciudad de origen.
 	        	if(aux.isEmpty() && hotel.getCiudad().equalsIgnoreCase(Ciudad.trim())){
 	        		aux.add(hotel);
 	                ciudadesHechas.add(hotel.getCiudad().trim());
