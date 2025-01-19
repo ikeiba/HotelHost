@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-public class Hotel {
+public class Hotel implements Comparable<Hotel> {
     
 	private int id, estrellas;
 	private String nombre, ciudad, descripcion;
@@ -180,6 +180,13 @@ public class Hotel {
 		 }
 	return null;
 				
+	}
+
+
+	@Override
+	public int compareTo(Hotel o) {
+		// TODO Auto-generated method stub
+		return this.nombre.compareTo(o.getNombre());
 	}
 }
 
