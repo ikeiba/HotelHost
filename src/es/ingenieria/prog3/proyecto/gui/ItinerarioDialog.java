@@ -15,16 +15,18 @@ import es.ingenieria.prog3.proyecto.gui.util.DataStore;
 
 public class ItinerarioDialog extends JDialog{
 	
+	//CLASE CREADA POR CARLOSFIRVIDA. INTRODUCIDA POR INFIZA (Iñigo Infante) DEBIDO A PROBLEMAS CON GITHUB
+	//
+	
 	private static final long serialVersionUID = 1L;
 
 	private JSpinner spinnerCiudades = new JSpinner();
-	
+	private HashMap<String, String[]> ciudadesPorPais = new HashMap<>();
 	private JButton buttonConfirm = new JButton("Confirmar");
 	private JButton buttonCancel = new JButton("Cancelar");
 	
 	public ItinerarioDialog(String ciudad) {
 		
-        HashMap<String, String[]> ciudadesPorPais = new HashMap<>();
         ciudadesPorPais.put("Estados Unidos", new String[]{"Las Vegas", "Los Angeles", "Miami", "New York", "San Francisco", "Washington DC"});
         ciudadesPorPais.put("España", new String[]{"Madrid", "Barcelona", "Bilbao", "Donosti", "Valencia", "Granada", "Sevilla", "Malaga", "Palma de Mallorca"});
         ciudadesPorPais.put("Alemania", new String[]{"Berlin", "Frankfurt", "Gelsenkirchen", "Hamburgo", "Munich"});
@@ -80,8 +82,33 @@ public class ItinerarioDialog extends JDialog{
 		//Eventos de los botones
 		buttonCancel.addActionListener((e) -> setVisible(false));
 		buttonConfirm.addActionListener((e) -> {
-			
-			
+			 // Depuración inicial
+		    System.out.println("Evento confirmado.");
+		    System.out.println("Presupuesto ingresado: " + textFieldDineroMax.getText());
+		    System.out.println("Número de ciudades: " + spinnerCiudades.getValue());
+		    
+		    try {
+		        double presupuesto = Double.parseDouble(textFieldDineroMax.getText().trim());
+		        int numCiudades = (int) spinnerCiudades.getValue();
+
+		        System.out.println("Ciudad seleccionada: " + ciudad);
+		        List<List<Hotel>> itinerarios = ItinerarioRecursivo(ciudad, presupuesto, numCiudades);
+
+		        // Imprimir itinerarios encontrados
+		        if (itinerarios.isEmpty()) {
+		            System.out.println("No se encontraron itinerarios.");
+		        } else {
+		            itinerarios.forEach(itinerario -> {
+		                System.out.println("Itinerario:");
+		                itinerario.forEach(hotel -> System.out.println(hotel.toString()));
+		                System.out.println("-----------------");
+		            });
+		        }
+		    } catch (NumberFormatException ex) {
+		        System.out.println("Error: el presupuesto ingresado no es válido.");
+		    }
+
+		    setVisible(false);
 		});
 		
 		//Creamos el panel de los botones
@@ -118,58 +145,72 @@ public class ItinerarioDialog extends JDialog{
         return null; // No se encontró la ciudad
     }
 	
+	//FUNCION RECURSIVA HECHA POR INFIZA (Iñigo Infante)
+	
 	//Metodo para generar itinerarios recursivos segun un presupuesto y un pais
 	@SuppressWarnings("unused")
-	private List<List<Hotel>> ItinerarioRecursivo(String Pais, double credit) {
+	public List<List<Hotel>> ItinerarioRecursivo(String Ciudad, double credit, int num) {
 		//Se recuperan todos los vuelos 
 		List<Hotel> allHotels = new ArrayList<>();
 
 		allHotels = DataStore.getGestorBD().getHoteles(); 
+		String pais = obtenerPaisDeCiudad(Ciudad, ciudadesPorPais);
+		
 		
 		//Se realiza la búsqueda recursiva de ida y vuelta.
         List<List<Hotel>> result = new ArrayList<>();		
-        ItinerarioRecursivoAux(result, new ArrayList<>(), Pais, credit, allHotels, new ArrayList<>());
+        ItinerarioRecursivoAux(result, new ArrayList<>(), pais, Ciudad, credit, num, 0, allHotels, new ArrayList<>());
+        
+        System.out.println("Itinerarios generados: " + result.size());
+        result.forEach(itinerario -> {
+            System.out.println("Itinerario:");
+            itinerario.forEach(hotel -> System.out.println(hotel));
+        });
         
 		return result;
 	}
 	
 	//Funcion recursiva auxiliar para realizar los itinerarios
 
-	private void ItinerarioRecursivoAux(List<List<Hotel>> result, List<Hotel> aux, String Pais, double credit, List<Hotel> allHotels, ArrayList<String> ciudadesHechas) {
-		//CASO BASE 1: Se ha superado el presupuesto disponible -> ITINERARIO NO VALIDO
-		if (credit < 0) {
-			return;
-		}
-		
-		//CASO BASE 2: aux no esta vacío AND
-		if (!aux.isEmpty() &&
-			//el itinerario no esta repetido
-			!result.contains(aux)) {
-			//Se añade el nuevo itinerario a la lista de resultados
-			result.add(new ArrayList<>(aux));			
-		//CASO RECURSIVO: Se van añadiendo itinerarios al itinerario aux  
-		} else {
-			//Se recorren los hoteles disponbles
-			for (Hotel hotel : allHotels) {
-				//Si el hotel esta en el pais deseado AND Esa ciudad no este ya abarcada en el itinerario
-				if (hotel.getPais().equals(Pais) && !ciudadesHechas.contains(hotel.getCiudad())) {
-					//Se añade el hotel a aux
-					aux.add(hotel);
-					ciudadesHechas.add(hotel.getCiudad());
-					//Se realiza la invocación recursiva: se reduce credit y se añade la ciudad ya visitada
-					ItinerarioRecursivoAux(result, 
-									   	  aux,
-									      Pais,
-									      credit - hotel.getPrecioMinimo(),
-									      allHotels,
-									      ciudadesHechas);
-					//Se elimina de aux el último hotel añadido y la ultima ciudad visitada de ciudadesHechas
-					aux.remove(aux.size()-1);
-					ciudadesHechas.remove(ciudadesHechas.size() -1);
-				}
-			}
-		}
-		
-		
+	private void ItinerarioRecursivoAux(List<List<Hotel>> result, List<Hotel> aux, String Pais, String Ciudad, double credit, int limite, int numciudad, List<Hotel> allHotels, ArrayList<String> ciudadesHechas) {
+	    // CASO BASE 1: Se ha superado el presupuesto disponible o el número de ciudades visitadas es mayor al límite -> ITINERARIO NO VALIDO
+	    if (credit < 0 || numciudad > limite) {
+	        System.out.println("Caso base: Fin recursión. Presupuesto: " + credit + ", Ciudades visitadas: " + numciudad);
+	        return;
+	    }
+	    
+	    // CASO BASE 2: aux no está vacío Y el itinerario no está repetido Y se ha alcanzado el límite de ciudades
+	    if (!aux.isEmpty() &&
+	            !containsItinerary(result, aux) && 
+	            numciudad == limite) {
+	        result.add(new ArrayList<>(aux));
+	    // CASO RECURSIVO: Se van añadiendo itinerarios al itinerario aux
+	    } else {
+	        // Se recorren los hoteles disponibles
+	        for (Hotel hotel : allHotels) {
+	            // Si el hotel está en la ciudad deseada, no se ha visitado esa ciudad y está en el país correcto
+	            if (hotel.getCiudad().equalsIgnoreCase(Ciudad.trim()) && !ciudadesHechas.contains(hotel.getCiudad().trim()) &&
+	                    obtenerPaisDeCiudad(hotel.getCiudad().trim(), ciudadesPorPais).equalsIgnoreCase(Pais.trim())) {
+	                // Se añade el hotel a aux
+	                aux.add(hotel);
+	                ciudadesHechas.add(hotel.getCiudad().trim());
+	                // Se realiza la invocación recursiva: se reduce el crédito y se añade la ciudad ya visitada
+	                ItinerarioRecursivoAux(result, aux, Pais, Ciudad, credit - hotel.getPrecioMinimo(), limite, numciudad + 1, allHotels, ciudadesHechas);
+	                // Se elimina de aux el último hotel añadido y la última ciudad visitada de ciudadesHechas
+	                aux.remove(aux.size() - 1);
+	                ciudadesHechas.remove(ciudadesHechas.size() - 1);
+	            }
+	        }
+	    }
 	}
+	private boolean containsItinerary(List<List<Hotel>> itinerarios, List<Hotel> aux) {
+	    for (List<Hotel> itinerario : itinerarios) {
+	        if (itinerario.size() == aux.size() && itinerario.containsAll(aux)) {
+	            return true;
+	        }
+	    }
+	    return false;
+	}
+
 }
+
