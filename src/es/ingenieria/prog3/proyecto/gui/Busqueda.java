@@ -12,7 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.net.URI;
 import java.util.ArrayList;
-import java.util.List;
+
 import java.util.Random;
 
 import javax.swing.BorderFactory;
@@ -452,7 +452,21 @@ public class Busqueda extends JPanel {
 		panelAnuncios.add(labelAnuncio, BorderLayout.CENTER);
 		
 		// FIN DE ANUNCIOS
-	    
+
+		
+		//Creamos el boton que iniciara el proceso de generar un itinerario
+		JButton buttonItinerario = new JButton("Generar Itinerario");
+		buttonItinerario.setBounds((int) (panelLabelValoraciones.getWidth() * 4.5), 10, (int) (panelLabelValoraciones.getWidth() * 0.8), 50);
+		
+		buttonItinerario.addActionListener(e -> {
+			ItinerarioDialog test = new ItinerarioDialog((String) tablaHoteles.getValueAt(1, 2));
+			test.dispose();
+		});
+			
+		panelFiltro.add(buttonItinerario);
+		
+		
+		
         //Añadimos los componentes al panelCentro y el panelCentro al centro del Panel de la clase (this)
         panelCentro.add(textFieldFiltroHotel);
         panelCentro.add(panelFiltro);
@@ -559,66 +573,6 @@ public class Busqueda extends JPanel {
 		tablaValoraciones.getTableHeader().setReorderingAllowed(false);
 	}
 	
-	//Fin metodos tabla valoracion
-	
-	
-	//Metodo para generar itinerarios recursivos segun un presupuesto y un pais
-	@SuppressWarnings("unused")
-	private List<List<Hotel>> ItinerarioRecursivo(String Pais, double credit) {
-		//Se recuperan todos los vuelos 
-		List<Hotel> allHotels = new ArrayList<>();
-
-		allHotels = DataStore.getGestorBD().getHoteles(); 
-		
-		//Se realiza la búsqueda recursiva de ida y vuelta.
-        List<List<Hotel>> result = new ArrayList<>();		
-        ItinerarioRecursivoAux(result, new ArrayList<>(), Pais, credit, allHotels, new ArrayList<>());
-        
-		return result;
-	}
-	
-	//Funcion recursiva auxiliar para realizar los itinerarios
-
-	private void ItinerarioRecursivoAux(List<List<Hotel>> result, List<Hotel> aux, String Pais, double credit, List<Hotel> allHotels, ArrayList<String> ciudadesHechas) {
-		//CASO BASE 1: Se ha superado el presupuesto disponible -> ITINERARIO NO VALIDO
-		if (credit < 0) {
-			return;
-		}
-		
-		//CASO BASE 2: aux no esta vacío AND
-		if (!aux.isEmpty() &&
-			//el itinerario no esta repetido
-			!result.contains(aux)) {
-			//Se añade el nuevo itinerario a la lista de resultados
-			result.add(new ArrayList<>(aux));			
-		//CASO RECURSIVO: Se van añadiendo itinerarios al itinerario aux  
-		} else {
-			//Se recorren los hoteles disponbles
-			for (Hotel hotel : allHotels) {
-				//Si el hotel esta en el pais deseado AND Esa ciudad no este ya abarcada en el itinerario
-				if (hotel.getPais().equals(Pais) && !ciudadesHechas.contains(hotel.getCiudad())) {
-					//Se añade el hotel a aux
-					aux.add(hotel);
-					ciudadesHechas.add(hotel.getCiudad());
-					//Se realiza la invocación recursiva: se reduce credit y se añade la ciudad ya visitada
-					ItinerarioRecursivoAux(result, 
-									   	  aux,
-									      Pais,
-									      credit - hotel.getPrecioMinimo(),
-									      allHotels,
-									      ciudadesHechas);
-					//Se elimina de aux el último hotel añadido y la ultima ciudad visitada de ciudadesHechas
-					aux.remove(aux.size()-1);
-					ciudadesHechas.remove(ciudadesHechas.size() -1);
-				}
-			}
-		}
-		
-		
-	}
-	
-	
-	
-	
+	//Fin metodos tabla valoracion	
 	
 }
