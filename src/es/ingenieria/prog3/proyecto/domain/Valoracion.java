@@ -1,9 +1,5 @@
 package es.ingenieria.prog3.proyecto.domain;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Objects;
 
 public class Valoracion {
@@ -13,10 +9,10 @@ public class Valoracion {
 	private String autor;
 	private int id;
 	private int id_hotel;
-	private int id_usuario;
+	private String id_usuario;
 	
 	
-	public Valoracion(int id_usuario, long fecha, String comentario, int puntuacion,  String autor, int id_hotel) {
+	public Valoracion(String id_usuario, long fecha, String comentario, int puntuacion,  String autor, int id_hotel) {
 		super();
 		
 		this.id_usuario = id_usuario;
@@ -43,11 +39,11 @@ public class Valoracion {
 		this.id_hotel = id_hotel;
 	}
 	
-	public int getId_Usuario() {
+	public String getId_Usuario() {
 		return id_usuario;
 	}
 	
-	public void setId_Usuario(int id_usuario) {
+	public void setId_Usuario(String id_usuario) {
 		this.id_usuario = id_usuario;
 	}
 	
@@ -85,35 +81,5 @@ public class Valoracion {
 		return this.autor.toString();
 	}
 	
-	public static ArrayList<Valoracion> cargarValoraciones(String archivoCSV) {
-        ArrayList<Valoracion> valoraciones = new ArrayList<>();
-        String linea;
-
-        try (BufferedReader br = new BufferedReader(new FileReader(archivoCSV))) {
-            // Saltar la primera línea de encabezado
-            br.readLine();
-            
-            // Leer cada línea del archivo
-            while ((linea = br.readLine()) != null) {
-                String[] datos = linea.split(",");
-
-                // Asignar valores de cada columna a las variables correspondientes
-                String autor = datos[0].trim();
-                int puntuacion = Integer.parseInt(datos[1].trim());
-                String comentario = datos[2].trim();
-                long fecha = Long.parseLong(datos[3].trim());
-
-                // Crear una instancia de Valoracion y agregarla a la lista
-                //Valoracion valoracion = new Valoracion(fecha, comentario, puntuacion, autor);
-                //valoraciones.add(valoracion);
-            }
-        } catch (IOException e) {
-            System.out.println("Error al leer el archivo CSV: " + e.getMessage());
-        } catch (NumberFormatException e) {
-            System.out.println("Error en el formato de datos: " + e.getMessage());
-        }
-
-        return valoraciones;
-    }
 	
 }

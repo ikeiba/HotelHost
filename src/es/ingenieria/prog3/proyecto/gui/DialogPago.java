@@ -2,6 +2,9 @@ package es.ingenieria.prog3.proyecto.gui;
 
 import javax.swing.*;
 
+import es.ingenieria.prog3.proyecto.domain.Habitacion;
+import es.ingenieria.prog3.proyecto.domain.Huesped;
+import es.ingenieria.prog3.proyecto.domain.Reserva;
 import es.ingenieria.prog3.proyecto.gui.util.DataStore;
 
 import java.awt.BorderLayout;
@@ -14,6 +17,7 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
 
 public class DialogPago extends JDialog {
@@ -21,7 +25,8 @@ public class DialogPago extends JDialog {
 	private static final long serialVersionUID = 1L;
 	private Thread hiloParpadeoTarjeta;
 	
-	public DialogPago() {
+	public DialogPago(Habitacion habitacionSeleccionada, ArrayList<Huesped> huespedesReserva) {
+		
 		setLayout(new BorderLayout()); // Cambiar layout del diálogo principal
 		
         JPanel panelTemporizador = new JPanel();
@@ -45,14 +50,15 @@ public class DialogPago extends JDialog {
 				});
 				try {
 					// Se duerme el hilo durante 1 segundo
-					Thread.sleep(100);
+					Thread.sleep(50);
 				} catch (InterruptedException e) {
-					//
+					Thread.currentThread().interrupt();
 				}
 			}
-			JOptionPane.showMessageDialog(null, "Se ha acabado el tiempo", "FIN DEL TIEMPO", JOptionPane.WARNING_MESSAGE);
-			Thread.currentThread().interrupt();
-			dispose();
+			 SwingUtilities.invokeLater(() -> {
+		            JOptionPane.showMessageDialog(null, "Se ha acabado el tiempo", "FIN DEL TIEMPO", JOptionPane.WARNING_MESSAGE);
+		            dispose(); // Dispose safely on the EDT
+		        });
 		});
 		
 		hiloTemporizador.start();
@@ -205,6 +211,7 @@ public class DialogPago extends JDialog {
         
         botonCancelar.addActionListener(e -> {
         	hiloTemporizador.interrupt();
+    		hiloParpadeoTarjeta.interrupt();
         	dispose();
         });
         
@@ -214,9 +221,29 @@ public class DialogPago extends JDialog {
         	} else {
         		int mes = Integer.valueOf(textFieldFechaCaducidad.getText().split("/")[0]);
             	if (textFieldTarjeta.getText().length() >= 10 && (mes > 0 && mes <= 12) && textFieldCodigoSeguridad.getText().length() == 3) {
+            		
+            		//Creamos la reserva y la guardamos en la base de datos
+            		Reserva reserva = new Reserva(-1, DataStore.getUsuarioActivo().getUsuario(), new ArrayList<Huesped>(), DataStore.getSelectedFechaInicio().getTime(), DataStore.getSelectedFechaFin().getTime(),habitacionSeleccionada.getId());    		
+            		DataStore.getGestorBD().insertarReserva(reserva);
+            		
+            		//Anadimos los huespedes a la base de datos (primero recuperamos la reserva para obtener su ID)
+            		Reserva reservaRecuperada = DataStore.getGestorBD().getReservaByUsuarioHabitacionFechaInicio(reserva);
+            		for (Huesped huesped : huespedesReserva) {
+						huesped.setId_reserva(reservaRecuperada.getId());
+						DataStore.getGestorBD().insertarHuesped(huesped);
+					}
+            		
+            		//Añadimos los huespedes al objeto de la reserva y el objeto de la reserva a la habitacion
+            		reservaRecuperada.setHuespedes(huespedesReserva);
+            		habitacionSeleccionada.getReservas().add(reservaRecuperada);
+            		
             		//Procesar la reserva en la base de datos
             		JOptionPane.showMessageDialog(null, "Felicidades, tu reserva se ha procesado correctamente", "RESERVA REALIZADA", JOptionPane.INFORMATION_MESSAGE);
-        			DataStore.setVisible(true);
+            		DataStore.setVisible(true);
+            		
+            		//Interrumpimos los hilos y cerramos el dialog
+            		hiloTemporizador.interrupt();
+            		hiloParpadeoTarjeta.interrupt();           		     
             		dispose();
             	} else {
             		JOptionPane.showMessageDialog(null, "Cuidado, alguno de los campos es erroneo", "CAMPOS ERRONEOS", JOptionPane.ERROR_MESSAGE);

@@ -120,6 +120,9 @@ public class Busqueda extends JPanel {
         // Queria crear un JSlider con dos "cabezas", y al no encontrar una clase así 
         // pregunte a chatGPT si existia. Me dio la opcion de utilizar una libreria externa como
         // SwingX o aplicar dos sliders. Con su ayuda, implemente la segunda opcion:
+        //IAG (herramienta: ChatGPT)
+        //ADAPTADO (he tenido que cambiar varios de los componentes graphics ya que no se visualizaban correctamente.
+        //Ademas, he cambiado el color de la parte seleccionada y de las "cabezas" del slider (asi como su forma)).
         RangeSlider sliderPrecio = new RangeSlider((int) Hotel.precioMinimoHoteles(hoteles) - 1,(int) Hotel.precioMaximoHoteles(hoteles) + 1);
         sliderPrecio.setBounds(0, 0, (int) (panelFiltro.getWidth()*0.2), 20);
         sliderPrecio.setBounds((int) (panelFiltro.getWidth()*0.25 - (sliderPrecio.getWidth() / 2)), 30, sliderPrecio.getWidth(), sliderPrecio.getHeight());
@@ -262,6 +265,9 @@ public class Busqueda extends JPanel {
 					JTextField textFieldComentario = new JTextField(25);
 					JSpinner spinnerPuntuacion = new JSpinner(new SpinnerNumberModel(0, 0, 10, 1));
 					JTextField textFieldAutor = new JTextField(15);
+					textFieldAutor.setText(DataStore.getUsuarioActivo().getUsuario());
+					//textFieldAutor.setEditable(false);
+					textFieldAutor.setEnabled(false);
 					
 			        JLabel labelComentario = new JLabel("Comentario:");
 			        JLabel labelPuntuacion = new JLabel("Puntuacion:");
@@ -274,19 +280,21 @@ public class Busqueda extends JPanel {
 					
 					if (respuesta == 0) {
 						// Crear nueva valoracion
-						//Valoracion valoracionNueva = new Valoracion(System.currentTimeMillis(), textFieldComentario.getText(), (int) spinnerPuntuacion.getValue(), textFieldAutor.getText());
-						
-						// Anadir a la lista de comics
+						// Obtener el hotel seleccionado
 						Hotel hotelAnadirValoracion = (Hotel) tablaHoteles.getValueAt(tablaHoteles.getSelectedRow(), 0);
-						//Cargar la tabla de comics
-						//hotelAnadirValoracion.getValoraciones().add(valoracionNueva);
+						Valoracion valoracionNueva = new Valoracion(DataStore.getUsuarioActivo().getUsuario(), System.currentTimeMillis(), textFieldComentario.getText(), (int) spinnerPuntuacion.getValue(), textFieldAutor.getText(), hotelAnadirValoracion.getId());
+						hotelAnadirValoracion.getValoraciones().add(valoracionNueva);
 						((AbstractTableModel) tablaValoraciones.getModel()).fireTableDataChanged();
+						
+						//Se añade la nueva valoracion a la base de datos
+						DataStore.getGestorBD().insertarValoracion(valoracionNueva);
 					}
 					
 				//Codigo para hacer una nueva reserva
 				} else if (e.getKeyCode() == KeyEvent.VK_R && e.isControlDown()) {
 					if (tablaHoteles.getSelectedRow() != -1) {
 						Hotel hotelSeleccionado = (Hotel) (tablaHoteles.getValueAt(tablaHoteles.getSelectedRow(), 0));
+						DataStore.setHotelReserva(hotelSeleccionado);
 						new DialogReservar(hotelSeleccionado);
 					}
 				}
@@ -561,7 +569,7 @@ public class Busqueda extends JPanel {
 		//Se recuperan todos los vuelos 
 		List<Hotel> allHotels = new ArrayList<>();
 
-		allHotels = Hotel.cargarHoteles("resoures/db/hoteles.db"); 
+		allHotels = DataStore.getGestorBD().getHoteles(); 
 		
 		//Se realiza la búsqueda recursiva de ida y vuelta.
         List<List<Hotel>> result = new ArrayList<>();		

@@ -6,17 +6,18 @@ import java.util.Objects;
 public class Reserva implements Comparable<Reserva> {
 	
 	private int id;
-	private ArrayList<String> huespedes;
+	private ArrayList<Huesped> huespedes;
 	private long fechaInicio;
 	private long fechaFin;
 	private int id_habitacion;
-	private int id_usuario;
+	private String id_usuario;
 
 	
 	
-	public Reserva(int id_usuario, ArrayList<String> huespedes, long fechaInicio, long fechaFin, int id_habitacion) {
+	public Reserva(int id, String id_usuario, ArrayList<Huesped> huespedes, long fechaInicio, long fechaFin, int id_habitacion) {
 		super();
 		
+		this.id = id;
 		this.huespedes = huespedes;
 		this.fechaInicio = fechaInicio;
 		this.fechaFin = fechaFin;
@@ -29,9 +30,6 @@ public class Reserva implements Comparable<Reserva> {
 		return id;
 	}
 
-	public void setId(int id) {
-		 this.id = id;
-	}
 	
 	public int getId_habitacion() {
 		return id_habitacion;
@@ -41,19 +39,19 @@ public class Reserva implements Comparable<Reserva> {
 		this.id_habitacion = id_habitacion;
 	}
 	
-	public int getId_Usuario() {
+	public String getId_Usuario() {
 		return id_usuario;
 	}
 	
-	public void setId_Usuario(int id_usuario) {
+	public void setId_Usuario(String id_usuario) {
 		this.id_usuario = id_usuario;
 	}
 	
-	public ArrayList<String> getHuespedes() {
+	public ArrayList<Huesped> getHuespedes() {
 		return huespedes;
 	}
 	
-	public void setHuespedes(ArrayList<String> huespedes) {
+	public void setHuespedes(ArrayList<Huesped> huespedes) {
 		this.huespedes = huespedes;
 	}
 	public long getFechaInicio() {

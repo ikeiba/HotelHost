@@ -19,17 +19,23 @@ import java.util.logging.Logger;
 
 import es.ingenieria.prog3.proyecto.domain.Habitacion;
 import es.ingenieria.prog3.proyecto.domain.Hotel;
+import es.ingenieria.prog3.proyecto.domain.Huesped;
 import es.ingenieria.prog3.proyecto.domain.Plan;
+import es.ingenieria.prog3.proyecto.domain.Reserva;
 import es.ingenieria.prog3.proyecto.domain.TipoHabitacion;
 import es.ingenieria.prog3.proyecto.domain.Usuario;
 import es.ingenieria.prog3.proyecto.domain.Valoracion;
 
 
+//Para realizar esta clase se ha tomado como base la clase de la practica 2 de jdbc
+//Practicamente todos los metodos han sido modificados para adaptarlos a nuestro esquema
 public class GestorBD {
 
 	private final String PROPERTIES_FILE = "resources/config/app.properties";
 	private final String CSV_HOTELES = "resources/data/hoteles.csv";
 	private final String CSV_VALORACIONES = "resources/data/valoraciones.csv";
+	private final String CSV_USUARIOS = "resources/data/users.csv";
+
 	private final String LOG_FOLDER = "resources/log";
 	
 	private Properties properties;
@@ -96,17 +102,24 @@ public class GestorBD {
 			//Se insertan las valoraciones en la BBDD
 			this.insertarValoracion(valoraciones.toArray(new Valoracion[valoraciones.size()]));
 			
-			//Se crean y enlazan las habitaciones a los hoteles
+			//Se crean las habitaciones a los hoteles
 			List<Habitacion> habitaciones = crearHabitaciones(hoteles);
 			//Se insertan las habitaciones en la BBDD
-			this.insertarHabitacion(habitaciones.toArray(new Habitacion[habitaciones.size()]));				
+			this.insertarHabitacion(habitaciones.toArray(new Habitacion[habitaciones.size()]));	
+			//Se enlazan los hoteles con sus habitaciones		
+			enlazarHotelesHabitaciones(hoteles, getHabitaciones());
+			
+			//Se leen los usuarios del CSV
+			List<Usuario> usuarios = this.cargarUsuarios(CSV_USUARIOS);
+			//Se insertan los usuarios en la BBDD
+			this.insertarUsuario(usuarios.toArray(new Usuario[usuarios.size()]));
 		}
 	}
 
 	public void crearBBDD() {
 		//Sólo se crea la BBDD si la propiedad initBBDD es true.
 		if (properties.get("createBBDD").equals("true")) {
-			//La base de datos tiene 5 tablas: Hotel, Valoracion, Reserva, Habitacion y Usuario
+			//La base de datos tiene 6 tablas: Hotel, Valoracion, Reserva, Habitacion, Usuario y Huesped
 			String sql1 = "CREATE TABLE IF NOT EXISTS Hotel (\n"
 			        + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
 			        + " nombre TEXT NOT NULL,\n"
@@ -121,18 +134,18 @@ public class GestorBD {
 			        + " comentario TEXT NOT NULL,\n"
 			        + " puntuacion INTEGER NOT NULL,\n"
 			        + " id_hotel INTEGER NOT NULL,\n"
-			        + " fecha INTEGER NOT NULL,\n"
-			        + " id_usuario INTEGER,\n"   
+			        + " fecha BIGINT NOT NULL,\n"
+			        + " id_usuario TEXT,\n"   
 			        + " FOREIGN KEY (id_hotel) REFERENCES Hotel(id) ON DELETE CASCADE\n"
 			        + " FOREIGN KEY (id_usuario) REFERENCES Usuario(id) ON DELETE CASCADE\n"
 			        + ");";
 
 			String sql3 = "CREATE TABLE IF NOT EXISTS Reserva (\n"
 			        + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
-			        + " fechaInicio INTEGER NOT NULL,\n"
-			        + " fechaFin INTEGER NOT NULL,\n"
+			        + " fechaInicio BIGINT NOT NULL,\n"
+			        + " fechaFin BIGINT NOT NULL,\n"
 			        + " id_habitacion INTEGER NOT NULL,\n"
-			        + " id_usuario INTEGER,\n"
+			        + " id_usuario TEXT,\n"
 			        + " FOREIGN KEY (id_habitacion) REFERENCES Habitacion(id) ON DELETE CASCADE\n"
 			        + " FOREIGN KEY (id_usuario) REFERENCES Usuario(id) ON DELETE CASCADE\n"
 			        + ");";
@@ -150,13 +163,20 @@ public class GestorBD {
 			
 			String sql5 = "CREATE TABLE IF NOT EXISTS Usuario (\n"
 			        + " id INTEGER PRIMARY KEY AUTOINCREMENT,\n"
-			        + " usuario TEXT NOT NULL,\n"
+			        + " usuario TEXT NOT NULL UNIQUE,\n"
 			        + " nombre TEXT NOT NULL,\n"
 			        + " apellido TEXT NOT NULL,\n"
 			        + " email TEXT NOT NULL,\n"
 			        + " contraseña TEXT NOT NULL,\n"
-			        + " fechaNacimiento INTEGER NOT NULL,\n"
+			        + " fechaNacimiento BIGINT NOT NULL,\n"
 			        + " genero INTEGER NOT NULL\n"
+			        + ");";
+			
+			String sql6 = "CREATE TABLE IF NOT EXISTS Huesped (\n"			        
+			        + " nombre TEXT NOT NULL,\n"
+			        + " apellido TEXT NOT NULL,\n"
+			        + " id_reserva INTEGER NOT NULL,\n"
+			        + " FOREIGN KEY (id_reserva) REFERENCES Reserva(id) ON DELETE CASCADE\n"
 			        + ");";
 
 			
@@ -167,10 +187,11 @@ public class GestorBD {
 				 PreparedStatement pStmt5 = con.prepareStatement(sql5);
 				 PreparedStatement pStmt2 = con.prepareStatement(sql2);
 				 PreparedStatement pStmt3 = con.prepareStatement(sql3);
-				 PreparedStatement pStmt4 = con.prepareStatement(sql4)) {
+				 PreparedStatement pStmt4 = con.prepareStatement(sql4);
+				 PreparedStatement pStmt6 = con.prepareStatement(sql6)) {
 				
 				//Se ejecutan las sentencias de creación de las tablas
-		        if (!pStmt1.execute() && !pStmt5.execute() && !pStmt2.execute() && !pStmt3.execute() && !pStmt4.execute()) {
+		        if (!pStmt1.execute() && !pStmt5.execute() && !pStmt2.execute() && !pStmt3.execute() && !pStmt4.execute() && !pStmt6.execute()) {
 		        	logger.info("Se han creado las tablas");
 		        }
 			} catch (Exception ex) {
@@ -190,6 +211,7 @@ public class GestorBD {
 			String sql3 = "DROP TABLE IF EXISTS Habitacion";
 			String sql4 = "DROP TABLE IF EXISTS Reserva;";
 			String sql5 = "DROP TABLE IF EXISTS Usuario;";
+			String sql6 = "DROP TABLE IF EXISTS Huesped;";
 			
 	        //Se abre la conexión y se crea un PreparedStatement para borrar cada tabla
 			try (Connection con = DriverManager.getConnection(connectionString);
@@ -197,10 +219,11 @@ public class GestorBD {
 				 PreparedStatement pStmt2 = con.prepareStatement(sql2);
 				 PreparedStatement pStmt3 = con.prepareStatement(sql3);
 				 PreparedStatement pStmt4 = con.prepareStatement(sql4);
-				 PreparedStatement pStmt5 = con.prepareStatement(sql5)) {
+				 PreparedStatement pStmt5 = con.prepareStatement(sql5);
+				 PreparedStatement pStmt6 = con.prepareStatement(sql6)) {
 				
 				//Se ejecutan las sentencias de borrado de las tablas
-		        if (!pStmt1.execute() && !pStmt2.execute() && !pStmt3.execute() && !pStmt4.execute() && !pStmt5.execute()) {
+		        if (!pStmt1.execute() && !pStmt2.execute() && !pStmt3.execute() && !pStmt4.execute() && !pStmt5.execute() && !pStmt6.execute()) {
 		        	logger.info("Se han borrado las tablas");
 		        }
 			} catch (Exception ex) {
@@ -228,6 +251,7 @@ public class GestorBD {
 			String sql3 = "DELETE FROM Valoracion;";
 			String sql4 = "DELETE FROM Habitacion;";
 			String sql5 = "DELETE FROM Reserva;";
+			String sql6 = "DELETE FROM Huesped;";
 			
 	        //Se abre la conexión y se crea un PreparedStatement para borrar los datos de cada tabla
 			try (Connection con = DriverManager.getConnection(connectionString);
@@ -235,10 +259,11 @@ public class GestorBD {
 				 PreparedStatement pStmt2 = con.prepareStatement(sql2);
 				 PreparedStatement pStmt3 = con.prepareStatement(sql3);
 				 PreparedStatement pStmt4 = con.prepareStatement(sql4);
-				 PreparedStatement pStmt5 = con.prepareStatement(sql5)) {
+				 PreparedStatement pStmt5 = con.prepareStatement(sql5);
+				 PreparedStatement pStmt6 = con.prepareStatement(sql6)) {
 				
 				//Se ejecutan las sentencias de borrado de las tablas
-		        if (!pStmt1.execute() && !pStmt2.execute() && !pStmt3.execute() && !pStmt4.execute() && !pStmt5.execute()) {
+		        if (!pStmt1.execute() && !pStmt2.execute() && !pStmt3.execute() && !pStmt4.execute() && !pStmt5.execute() && !pStmt6.execute()) {
 		        	logger.info("Se han borrado los datos");
 		        }
 			} catch (Exception ex) {
@@ -266,23 +291,20 @@ public class GestorBD {
 				if (pStmt.executeUpdate() != 1) {					
 					logger.warning(String.format("No se ha insertado el Hotel: %s", h.getNombre()));
 				} else {
-					//IMPORTANTE: El valor del ID del personaje se establece automáticamente al
-					//insertarlo en la BBDD. Por lo tanto, después de insertar un personaje, 
-					//se recupera de la BBDD para establecer el campo ID en el objeto que está
-					//en memoria.
+					
 					h.setId(this.getHotelByNombre(h.getNombre()).getId());					
 					logger.info(String.format("Se ha insertado el Hotel: %s", h.getNombre()));
 				}
 			}
 			
-			logger.info(String.format("%d Personajes insertados en la BBDD", hoteles.length));
+			logger.info(String.format("%d Hoteles insertados en la BBDD", hoteles.length));
 		} catch (Exception ex) {
-			logger.warning(String.format("Error al insertar personajes: %s", ex.getMessage()));
+			logger.warning(String.format("Error al insertar Hotel: %s", ex.getMessage()));
 		}			
 	}
 	
 	/**
-	 * Inserta Comics en la BBDD
+	 * Inserta Valoracion en la BBDD
 	 */
 	public void insertarValoracion(Valoracion... valoraciones) {
 		//Se define la plantilla de la sentencia SQL			
@@ -299,7 +321,7 @@ public class GestorBD {
 				pStmt.setString(2, v.getComentario());
 				pStmt.setInt(3, v.getPuntuacion());
 				pStmt.setInt(4, v.getIdHotel());
-				pStmt.setInt(5, -1);
+				pStmt.setString(5, v.getId_Usuario());
 				pStmt.setLong(6, v.getFecha());
 				
 
@@ -347,21 +369,16 @@ public class GestorBD {
 
 				
 				if (pStmt.executeUpdate() != 1) {					
-					logger.warning(String.format("No se ha insertado la Valoracion: %s", h.getNumero()));
-				} else {
-					//IMPORTANTE: El valor del ID del comic se establece automáticamente al
-					//insertarlo en la BBDD. Por lo tanto, después de insertar un comic, 
-					//se recupera de la BBDD para establecer el campo ID en el objeto que está
-					//en memoria.
-					//c.setId(this.getComicByTitulo(c.getTitulo()).getId());										
+					logger.warning(String.format("No se ha insertado la Habitacion: %s", h.getNumero()));
+				} else {										
 					
-					logger.info(String.format("Se ha insertado la Valoracion: %s", h.getNumero()));
+					logger.info(String.format("Se ha insertado la Habitacion: %s", h.getNumero()));
 				}
 			}
 			
-			logger.info(String.format("%d Valoraciones insertadas en la BBDD", habitaciones.length));
+			logger.info(String.format("%d Habitaciones insertadas en la BBDD", habitaciones.length));
 		} catch (Exception ex) {
-			logger.warning(String.format("Error al insertar valoracion: %s", ex.getMessage()));
+			logger.warning(String.format("Error al insertar Habitacion: %s", ex.getMessage()));
 		}				
 	}
 
@@ -381,7 +398,7 @@ public class GestorBD {
 				pStmt.setString(3, u.getApellido());
 				pStmt.setString(4, u.getEmail());
 				pStmt.setString(5, u.getContrasena());
-				pStmt.setFloat(6, u.getFechaNacimiento());
+				pStmt.setLong(6, u.getFechaNacimiento());
 				pStmt.setInt(7, u.getGenero());
 
 				if (pStmt.executeUpdate() != 1) {					
@@ -404,6 +421,68 @@ public class GestorBD {
 	}
 	
 	
+	public void insertarHuesped(Huesped... huespedes) {
+		//Se define la plantilla de la sentencia SQL
+		String sql = "INSERT INTO Huesped (nombre, apellido, id_reserva) VALUES (?, ?, ?);";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+			 PreparedStatement pStmt = con.prepareStatement(sql)) {
+									
+			//Se recorren los clientes y se insertan uno a uno
+			for (Huesped h : huespedes) {
+				//Se añaden los parámetros al PreparedStatement
+				pStmt.setString(1, h.getNombre());
+				pStmt.setString(2, h.getApellido());
+				pStmt.setInt(3, h.getId_reserva());
+				
+				if (pStmt.executeUpdate() != 1) {					
+					logger.warning(String.format("No se ha insertado el Huesped: %s", h.getNombre()));
+				} else {
+					
+					logger.info(String.format("Se ha insertado el Huesped: %s", h.getNombre()));
+				}
+			}
+			
+			logger.info(String.format("%d Huespedes insertados en la BBDD", huespedes.length));
+		} catch (Exception ex) {
+			logger.warning(String.format("Error al insertar Huesped: %s", ex.getMessage()));
+		}			
+	}
+	
+	
+	public void insertarReserva(Reserva... reservas) {
+		//Se define la plantilla de la sentencia SQL
+		String sql = "INSERT INTO Reserva (fechaInicio, fechaFin, id_habitacion, id_usuario) VALUES (?, ?, ?, ?);";
+
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+			 PreparedStatement pStmt = con.prepareStatement(sql)) {
+									
+			//Se recorren los clientes y se insertan uno a uno
+			for (Reserva r : reservas) {
+				//Se añaden los parámetros al PreparedStatement
+				pStmt.setLong(1, r.getFechaInicio());
+				pStmt.setLong(2, r.getFechaFin());
+				pStmt.setInt(3, r.getId_habitacion());
+				pStmt.setString(4, r.getId_Usuario());
+
+				
+				if (pStmt.executeUpdate() != 1) {					
+					logger.warning(String.format("No se ha insertado la reserva de : %s", r.getId_Usuario()));
+				} else {
+					
+					logger.info(String.format("Se ha insertado la reserva de: %s", r.getId_Usuario()));
+				}
+			}
+			
+			logger.info(String.format("%d Reservas insertados en la BBDD", reservas.length));
+		} catch (Exception ex) {
+			logger.warning(String.format("Error al insertar Reserva: %s", ex.getMessage()));
+		}			
+	}
+	
+	
 	private void enlazarHotelesValoraciones(List<Hotel> hoteles, List<Valoracion> valoraciones) {		
 		// Asignamos secuencialmente las primeras valoraciones a los hoteles
         for (int i = 0; i < hoteles.size(); i++) {
@@ -420,6 +499,20 @@ public class GestorBD {
         }		
 	}
 
+	
+	private void enlazarHotelesHabitaciones(List<Hotel> hoteles, List<Habitacion> habitaciones) {		
+		for (Hotel hotel : hoteles) {
+			ArrayList<Habitacion> habitacionesActualizadas = new ArrayList<Habitacion>();
+			for (Habitacion habitacion : habitaciones) {
+				if (habitacion.getIdHotel() == hotel.getId()) {
+					habitacionesActualizadas.add(habitacion);
+				}
+			}
+			hotel.setHabitaciones(habitacionesActualizadas);
+		}		
+	}
+	
+	
 	public ArrayList<Hotel> getHoteles() {
 		ArrayList<Hotel> hoteles = new ArrayList<>();
 		String sql = "SELECT * FROM Hotel";
@@ -455,6 +548,81 @@ public class GestorBD {
 		
 		return hoteles;
 	}
+	
+	
+	public ArrayList<Usuario> getUsuarios() {
+		ArrayList<Usuario> usuarios = new ArrayList<>();
+		String sql = "SELECT * FROM Usuario";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
+			
+			//Se ejecuta la sentencia y se obtiene el ResultSet
+			ResultSet rs = pStmt.executeQuery();			
+			Usuario usuario;
+			
+			//Se recorre el ResultSet y se crean objetos
+			while (rs.next()) {
+				usuario = new Usuario(rs.getString("usuario"), rs.getString("nombre"), rs.getString("apellido"), rs.getLong("fechaNacimiento"), rs.getInt("genero"), rs.getString("email"), rs.getString("contraseña"), new ArrayList<Reserva>(), new ArrayList<Valoracion>());
+				
+				ArrayList<Reserva> reservas = this.getReservaByUsuario(usuario);
+				ArrayList<Valoracion> valoraciones = this.getValoracionByUsuario(usuario);
+
+				usuario.setReservas(reservas);
+				usuario.setValoraciones(valoraciones);
+				
+				//Se inserta cada nuevo usuario en la lista de clientes
+				usuarios.add(usuario);
+			}
+			
+			//Se cierra el ResultSet
+			rs.close();
+			
+			logger.info(String.format("Se han recuperado %d personajes.", usuarios.size()));			
+		} catch (Exception ex) {
+			logger.warning(String.format("Error recuperar los personajes: %s", ex.getMessage()));						
+		}		
+		
+		return usuarios;
+	}
+	
+	
+	public ArrayList<Habitacion> getHabitaciones() {
+		ArrayList<Habitacion> habitaciones = new ArrayList<>();
+		String sql = "SELECT * FROM Habitacion";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
+			
+			//Se ejecuta la sentencia y se obtiene el ResultSet
+			ResultSet rs = pStmt.executeQuery();			
+			Habitacion habitacion;
+			
+			//Se recorre el ResultSet y se crean objetos
+			while (rs.next()) {
+				habitacion = new Habitacion(rs.getInt("planta"), rs.getInt("numero"), rs.getInt("capacidad"), TipoHabitacion.valueOf(rs.getString("tipoHabitacion")), rs.getDouble("precio"), rs.getInt("id_hotel"));
+				habitacion.setId(rs.getInt("id"));
+				ArrayList<Reserva> reservas = this.getReservaByHabitacion(habitacion);
+				habitacion.setReservas(reservas);
+
+				
+				//Se inserta cada nuevo usuario en la lista de clientes
+				habitaciones.add(habitacion);
+			}
+			
+			//Se cierra el ResultSet
+			rs.close();
+			
+			logger.info(String.format("Se han recuperado %d personajes.", habitaciones.size()));			
+		} catch (Exception ex) {
+			logger.warning(String.format("Error recuperar los personajes: %s", ex.getMessage()));						
+		}		
+		
+		return habitaciones;
+	}
+	
 	
 	public Hotel getHotelByNombre(String nombre) {
 		Hotel hotel = null;
@@ -510,7 +678,7 @@ public class GestorBD {
 			ResultSet rs = pStmt.executeQuery();			
 
 			while (rs.next()) {
-			Valoracion valoracion = new Valoracion(rs.getInt("id_usuario"), rs.getInt("fecha"), rs.getString("comentario"), rs.getInt("puntuacion"), rs.getString("autor"), rs.getInt("id_hotel"));
+			Valoracion valoracion = new Valoracion(rs.getString("id_usuario"), rs.getLong("fecha"), rs.getString("comentario"), rs.getInt("puntuacion"), rs.getString("autor"), rs.getInt("id_hotel"));
 			
 			
 			valoraciones.add(valoracion);
@@ -522,6 +690,39 @@ public class GestorBD {
 			logger.info(String.format("Se ha recuperado el hotel %s", hotel.getNombre()));			
 		} catch (Exception ex) {
 			logger.warning(String.format("Error recuperar el comic con nombre %s: %s", hotel.getNombre(), ex.getMessage()));						
+		}		
+		
+		return valoraciones;
+	}
+	
+	
+	public ArrayList<Valoracion> getValoracionByUsuario(Usuario usuario) {
+		ArrayList<Valoracion> valoraciones = new ArrayList<Valoracion>();
+		String sql = "SELECT * FROM Valoracion WHERE id_usuario = ?";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
+			
+			//Se definen los parámetros de la sentencia SQL
+			pStmt.setString(1, usuario.getUsuario());
+			
+			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
+			ResultSet rs = pStmt.executeQuery();			
+
+			while (rs.next()) {
+			Valoracion valoracion = new Valoracion(rs.getString("id_usuario"), rs.getLong("fecha"), rs.getString("comentario"), rs.getInt("puntuacion"), rs.getString("autor"), rs.getInt("id_hotel"));
+			
+			
+			valoraciones.add(valoracion);
+			}
+			
+			//Se cierra el ResultSet
+			rs.close();
+			
+			logger.info(String.format("Se ha recuperado el hotel %s", usuario.getNombre()));			
+		} catch (Exception ex) {
+			logger.warning(String.format("Error recuperar el comic con nombre %s: %s", usuario.getNombre(), ex.getMessage()));						
 		}		
 		
 		return valoraciones;
@@ -544,7 +745,7 @@ public class GestorBD {
 
 			while (rs.next()) {
 			Habitacion habitacion = new Habitacion(rs.getInt("planta"), rs.getInt("numero"), rs.getInt("capacidad"), TipoHabitacion.valueOf(rs.getString("tipoHabitacion")), rs.getDouble("precio"), rs.getInt("id_hotel"));
-			
+			habitacion.setId(rs.getInt("id"));
 			
 			habitaciones.add(habitacion);
 			}
@@ -560,6 +761,140 @@ public class GestorBD {
 		return habitaciones;
 	}
 	
+	
+	public ArrayList<Reserva> getReservaByUsuario(Usuario usuario) {
+		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+		String sql = "SELECT * FROM Reserva WHERE id_usuario = ?";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
+			
+			//Se definen los parámetros de la sentencia SQL
+			pStmt.setString(1, usuario.getUsuario());
+			
+			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
+			ResultSet rs = pStmt.executeQuery();			
+
+			while (rs.next()) {
+			Reserva reserva = new Reserva(rs.getInt("id"),rs.getString("id_usuario"), new ArrayList<Huesped>(), rs.getLong("fechaInicio"), rs.getLong("fechaFin"), rs.getInt("id_habitacion"));	
+			ArrayList<Huesped> huespedes = getHuespedesByReserva(reserva);
+			reserva.setHuespedes(huespedes);
+			
+			reservas.add(reserva);
+			}
+			
+			//Se cierra el ResultSet
+			rs.close();
+			
+			logger.info(String.format("Se ha recuperado la reserva de %s", usuario.getNombre()));			
+		} catch (Exception ex) {
+			logger.warning(String.format("Error recuperar la reserva de %s: %s", usuario.getNombre(), ex.getMessage()));						
+		}		
+		
+		return reservas;
+	}
+	
+	
+	public ArrayList<Huesped> getHuespedesByReserva(Reserva reserva) {
+		ArrayList<Huesped> huespedes = new ArrayList<Huesped>();
+		String sql = "SELECT * FROM Huesped WHERE id_reserva = ?";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
+			
+			//Se definen los parámetros de la sentencia SQL
+			pStmt.setInt(1, reserva.getId());
+			
+			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
+			ResultSet rs = pStmt.executeQuery();			
+
+			while (rs.next()) {
+			Huesped huesped = new Huesped(rs.getString("nombre"), rs.getString("apellido"), rs.getInt("id_reserva"));	
+			huespedes.add(huesped);
+			}
+			
+			//Se cierra el ResultSet
+			rs.close();
+			
+			logger.info(String.format("Se ha recuperado los huespedes de la reserva %s", reserva.getId()));			
+		} catch (Exception ex) {
+			logger.warning(String.format("Error recuperar los huespedes de la reserva %s: %s", reserva.getId(), ex.getMessage()));						
+		}		
+		
+		return huespedes;
+	}
+
+	
+	public ArrayList<Reserva> getReservaByHabitacion(Habitacion habitacion) {
+		ArrayList<Reserva> reservas = new ArrayList<Reserva>();
+		String sql = "SELECT * FROM Reserva WHERE id_habitacion = ?";
+		
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
+			
+			//Se definen los parámetros de la sentencia SQL
+			pStmt.setInt(1, habitacion.getId());
+			
+			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
+			ResultSet rs = pStmt.executeQuery();			
+
+			while (rs.next()) {
+			Reserva reserva = new Reserva(rs.getInt("id"),rs.getString("id_usuario"), new ArrayList<Huesped>(), rs.getLong("fechaInicio"), rs.getLong("fechaFin"), rs.getInt("id_habitacion"));	
+			ArrayList<Huesped> huespedes = getHuespedesByReserva(reserva);
+			reserva.setHuespedes(huespedes);
+			
+			reservas.add(reserva);
+			}
+			
+			//Se cierra el ResultSet
+			rs.close();
+			
+			logger.info(String.format("Se ha recuperado la reserva de %s", habitacion.getNumero()));			
+		} catch (Exception ex) {
+			logger.warning(String.format("Error recuperar la reserva de %s: %s", habitacion.getNumero(), ex.getMessage()));						
+		}		
+		
+		return reservas;
+	}
+	
+	
+	public Reserva getReservaByUsuarioHabitacionFechaInicio(Reserva reserva) {
+		String sql = "SELECT * FROM Reserva WHERE id_habitacion = ? and id_usuario = ? and fechaInicio = ?";
+		Reserva reservaRecuperada = new Reserva(-1, "error", null, 0, 0, 0);
+		//Se abre la conexión y se crea el PreparedStatement con la sentencia SQL
+		try (Connection con = DriverManager.getConnection(connectionString);
+		     PreparedStatement pStmt = con.prepareStatement(sql)) {			
+			
+			//Se definen los parámetros de la sentencia SQL
+			pStmt.setInt(1, reserva.getId_habitacion());
+			pStmt.setString(2, reserva.getId_Usuario());
+			pStmt.setLong(3, reserva.getFechaInicio());
+
+			
+			//Se ejecuta la sentencia y se obtiene el ResultSet con los resutlados
+			ResultSet rs = pStmt.executeQuery();			
+			
+			reservaRecuperada = new Reserva(rs.getInt("id"),rs.getString("id_usuario"), new ArrayList<Huesped>(), rs.getLong("fechaInicio"), rs.getLong("fechaFin"), rs.getInt("id_habitacion"));	
+			ArrayList<Huesped> huespedes = getHuespedesByReserva(reservaRecuperada);
+			reservaRecuperada.setHuespedes(huespedes);
+			
+			//Se cierra el ResultSet
+			rs.close();
+			
+			logger.info(String.format("Se ha recuperado la reserva de %s", reserva.getId_Usuario()));			
+		} catch (Exception ex) {
+			logger.warning(String.format("Error recuperar la reserva de %s: %s", reserva.getId_Usuario(), ex.getMessage()));						
+		}		
+		
+		return reservaRecuperada;
+	}
+	
+	//COMENTARIO PARA LOS TRES METODOS DE CARGA
+	//IAG (herramienta: ChatGPT)
+	//ADAPTADO (la conversion de tipos no la hacia correctamente, los mensajes de error han sido añadidos y la inicializacion de los ids)
 	
 	public ArrayList<Hotel> cargarHoteles(String filePath) {
         ArrayList<Hotel> hoteles = new ArrayList<>();
@@ -617,7 +952,7 @@ public class GestorBD {
                 long fecha = Long.parseLong(datos[3].trim());
 
                 // Crear una instancia de Valoracion y agregarla a la lista
-                Valoracion valoracion = new Valoracion(-1, fecha, comentario, puntuacion, autor, -1);
+                Valoracion valoracion = new Valoracion("", fecha, comentario, puntuacion, autor, -1);
                 valoraciones.add(valoracion);
             }
         } catch (IOException e) {
@@ -629,11 +964,45 @@ public class GestorBD {
         return valoraciones;
     }
 	
+	public ArrayList<Usuario> cargarUsuarios(String archivoCSV) {
+        ArrayList<Usuario> usuarios = new ArrayList<>();
+        String linea;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(archivoCSV))) {
+            
+            // Leer cada línea del archivo
+            while ((linea = br.readLine()) != null) {
+                String[] datos = linea.split(",");
+
+                // Asignar valores de cada columna a las variables correspondientes
+                String nombre_usuario = datos[0].trim();
+                String nombre = datos[1].trim();
+                String apellido = datos[2].trim();
+                long fecha = Long.parseLong(datos[3].trim());
+                int genero = Integer.parseInt(datos[4].trim());
+                String email = datos[5].trim();
+                String contrasena = datos[6].trim();
+
+                // Crear una instancia de Usuario y agregarla a la lista
+                Usuario usuario = new Usuario(nombre_usuario, nombre, apellido, fecha, genero, email, contrasena, new ArrayList<Reserva>(), new ArrayList<Valoracion>());
+                usuarios.add(usuario);
+                
+            }
+        } catch (IOException e) {
+            System.out.println("Error al leer el archivo CSV: " + e.getMessage());
+        } catch (NumberFormatException e) {
+            System.out.println("Error en el formato de datos: " + e.getMessage());
+        }
+
+        return usuarios;
+    }
+	
+	
 	public ArrayList<Habitacion> crearHabitaciones(List<Hotel> hoteles) {
 		ArrayList<Habitacion> habitaciones = new ArrayList<Habitacion>();
 		for (Hotel hotel : hoteles) {
-			int numeroPlantas = (int)(Math.random() * (3 - 1 + 1)) + 1; //el numero de planta sera un numero aleatorio entre 1-9
-			int numeroHabitaciones = (int)(Math.random() * (7 - 5 + 1)) + 5; //el numero de habitaciones que habra en cada planta ser un numero aleatorio entre 5-20 (todas las plantas mismo numero de habitaciones
+			int numeroPlantas = (int)(Math.random() * (6 - 3 + 1)) + 3; //el numero de planta sera un numero aleatorio entre 1-9
+			int numeroHabitaciones = (int)(Math.random() * (9 - 6 + 1)) + 6; //el numero de habitaciones que habra en cada planta ser un numero aleatorio entre 5-20 (todas las plantas mismo numero de habitaciones
 			for (int i = 1; i <= numeroPlantas; i++) { 	
 				for (int j = 1; j <= numeroHabitaciones; j++) {
 					int numero;
@@ -648,7 +1017,6 @@ public class GestorBD {
 					TipoHabitacion tipoHabitacion = TipoHabitacion.values()[indiceTipoHabitacion];
 					double precio = (Math.random() * (400 - 50 + 1)) + 50; //el precio sera un numero aleatorio entre 30 y 400
 					Habitacion habitacion = new Habitacion(i, numero, capacidad, tipoHabitacion, precio, hotel.getId());
-					hotel.getHabitaciones().add(habitacion);
 					habitaciones.add(habitacion);
 				}
 			}

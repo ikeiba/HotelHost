@@ -170,6 +170,8 @@ public class Home extends JPanel {
         panelbuscar.add(dateChooserfinal);
         
         // Impide que el calendario se pueda modificar mediante el teclado (Codigo creado con la ayuda de ChatGPT)
+        //IAG (herramienta: ChatGPT)
+        //SIN CAMBIOS
         dateChooserfinal.getDateEditor().getUiComponent().addKeyListener(new KeyAdapter() {
             @Override
             public void keyTyped(KeyEvent e) {
@@ -177,8 +179,11 @@ public class Home extends JPanel {
             }
         });
         
+        
         // Listeners para asegurar que la seleccion de fechas es correcta (logica)
         // Codigo creado con la ayuda de ChatGPT
+        //IAG (herramienta: ChatGPT)
+        //ADAPTADO (se ha añadido el JOptionPane para mostrar el mensaje de error, y se ha guardado la fecha en la clase contenedor)
         dateChooserinicio.addPropertyChangeListener("date", new PropertyChangeListener() {
             @Override
             public void propertyChange(PropertyChangeEvent evt) {

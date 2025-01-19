@@ -8,7 +8,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
 //IAG: CHATGPT (Toda la clase)
-//Modificación: Si
+//SIN CAMBIOS
 public class DateString {
 
     // Method to convert a timestamp to a formatted date-time string in UTC

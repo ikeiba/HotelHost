@@ -6,7 +6,7 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 // IAG: CHATGPT (Toda la clase)
-// Modificación: Si
+// Modificación: añadir los strings propios del servidor y APIs
 public class EmailSender {
 
     private static final String SMTP_SERVER = "smtp.sendgrid.net"; // SendGrid's SMTP server

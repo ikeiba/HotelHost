@@ -11,9 +11,9 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 
 import es.ingenieria.prog3.proyecto.db.GestorBD;
-import es.ingenieria.prog3.proyecto.domain.Habitacion;
 import es.ingenieria.prog3.proyecto.domain.Hotel;
-import es.ingenieria.prog3.proyecto.domain.Valoracion;
+import es.ingenieria.prog3.proyecto.domain.Usuario;
+import es.ingenieria.prog3.proyecto.gui.util.DataStore;
 
 public class MainFrame extends JFrame {
 	   
@@ -24,57 +24,34 @@ public class MainFrame extends JFrame {
 
     public MainFrame() {
     	GestorBD gestorBD = new GestorBD();
-    	//gestorBD.borrarBBDD();
+    	gestorBD.borrarBBDD();
     	gestorBD.crearBBDD();
     	gestorBD.borrarDatos();
     	gestorBD.initilizeFromCSV();
     	
+    	DataStore.setGestorBD(gestorBD);
         ArrayList<Hotel> hoteles = gestorBD.getHoteles();
-        
-        
-        System.out.println(hoteles.get(0).getHabitaciones());
-        System.out.println(hoteles.get(0).getValoraciones());
-        //CARGAR DATOS
-        
-        //Carga de hoteles (con habitaciones)
-//        ArrayList<Hotel> hoteles = Hotel.cargarHoteles("resources/data/hoteles.csv");
-//        Habitacion.crearHabitaciones(hoteles);
-//
-//        //Carga de valoraciones
-//        ArrayList<Valoracion> valoraciones = Valoracion.cargarValoraciones("resources/data/valoraciones.csv");
-//        
-//        // Asignamos secuencialmente las primeras valoraciones a los hoteles
-//        for (int i = 0; i < hoteles.size(); i++) {
-//            // Asignamos la valoración i al hotel i
-//            hoteles.get(i).getValoraciones().add(valoraciones.get(i));
-//        }
-//
-//        //Asignamos el resto de valoraciones aleatoriamente
-//        for (int i = hoteles.size(); i < valoraciones.size(); i++) {
-//            // Asignamos las valoraciones restantes aleatoriamente
-//            int posicionHotel = (int) (Math.random() * hoteles.size());
-//            hoteles.get(posicionHotel).getValoraciones().add(valoraciones.get(i));
-//        }
-        
-        //FIN CARGA DATOS
-        
+        ArrayList<Usuario> usuarios = gestorBD.getUsuarios();
+       
         
         // Inicializar el CardLayout y mainPanel
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
                
         // Añadimos una funcionalidad al panel Busqueda cuando sea el que esta visible
+        //IAG (herramienta: ChatGPT)
+        //SIN CAMBIOS
         Busqueda panelBusqueda = new Busqueda(cardLayout, mainPanel, hoteles);
         panelBusqueda.addComponentListener(new ComponentAdapter() {
             @Override
             public void componentShown(ComponentEvent e) {
-                // Modificar atributo de panel3, como el color de fondo
+            	//Inicializa el filtro de manera que todos los hoteles esten dentro
             	panelBusqueda.filtrarHoteles("", 0, 100000);
             }
         });
         
         // Inicializar los paneles y añadirlos al cardLayout
-        mainPanel.add(new Log1(cardLayout, mainPanel), "Log1");
+        mainPanel.add(new Log1(cardLayout, mainPanel, usuarios), "Log1");
         mainPanel.add(new Log2(cardLayout, mainPanel), "Log2");
         mainPanel.add(new Log3(cardLayout, mainPanel), "Log3");
         mainPanel.add(new Log4(cardLayout, mainPanel), "Log4");
@@ -88,7 +65,7 @@ public class MainFrame extends JFrame {
 
         // Cambiar el focus para no centrarse en nada
         // IAG: CHATGPT (Próximas 2 líneas)
-        // Modificación: Si
+        // SIN CAMBIOS
     	this.getRootPane().requestFocusInWindow();
     	KeyboardFocusManager.getCurrentKeyboardFocusManager().clearGlobalFocusOwner();
     	

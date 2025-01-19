@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import es.ingenieria.prog3.proyecto.domain.Habitacion;
 import es.ingenieria.prog3.proyecto.domain.Hotel;
+import es.ingenieria.prog3.proyecto.domain.Huesped;
 import es.ingenieria.prog3.proyecto.domain.Reserva;
 import es.ingenieria.prog3.proyecto.domain.TipoHabitacion;
 import es.ingenieria.prog3.proyecto.gui.util.DataStore;
@@ -14,6 +15,8 @@ import java.awt.GridLayout;
 import java.util.ArrayList;
 import java.util.Date;
 
+//Para realizar esta clase, se ha tomado como referencia el sistema de reservas que aparece en los examenes 
+//de ordinaria/extraordinaria del 2023
 public class DialogReservar extends JDialog {
     
 	private static final long serialVersionUID = 1L;
@@ -28,15 +31,29 @@ public class DialogReservar extends JDialog {
     
 	public DialogReservar(Hotel hotel) {
 		setLayout(new BorderLayout()); // Cambiar layout del diálogo principal
-		 
+		
+		// Panel para los botones
+        JPanel panelBotones = new JPanel();
+        JButton botonCancelar = new JButton("Cancelar");
+        JButton botonProcesarPago = new JButton("Procesar Pago");
+        
         JPanel panelReserva = new JPanel(new GridLayout(8, 1, 5, 11));
         
         JLabel labelTipoHabitacion = new JLabel("Selecciona el tipo de habitación:");
 		JComboBox<TipoHabitacion> comboBoxTipoHabitacion = new JComboBox<TipoHabitacion>(TipoHabitacion.values());			
         
 		JLabel labelHabitaciones = new JLabel("Selecciona la habitación:");
-		habitacionesDisponibles = getHabitacionesPorFechas(getHabitacionesPorTipo(hotel.getHabitaciones(), (TipoHabitacion) comboBoxTipoHabitacion.getSelectedItem()));
-		comboBoxHabitacionesDisponibles = new JComboBox<Habitacion>(habitacionesDisponibles.toArray(new Habitacion [0]));
+		
+		//Logica para asegurarnos que la primera habitacion que seleccionamos existe
+		for (int i = 0; i < TipoHabitacion.values().length; i++) {
+			comboBoxTipoHabitacion.setSelectedItem(TipoHabitacion.values()[i]);
+			habitacionesDisponibles = getHabitacionesPorFechas(getHabitacionesPorTipo(hotel.getHabitaciones(), (TipoHabitacion) comboBoxTipoHabitacion.getSelectedItem()));
+			if (habitacionesDisponibles.size() > 0) {
+				comboBoxHabitacionesDisponibles = new JComboBox<Habitacion>(habitacionesDisponibles.toArray(new Habitacion [0]));
+				break;
+			}
+		}
+		
 		
         JLabel labelHuespedes = new JLabel("Incluye a los huéspedes (al menos 1):");
 		comboHuespedes = new JComboBox<>();
@@ -62,6 +79,8 @@ public class DialogReservar extends JDialog {
 			}
 			if (habitacionesDisponibles.size() == 0) {
 				comboBoxHabitacionesDisponibles.setEnabled(false);
+			} else {
+				comboBoxHabitacionesDisponibles.setEnabled(true);
 			}
 			habitacionSeleccionada = (Habitacion) comboBoxHabitacionesDisponibles.getSelectedItem();			
 		});
@@ -69,6 +88,8 @@ public class DialogReservar extends JDialog {
 		//Listener para el comboBox con habitaciones disponibles
 		comboBoxHabitacionesDisponibles.addActionListener(e -> {
 			if (comboBoxHabitacionesDisponibles.getSelectedItem() != null) {
+				comboHuespedes.setEnabled(true);
+				botonProcesarPago.setEnabled(true);
 				habitacionSeleccionada = (Habitacion) comboBoxHabitacionesDisponibles.getSelectedItem();
 				long diferenciaMilisegundos = DataStore.getSelectedFechaFin().getTime() - DataStore.getSelectedFechaInicio().getTime();
 		        long diasDiferencia = diferenciaMilisegundos / (1000 * 60 * 60 * 24);
@@ -87,7 +108,10 @@ public class DialogReservar extends JDialog {
 					}
 				}
 				numeroHuespedes = comboHuespedes.getItemCount();
-			}	
+			} else {
+				comboHuespedes.setEnabled(false);
+				botonProcesarPago.setEnabled(false);
+			}
 		});
 		
 		//Listener para el comboBox con los huespedes
@@ -120,7 +144,7 @@ public class DialogReservar extends JDialog {
 					String name;
 				
 					if (firstName.getText().trim().isEmpty() || lastName.getText().trim().isEmpty()) {
-						name = String.format("%s%s", lastName.getText().trim(), firstName.getText()).trim();
+						name = String.format("%s, %s", lastName.getText().trim(), firstName.getText()).trim();
 					} else {
 						name = String.format("%s, %s", lastName.getText().trim(), firstName.getText()).trim();
 					}
@@ -134,17 +158,29 @@ public class DialogReservar extends JDialog {
 			}
 		});
 		
-		// Panel para los botones
-        JPanel panelBotones = new JPanel();
-        JButton botonCancelar = new JButton("Cancelar");
-        JButton botonProcesarPago = new JButton("Procesar Pago");
-        
+        //Listeners para los botones
         botonCancelar.addActionListener(e -> dispose());
+        
         botonProcesarPago.addActionListener(e -> {
         	if (!comprobarHuesped()) {
         		JOptionPane.showMessageDialog(null, "Tienes que añadir al menos un huesped", "SIN HUESPEDES", JOptionPane.WARNING_MESSAGE);
         	} else {
-        		new DialogPago();
+        		//Guardamos los huespedes seleccionados para poder usarlos en el dialog de pago
+        		ArrayList<Huesped> huespedesReserva = new ArrayList<Huesped>();
+        		for (int i = 0; i < comboHuespedes.getItemCount(); i++) {
+        			String datosHuesped = comboHuespedes.getItemAt(i);
+					String[] campos = datosHuesped.split(" ");
+					
+					//Comprobamos que haya informacion sobre el huesped seleccionado
+					if (!campos[0].equals("Huesped")) {
+						String apellido = campos[2];
+						Huesped huesped = new Huesped(campos[3], apellido.substring(0, apellido.length()-1), -1);
+						huespedesReserva.add(huesped);
+					}	
+					
+				}
+        		System.out.println(habitacionSeleccionada.getReservas());
+        		new DialogPago(habitacionSeleccionada, huespedesReserva);
         		if (DataStore.getVisible()) {
         			DataStore.setVisible(false);
         			dispose();
