@@ -179,8 +179,9 @@ public class ItinerarioDialog extends JDialog{
 	    }
 	    
 	    // CASO BASE 2: aux no está vacío Y el itinerario no está repetido Y se ha alcanzado el límite de ciudades
+	    //Dos itinerarios con ciudades en distinto orden no se consideran el mismo itinerario
 	    if (!aux.isEmpty() &&
-	            !containsItinerary(result, aux) && 
+	            !result.contains(aux) && 
 	            numciudad == limite && aux.get(0).getCiudad().equals(Ciudad)) {
 	        result.add(new ArrayList<>(aux));
 	    // CASO RECURSIVO: Se van añadiendo itinerarios al itinerario aux
@@ -212,15 +213,6 @@ public class ItinerarioDialog extends JDialog{
 	    }
 	}
 	
-	//METODO GENERARO POR IA A MODO DE CORRECION MAS PRECISA.
-	private boolean containsItinerary(List<List<Hotel>> itinerarios, List<Hotel> aux) {
-	    for (List<Hotel> itinerario : itinerarios) {
-	        if (itinerario.size() == aux.size() && itinerario.containsAll(aux)) {
-	            return true;
-	        }
-	    }
-	    return false;
-	}
 
 }
 
