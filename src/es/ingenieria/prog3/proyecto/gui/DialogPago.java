@@ -50,13 +50,12 @@ public class DialogPago extends JDialog {
 				});
 				try {
 					// Se duerme el hilo durante 1 segundo
-					Thread.sleep(50);
+					Thread.sleep(1000);
 				} catch (InterruptedException e) {
 					Thread.currentThread().interrupt();
 				}
 			}
 			 SwingUtilities.invokeLater(() -> {
-		            JOptionPane.showMessageDialog(null, "Se ha acabado el tiempo", "FIN DEL TIEMPO", JOptionPane.WARNING_MESSAGE);
 		            dispose(); // Dispose safely on the EDT
 		        });
 		});
