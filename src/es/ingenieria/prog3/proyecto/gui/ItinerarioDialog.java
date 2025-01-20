@@ -83,7 +83,6 @@ public class ItinerarioDialog extends JDialog{
 		buttonCancel.addActionListener((e) -> setVisible(false));
 		buttonConfirm.addActionListener((e) -> {
 			 // Depuración inicial
-		    System.out.println("Evento confirmado.");
 		    System.out.println("Presupuesto ingresado: " + textFieldDineroMax.getText());
 		    System.out.println("Número de ciudades: " + spinnerCiudades.getValue());
 		    
@@ -92,18 +91,26 @@ public class ItinerarioDialog extends JDialog{
 		        int numCiudades = (int) spinnerCiudades.getValue();
 
 		        System.out.println("Ciudad seleccionada: " + ciudad);
-		        List<List<Hotel>> itinerarios = ItinerarioRecursivo(ciudad, presupuesto, numCiudades);
 
-		        // Imprimir itinerarios encontrados
-		        if (itinerarios.isEmpty()) {
-		            System.out.println("No se encontraron itinerarios.");
-		        } else {
-		            itinerarios.forEach(itinerario -> {
-		                System.out.println("Itinerario:");
-		                itinerario.forEach(hotel -> System.out.println(hotel.getCiudad() + " --> " + hotel.toString()));
-		                System.out.println("-----------------");
+		        Thread thread = new Thread(() -> {
+		            List<List<Hotel>> itinerarios = ItinerarioRecursivo(ciudad, presupuesto, numCiudades);
+
+		            // Update the GUI on the Event Dispatch Thread
+		            SwingUtilities.invokeLater(() -> {
+		                // Process the results on the GUI thread
+		                if (itinerarios.isEmpty()) {
+		                    System.out.println("No se encontraron itinerarios.");
+		                } else {
+		                    itinerarios.forEach(itinerario -> {
+		                        System.out.println("Itinerario:");
+		                        itinerario.forEach(hotel -> System.out.println(hotel.getCiudad() + " --> " + hotel.toString()));
+		                        System.out.println("-----------------");
+		                    });
+		                }
 		            });
-		        }
+		        });
+
+		        thread.start(); // Start the thread
 		    } catch (NumberFormatException ex) {
 		        System.out.println("Error: el presupuesto ingresado no es válido.");
 		    }
@@ -160,11 +167,8 @@ public class ItinerarioDialog extends JDialog{
         List<List<Hotel>> result = new ArrayList<>();		
         ItinerarioRecursivoAux(result, new ArrayList<>(), pais, Ciudad, credit, num, 0, allHotels, new ArrayList<>());
         
-        /*System.out.println("Itinerarios generados: " + result.size());
-        result.forEach(itinerario -> {
-            System.out.println("Itinerario:");
-            itinerario.forEach(hotel -> System.out.println(hotel));
-        });*/
+        System.out.println("Itinerarios generados: " + result.size());
+        
         
 		return result;
 	}

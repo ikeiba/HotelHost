@@ -123,7 +123,6 @@ public class Log1 extends JPanel {
         		if (usuario_contrasena.get(inputUsuario).equals(inputContrasena)) {
         			Usuario usuarioActivo = Usuario.getUsuarioByNick(usuarios, inputUsuario);
         			DataStore.setUsuarioActivo(usuarioActivo);
-        			System.out.println(DataStore.getUsuarioActivo().toString());
             		this.cardLayout.show(this.mainPanel, "Home");
         		} else {
             		JOptionPane.showMessageDialog(null, "La contraseña o el usuario es incorrecto", "CREDENCIALES INCORRECTAS", JOptionPane.ERROR_MESSAGE, null);
