@@ -179,7 +179,6 @@ public class DialogReservar extends JDialog {
 					}	
 					
 				}
-        		System.out.println(habitacionSeleccionada.getReservas());
         		new DialogPago(habitacionSeleccionada, huespedesReserva);
         		if (DataStore.getVisible()) {
         			DataStore.setVisible(false);
